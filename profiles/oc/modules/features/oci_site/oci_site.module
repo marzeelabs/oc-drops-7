@@ -1,0 +1,18 @@
+<?php
+
+include_once('oci_site.features.inc');
+
+/**
+ * Implements hook_user().
+ */
+function oci_site_user($op, &$edit, &$account) {
+  if ($op == 'login') {
+    $groups = $account->og_groups;
+    // redirect to the first group of user
+    if ($groups) {
+      $groups = array_values($groups);
+      $group_node = node_load($groups[0]['nid']);
+      $_REQUEST['destination'] = $group_node->purl;
+    }
+  }
+}

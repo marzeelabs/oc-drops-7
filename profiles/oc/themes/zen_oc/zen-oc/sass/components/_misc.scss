@@ -1,0 +1,1067 @@
+/**
+ * @file
+ * SMACSS Modules
+ *
+ * Adds modular sets of styles.
+ *
+ * Additional useful selectors can be found in Zen's online documentation.
+ * https://drupal.org/node/1707736
+ */
+
+/**
+ * Wireframes.
+ */
+.with-wireframes {
+  #header,
+  #main,
+  #content,
+  #navigation,
+  .region-sidebar-first,
+  .region-sidebar-second,
+  #footer,
+  .region-bottom {
+    outline: 1px solid #ccc;
+
+    @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+      .lt-ie8 & {
+        /* IE6/7 do not support the outline property. */
+        border: 1px solid #ccc;
+      }
+    }
+  }
+}
+
+/**
+ * Accessibility features.
+ */
+
+/* element-invisible as defined by http://snook.ca/archives/html_and_css/hiding-content-for-accessibility */
+.element-invisible,
+%element-invisible {
+  @include element-invisible;
+}
+
+/* Turns off the element-invisible effect. */
+%element-invisible-off {
+  @include element-invisible-off;
+}
+
+.element-focusable,
+%element-focusable {
+  @extend %element-invisible;
+
+  &:active,
+  &:focus {
+    @extend %element-invisible-off;
+  }
+}
+
+/*
+ * The skip-link link will be completely hidden until a user tabs to the link.
+ */
+#skip-link {
+  margin: 0;
+
+  a,
+  a:visited {
+    display: block;
+    width: 100%;
+    padding: 2px 0 3px 0;
+    text-align: center;
+    background-color: #666;
+    color: #fff;
+  }
+}
+
+/**
+ * Branding header.
+ */
+
+#header {
+  @include trailer(4);
+  position: relative;
+}
+
+/* Wrapping link for logo. */
+.header__logo {
+}
+
+/* Logo image. */
+.header__logo-image {
+  vertical-align: bottom;
+}
+
+/* Wrapper for website name and slogan. */
+.header__name-and-slogan {
+
+}
+
+/* The name of the website. */
+.header__site-name {
+  margin: 0;
+  @include adjust-font-size-to( $h1-font-size );
+}
+
+/* The link around the name of the website. */
+.header__site-link {
+  &:link,
+  &:visited {
+    color: #000;
+    text-decoration: none;
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+/* The slogan (or tagline) of a website. */
+.header__site-slogan {
+  text-transform: none;
+  @include adjust-font-size-to(21px);
+  margin: 0;
+  color: #4F4F4F;
+}
+
+/* Wrapper for any blocks placed in the header region. */
+.header__region {
+  /* Clear the logo. */
+  clear: both;
+}
+
+@media all and (min-width: 600px) {
+  
+  .header__logo,
+  .header__name-and-slogan {
+    float: left;
+  }
+  .header__logo {
+    margin-right: 20px;
+  }
+  
+}
+
+
+
+/**
+ * Main (container for everything else)
+ */
+
+#main {
+  position: relative;
+}
+
+#content {
+  @include trailer(5);
+}
+
+.search-performance {
+  clear: both;
+  @include adjust-font-size-to(14px);
+}
+
+.search-results {
+  .node {
+    @include leading-border(1px, 3);
+    @include leader(3);
+    border-color: #D4D4D4;
+  }
+  .node:first-child {
+    @include leader(0);
+    @include leading-border(0px, 1);
+  }
+}
+
+/**
+ * Breadcrumb navigation.
+ */
+.breadcrumb {
+  @include clearfix();
+  @include adjust-font-size-to(14px);
+  
+  ol {
+    @include reset-list();
+  }
+
+  li {
+    margin: 0 rhythm(1) 0 0;
+    float: left;
+  }
+  .divider {
+    padding: 0 5px;
+    color: #ebebeb;
+  }
+  a {
+    
+  }
+  a.active {
+    color: #333333;
+  }
+}
+
+/**
+ * Titles.
+ */
+.page__title,          /* The title of the page. */
+.node__title,          /* Title of a piece of content when it is given in a list of content. */
+.block__title,         /* Block title. */
+.comments__title,      /* Comment section heading. */
+.comments__form-title, /* Comment form heading. */
+.comment__title {      /* Comment title. */
+  margin: 0;
+}
+
+/**
+ * Messages.
+ */
+.messages {
+  padding: rhythm(1.5) rhythm(6) rhythm(1.5) rhythm(8);
+  @include trailer(4);
+  @include leader(2);
+  @include text-shadow(0 1px 0 rgba($white, 0.5));
+  background-image: inline-image("message-24-ok.png");
+  @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+    *background-image: image-url("message-24-ok.png");
+  }
+  background-position: 8px 8px; /* LTR */
+  background-repeat: no-repeat;
+  border: 1px solid;
+  @include border-radius(4px);
+}
+
+.messages .close {
+  position: relative;
+  top: rhythm(-0.33, 20px);
+  right: rhythm(-4, 20px);
+  text-decoration: none;
+  float: right;
+  @include adjust-font-size-to(20px);
+  font-weight: bold;
+  color: $black;
+  @include text-shadow(0 1px 0 $white);
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+  }
+}
+
+.messages--status {
+  @extend .messages;
+  @extend %ok;
+  border-color: #d6e9c6;
+  
+  h4 {
+    color: #468847;
+    margin: 0;
+  }
+}
+.messages--warning {
+  @extend .messages;
+  @extend %warning;
+  background-image: inline-image("message-24-warning.png");
+  @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+    *background-image: image-url("message-24-warning.png");
+  }
+  border-color: #fbeed5;
+  
+  h4 {
+    color: #c09853;
+    margin: 0;
+  }
+}
+.messages--error {
+  @extend .messages;
+  @extend %error;
+  background-image: inline-image("message-24-error.png");
+  @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+    *background-image: image-url("message-24-error.png");
+  }
+  border-color: #eed3d7;
+  
+  h4 {
+    color: #b94a48;
+    margin: 0;
+  }
+}
+.messages__list {
+  margin: 0;
+}
+.messages__item {
+  list-style-image: none;
+}
+
+.messages > p {
+  margin-bottom: 0;
+}
+.messages p + p {
+  @include leader(1);
+}
+
+/* Core/module installation error messages. */
+.messages--error  p.error {
+  color: #333;
+}
+
+/* System status report. */
+.ok,
+%ok {
+  color: #468847;
+  background-color: #dff0d8;
+}
+.warning,
+%warning {
+  color: #c09853;
+  background-color: #fcf8e3;
+}
+.error,
+%error {
+  color: #b94a48;
+  background-color: #f2dede;
+}
+
+/**
+ * Tabs.
+ */
+
+/* Basic positioning styles shared by primary and secondary tabs. */
+%tabs {
+  @include clearfix;
+  list-style: none;
+  border-bottom: 1px solid $tabs-border \0/ie;
+  margin: rhythm(3) 0 rhythm(3);
+  padding: 0 2px;
+  white-space: nowrap;
+}
+%tabs__tab {
+  float: left; /* LTR */
+}
+%tabs__tab-link {
+  display: block;
+  @include adjust-leading-to(4);
+  text-decoration: none;
+}
+
+/* Primary tabs. */
+.tabs-primary {
+  @extend %tabs;
+}
+.tabs-primary__tab {
+  @extend %tabs__tab;
+  margin: rhythm(.5) rhythm(.5) 0 0;
+}
+
+// We use 3 placeholder styles to prevent @extend from going selector crazy.
+%tabs-primary__tab-link {
+  @extend %tabs__tab-link;
+  @include transition(background-color 0.3s);
+  color: $grey7;
+  background-color: $grey3;
+  padding: 0 rhythm(3);
+  text-align: center;
+}
+%tabs-primary__tab-link-is-hover {
+  background-color: $grey5;
+  color: $white;
+}
+%tabs-primary__tab-link-is-active {
+  background-color: $grey4;
+  color: $grey1;
+  cursor: default;
+}
+
+a.tabs-primary__tab-link {
+  @extend %tabs-primary__tab-link;
+
+  &:hover,
+  &:focus {
+    @extend %tabs-primary__tab-link-is-hover;
+  }
+  &:active {
+    @extend %tabs-primary__tab-link-is-active;
+  }
+}
+a.tabs-primary__tab-link.is-active {
+  @extend %tabs-primary__tab-link;
+  @extend %tabs-primary__tab-link-is-active;
+}
+
+/* Secondary tabs. */
+.tabs-secondary {
+  @extend %tabs;
+  @include adjust-font-size-to(13px, 3);
+  @include leader(-2.5, 13px); /* Collapse bottom margin of ul.primary. */
+  @include padding-trailer(1, 13px);
+}
+.tabs-secondary__tab,
+.tabs-secondary__tab.is-active {
+  @extend %tabs__tab;
+  margin: rhythm(.5, 13px) rhythm(.5, 13px) 0 0;
+}
+
+// We use 3 placeholder styles to prevent @extend from going selector crazy.
+%tabs-secondary__tab-link {
+  @extend %tabs__tab-link;
+  @include transition(background-color 0.3s);
+  background-color: $grey8;
+  color: $grey3;
+  padding: 0 rhythm(2, 13px);
+}
+%tabs-secondary__tab-link-is-focus {
+  background-color: $grey7;
+}
+%tabs-secondary__tab-link-is-active {
+  background-color: $grey5;
+  color: $white;
+}
+
+a.tabs-secondary__tab-link {
+  @extend %tabs-secondary__tab-link;
+
+  &:hover,
+  &:focus {
+    @extend %tabs-secondary__tab-link-is-focus;
+  }
+  &:active {
+    @extend %tabs-secondary__tab-link-is-active;
+  }
+}
+a.tabs-secondary__tab-link.is-active {
+  @extend %tabs-secondary__tab-link;
+  @extend %tabs-secondary__tab-link-is-active;
+}
+
+/**
+ * Inline styles.
+ */
+
+/* List of links generated by theme_links(). */
+.inline {
+  display: inline;
+  padding: 0;
+
+  li {
+    display: inline;
+    list-style-type: none;
+    padding: 0 1em 0 0; /* LTR */
+  }
+}
+
+/* The inline field label used by the Fences module. */
+span.field-label {
+  padding: 0 1em 0 0; /* LTR */
+}
+
+/**
+ * "More" links.
+ */
+.more-link {
+  text-align: right; /* LTR */
+  
+  a {
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    line-height: 30px;
+    text-decoration: none;
+    
+    span {
+      font-size: 20px;
+      vertical-align: middle;
+      line-height: 30px;
+    }
+  }
+  
+  #zone-postscript &,
+  .region-sidebar-first & {
+    clear: both;
+    float: left;
+    @include leading-border(1px, 1);
+    border-color: #d4d4d4;
+    @include adjust-font-size-to(16px);
+    padding-right: rhythm(7);
+  }
+  
+  .page-news .region-sidebar-first &,
+  .page-events .region-sidebar-first & {
+    @include element-invisible();
+  }
+  
+  .page-news- .region-sidebar-first &,
+  .page-events- .region-sidebar-first & {
+    @include element-invisible-off();
+  }
+}
+.more-help-link {
+  text-align: right; /* LTR */
+}
+.more-help-link a {
+  background-image: inline-image("help.png");
+  @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+    *background-image: image-url("help.png");
+  }
+  background-position: 0 50%; /* LTR */
+  background-repeat: no-repeat;
+  padding: 1px 0 1px 20px; /* LTR */
+}
+
+/**
+ * Pager.
+ */
+
+/* A list of page numbers when more than 1 page of content is available. */
+.pager {
+  clear: both;
+  padding: 0;
+  text-align: center;
+}
+%pager__item {
+  display: inline;
+  padding: 0 0.5em;
+  list-style-type: none;
+  background-image: none;
+}
+
+.pager-item,      /* A list item containing a page number in the list of pages. */
+.pager-first,     /* The first page's list item. */
+.pager-previous,  /* The previous page's list item. */
+.pager-next,      /* The next page's list item. */
+.pager-last,      /* The last page's list item. */
+.pager-ellipsis { /* A concatenation of several list items using an ellipsis. */
+  @extend %pager__item;
+}
+
+/* The current page's list item. */
+.pager-current {
+  @extend %pager__item;
+  font-weight: bold;
+}
+
+
+/**
+ * Feed icon
+ */
+.feed-icon { /* The link to the RSS or Atom feed for the current list of content */
+  @include adjust-font-size-to(24px);
+}
+
+
+/**
+ * Blocks.
+ */
+
+/* Block wrapper. */
+.block {
+  margin-bottom: rhythm(4);
+  
+  .sidebars & {
+    @include pie-clearfix();
+  }
+}
+
+#block-search-api-page-oc-search {
+  margin-bottom: 0;
+  @include pie-clearfix();
+  padding: 0 rhythm(2);
+
+  form {
+    position: relative;
+    float: left;
+    margin: 0;
+  }
+    
+  .form-item {
+    margin: 0;
+    padding: rhythm(.5) 0;
+  }
+  
+  .form-text {
+    @include border-radius(30px);
+    margin: 0;
+    width: 180px;
+    padding: rhythm(.5, 14px) rhythm(6, 14px) rhythm(.5, 14px) rhythm(1.5, 14px);
+    height: rhythm(4, 14px);
+    @include adjust-font-size-to(14px, 4);
+    vertical-align: top;
+    @include transition(all linear 250ms);
+    
+    &:focus {
+      width: 250px;
+    }
+    
+  }
+  
+  .lt-ie9 & .form-text {
+    width: auto;
+  }
+
+  .form-submit {
+    position: absolute;
+    top: rhythm(.65, 20px);
+    right: rhythm(.65, 20px);
+    border: 0 none;
+    background: transparent;
+    @include adjust-font-size-to(20px, 4.01);
+    padding: 0;
+    margin: 0;
+    height: rhythm(4, 20px);
+    width: rhythm(4, 20px);
+    @include box-shadow(none);
+  }
+}
+
+
+/**
+ * Marker.
+ */
+
+/* The "new" or "updated" marker. */
+.new,
+.update {
+  color: #c00;
+  /* Remove background highlighting from <mark> in normalize. */
+  background-color: transparent;
+}
+
+/**
+ * Unpublished note.
+ */
+
+/* The word "Unpublished" displayed underneath the content. */
+.unpublished {
+  height: 0;
+  overflow: visible;
+  /* Remove background highlighting from <mark> in normalize. */
+  background-color: transparent;
+  color: #d8d8d8;
+  font-size: 75px;
+  line-height: 1;
+  font-family: Impact, "Arial Narrow", Helvetica, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  /* A very nice CSS3 property. */
+  word-wrap: break-word;
+}
+@if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+  .lt-ie8 .node-unpublished>*,
+  .lt-ie8 .comment-unpublished>* {
+    /* Otherwise these elements will appear below the "Unpublished" text. */
+    position: relative;
+  }
+}
+
+/**
+ * Comments.
+ */
+
+/* Wrapper for the list of comments and its title. */
+.comments {
+  margin: rhythm(4) 0;
+}
+
+/* Preview of the comment before submitting new or updated comment. */
+.comment-preview {
+  /* Drupal core will use a #ffffea background. See #1110842. */
+  background-color: #ffffea;
+}
+
+/* Wrapper for a single comment. */
+.comment {
+
+  /* Comment's permalink wrapper. */
+  .permalink {
+    text-transform: uppercase;
+    font-size: 75%;
+  }
+}
+
+/* Nested comments are indented. */
+.indented {
+  /* Drupal core uses a 25px left margin. */
+  margin-left: $indent-amount; /* LTR */
+}
+
+
+/**
+ * Drupal admin tables.
+ */
+form {
+  th {
+    text-align: left; /* LTR */
+    padding-right: 1em; /* LTR */
+    border-bottom: 3px solid #ccc;
+  }
+  tbody {
+    border-top: 1px solid #ccc;
+  }
+  table ul {
+    margin: 0;
+  }
+}
+tr.even,
+tr.odd {
+  background-color: #eee;
+  border-bottom: 1px solid #ccc;
+  padding: 0.1em 0.6em;
+}
+tr.even {
+  background-color: #fff;
+}
+@if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+  .lt-ie8 tr.even,
+  .lt-ie8 tr.odd {
+    th,
+    td {
+      /* IE doesn't display borders on table rows. */
+      border-bottom: 1px solid #ccc;
+    }
+  }
+}
+
+/* Markup generated by theme_tablesort_indicator(). */
+td.active {
+  background-color: #ddd;
+}
+
+/* Center checkboxes inside table cell. */
+td.checkbox,
+th.checkbox {
+  text-align: center;
+}
+
+/* Drupal core wrongly puts this in system.menus.css. Since we override that, add it back. */
+td.menu-disabled {
+  background: #ccc;
+}
+
+
+/**
+ * TableDrag behavior.
+ *
+ * @see tabledrag.js
+ */
+tr.drag {
+  background-color: #fffff0;
+}
+tr.drag-previous {
+  background-color: #ffd;
+}
+.tabledrag-toggle-weight {
+  font-size: 0.9em;
+}
+
+/**
+ * TableSelect behavior.
+ *
+ * @see tableselect.js
+ */
+tr.selected td {
+  background: #ffc;
+}
+
+/**
+ * Progress bar.
+ *
+ * @see progress.js
+ */
+.progress {
+  font-weight: bold;
+
+  .bar {
+    background: #ccc;
+    border-color: #666;
+    margin: 0 0.2em;
+    @include border-radius(3px);
+  }
+  .filled {
+    background-color: #0072b9;
+    background-image: image-url("progress.gif");
+  }
+}
+
+
+/**
+ * Views, lists and grids
+ */
+.view-list {
+  .views-row {
+    @include padding-leader(1);
+    @include trailing-border(1px, 3);
+    @include trailer(3);
+    border-color: #D4D4D4;
+  }
+  .views-row-last {
+    @include trailer(0);
+    @include trailing-border(0px, 1);
+  }
+}
+.view-grid,
+.view-grid-less {
+  > .view-content {
+    @include clearfix();
+    
+    .views-row {
+      @include trailer(5);
+    }
+  }
+  > .attachment-after {
+    @include leader(5);
+  }
+}
+
+
+/**
+ * Footer
+ */
+
+#footer {
+  clear: both;
+}
+
+/* footer */
+.europe img {
+  max-width: 280px;
+}
+.footer-logos img {
+  margin: 1em 20px 1em 0;
+}
+@media (min-width: 600px) {
+
+  .footer-logos {
+    text-align: center;
+  }
+
+  .europe {
+     margin-right: -10px;
+     
+     img {
+       max-width: 100%;
+     }
+  }
+}
+
+.footer-site-attribution {
+  @include leader(3);
+  @include leading-border(1px, 1);
+  border-color: $grey7;
+  margin-bottom: 0;
+}
+
+
+/**
+ * Closure
+ */
+#closure {
+  @include pie-clearfix();
+}
+.closure-inner {
+  clear: both;
+}
+
+
+/**
+ * OC Power
+ */
+
+.oc-power {
+  margin: 12px 0 21px;
+}
+.oc-power small {
+  float: left;
+  margin-right: 5px;
+  line-height: 20px;
+  font-size: 9px;
+  color: #aaa;
+}
+.oc-power .oc-logo {
+  float: left;
+  width: 108px;
+  height: 20px;
+  line-height: 20px;
+  background: url(../images/oc-power.png) no-repeat;
+  
+  @include opacity(.7);
+  text-indent: -999px;
+  overflow: hidden;
+}
+.oc-power .oc-logo:hover {
+  @include opacity(1);
+}
+
+
+
+/**
+ * Leaflet
+ */
+
+.leaflet-bar,
+.leaflet-bar-part-top,
+.leaflet-popup-content-wrapper {
+  @include border-radius(0px);
+}
+
+
+/**
+ * Flexslider
+ */
+
+/* Browser Resets */
+.flex-container a:active,
+.flexslider a:active,
+.flex-container a:focus,
+.flexslider a:focus  {outline: none;}
+.slides,
+.flex-control-nav,
+.flex-direction-nav {margin: 0; padding: 0; list-style: none;} 
+
+/* FlexSlider Necessary Styles
+*********************************/ 
+.flexslider .slides > li {display: none; -webkit-backface-visibility: hidden;} /* Hide the slides before the JS is loaded. Avoids image jumping */
+.flexslider .slides img {width: 100%; display: block;}
+.flex-pauseplay span {text-transform: capitalize;}
+
+/* Clearfix for the .slides element */
+.slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;} 
+html[xmlns] .slides {display: block;} 
+* html .slides {height: 1%;}
+
+/* No JavaScript Fallback */
+/* If you are not using another script, such as Modernizr, make sure you
+ * include js that eliminates this class on page load */
+.no-js .slides > li:first-child {display: block;}
+
+
+/* FlexSlider Default Theme
+*********************************/
+.flexslider {
+  margin: rhythm(4) 0 0;
+  position: relative;
+  zoom: 1;
+}
+.flex-viewport {
+  max-height: 2000px;
+  @include transition(all 1s ease);
+  
+  .logged-in & {
+    z-index: 20;
+  }
+}
+.loading .flex-viewport {max-height: 300px;}
+.flexslider .slides {
+  @include clearfix();
+  zoom: 1;
+}
+
+.carousel li {margin-right: 5px}
+
+
+/* Direction Nav */
+.flex-direction-nav {
+  *height: 0;
+  
+  a {
+    width: rhythm(4, 24px);
+    height: rhythm(4, 24px);
+    display: block;
+    position: absolute;
+    top: rhythm(-4, 24px);
+    z-index: 10;
+    cursor: pointer;
+    font-family: 'OC_Font';
+    text-indent: 0;
+    text-align: center;
+    @include adjust-font-size-to(24px, 4);
+    background: transparent;
+    color: $grey3;
+    
+    &:hover {
+      color: $grey5;
+    }
+    &.flex-next {
+      right: 0;
+    }
+    &.flex-prev {
+      right: rhythm(4, 24px);
+    }
+    &.flex-disabled {
+      opacity: .3!important;
+      filter:alpha(opacity=30);
+      cursor: default;
+    } 
+  }
+}
+
+/* Control Nav */
+.flex-control-nav {
+  position: absolute;
+  text-align: center;
+  top: rhythm(-4);
+  left: 0;
+
+  li {
+    margin: 0 6px;
+    @include inline-block();
+    
+    a {
+      width: 11px;
+      height: 11px;
+      display: block;
+      background: $grey3;
+      cursor: pointer;
+      text-indent: -9999px;
+      @include border-radius(20px);
+      @include box-shadow(inset 0 0 3px rgba(0,0,0,0.3));
+      
+      &:hover {
+        background: $grey5;
+      }
+      
+      &.flex-active {
+        background: $grey7;
+        cursor: default;
+      }
+      
+    }
+  }
+}
+.flex-control-thumbs {margin: 5px 0 0; position: static; overflow: hidden;}
+.flex-control-thumbs li {width: 25%; float: left; margin: 0;}
+.flex-control-thumbs img {width: 100%; display: block; opacity: .7; cursor: pointer;}
+.flex-control-thumbs img:hover {opacity: 1;}
+.flex-control-thumbs .flex-active {opacity: 1; cursor: default;}
+
+
+
+
+
+
+@media all and (max-width: 959px) {
+  .flexslider .field-name-field-promoted-text {
+    display: none;
+  }
+}
+
+@media all and (min-width: 960px) {
+  
+  .flex-control-nav {
+    left: $zen-gutter-width/2;
+  }
+  
+  .flex-direction-nav a {
+    &.flex-next {
+      right: $zen-gutter-width/2;
+    }
+    &.flex-prev {
+      right: rhythm(8, 24px);
+    }
+  }
+  
+}
+

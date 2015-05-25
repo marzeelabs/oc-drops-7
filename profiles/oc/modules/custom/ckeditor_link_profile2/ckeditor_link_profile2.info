@@ -1,0 +1,9 @@
+name = CKEditor Link for Profile2
+description = Easily create links to Profile pages through CKEditor.
+package = User interface
+core = 7.x
+configure = admin/config/content/ckeditor_link
+dependencies[] = ckeditor_link
+dependencies[] = profile2
+dependencies[] = profile2_page
+

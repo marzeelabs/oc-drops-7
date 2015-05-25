@@ -1,0 +1,267 @@
+<?php
+/**
+ * @file
+ * Code for the OC Profile feature.
+ */
+
+include_once('oc_profile.features.inc');
+
+/**
+ * Implementation of hook_menu().
+ */
+function oc_profile_menu() {
+  $items = array();
+
+  $items['admin/workbench/content/researcher-profiles/add'] = array(
+    'title' => 'Add researcher profile',
+    'type' => MENU_LOCAL_ACTION,
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('admin/people/create', array('query' => array('destination' => 'admin/workbench/content/researcher-profiles'))),
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function oc_profile_block_info() {
+  $blocks['list-map-toggle'] = array(
+    'info' => t('List - Map Toggle'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function oc_profile_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'list-map-toggle':
+      $content = '<div class="list-map-toggle">';
+      $tag = arg(1);
+
+      $content .= l(theme('fonticon_icon', array('icon' => 'publication')) . t('List'), 'network/' . $tag, array('html' => TRUE));
+      $content .= l(theme('fonticon_icon', array('icon' => 'world')) . t('Map'), 'network/' . $tag . '/map', array('html' => TRUE));
+      $content .= '</div>';
+
+      $block['subject'] = t('');
+      $block['content'] = $content;
+      break;
+
+  }
+  return $block;
+}
+
+/**
+ * Implementation of template_preprocess_field().
+ */
+function oc_profile_preprocess_field(&$variables) {
+  // full_name
+  if ($variables['element']['#field_name'] == 'full_name') {
+    // h1 wrapper if page
+    if (in_array($variables['element']['#view_mode'], array('full', 'page'))) {
+      foreach ($variables['items'] as $key => $item) {
+        $variables['items'][$key]['#prefix'] = '<h1>';
+        $variables['items'][$key]['#suffix'] = '</h1>';
+        // also sets correct page title
+        drupal_set_title($variables['items'][$key]['#markup']);
+      }
+    }
+    // h3 wrapper in any other cases
+    else {
+      foreach ($variables['items'] as $key => $item) {
+        $variables['items'][$key]['#prefix'] = '<h3>';
+        $variables['items'][$key]['#suffix'] = '</h3>';
+      }
+    }
+  }
+
+  // Add icons for teaser and page view mode
+  if (in_array($variables['element']['#view_mode'], array('teaser', 'page'))) {
+
+    // replace the researcher URL title with the label
+    if ($variables['element']['#field_name'] == 'field_rprofile_website') {
+      foreach (array_keys($variables['items']) as $key) {
+        $variables['items'][$key]['title'] = $variables['element']['#title'];
+        $variables['items'][$key]['#prefix'] = theme('fonticon_icon', array('icon' => 'link'));
+      }
+    }
+
+    if ($variables['element']['#field_name'] == 'field_rprofile_email') {
+      foreach (array_keys($variables['items']) as $key) {
+        $variables['items'][$key]['#prefix'] = theme('fonticon_icon', array('icon' => 'mail'));
+      }
+    }
+
+    if ($variables['element']['#field_name'] == 'field_rprofile_address') {
+      foreach (array_keys($variables['items']) as $key) {
+        $variables['items'][$key]['#prefix'] = theme('fonticon_icon', array('icon' => 'house'));
+      }
+    }
+
+    if ($variables['element']['#field_name'] == 'field_rprofile_telephone') {
+      foreach (array_keys($variables['items']) as $key) {
+        $variables['items'][$key]['#prefix'] = theme('fonticon_icon', array('icon' => 'phone'));
+      }
+    }
+  }
+
+  // Add icons only for teaser
+  if (in_array($variables['element']['#view_mode'], array('teaser'))) {
+    if ($variables['element']['#field_name'] == 'field_rprofile_partner_ref') {
+      foreach (array_keys($variables['items']) as $key) {
+        $variables['items'][$key]['#prefix'] = theme('fonticon_icon', array('icon' => 'house'));
+      }
+    }
+  }
+
+
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function oc_profile_entity_info_alter(&$entity_info) {
+  $entity_info['profile2']['label callback'] = 'oc_profile_profile2_label';
+}
+
+/**
+ * Label callback that refers to the entity classes label method.
+ */
+function oc_profile_profile2_label($entity) {
+  // Set the correct title for the profile page
+  $first = field_get_items('profile2', $entity, 'field_rprofile_first_name');
+  $last = field_get_items('profile2', $entity, 'field_rprofile_last_name');
+
+  if ($first && $last) {
+    $name = $first[0]['value'] . ' ' . $last[0]['value'];
+    return $name;
+  } else {
+    return $entity->label;
+  }
+}
+
+/**
+ * Implements hook_draggableviews_handler_native_arguments_alter().
+ * Save ordered list without arguments, since that conflicts with our exposed filters.
+ */
+function oc_profile_draggableviews_handler_native_arguments_alter(&$arguments, $view, &$form_values) {
+  // Empty arguments. See http://drupal.org/node/1447844#comment-5674082
+  if ($view->name == "workbench_profile") {
+    $arguments = array();
+  }
+}
+
+/**
+ * Implements hook_views_pre_render
+ *
+ * Overwrite views pages using taxonomy term titles provided by taxonomy_title.
+ */
+function oc_profile_views_pre_render(&$view) {
+  if ($view->name == 'oc_profile_list' || $view->name == 'oc_profile_map') {
+    $term_name = str_replace('-', ' ', $view->args['0']);
+    $terms = taxonomy_get_term_by_name($term_name, 'researcher_profile_type');
+
+    if (!empty($terms)) {
+      $term = reset($terms);
+
+      $title = token_replace('[term:title]', array('taxonomy_term' => $term));
+
+      if ($view->name == 'oc_profile_map') {
+        $title = t('Map of ') . $title;
+      }
+
+      $view->build_info['title'] = $title;
+    }
+  }
+}
+
+/**
+ * Implements hook_admin_paths().
+ *
+ * Make sure we use the admin theme for profile editing. Profile2 doesn't provide this out of the box.
+ */
+function oc_profile_admin_paths() {
+  $paths = array();
+  foreach (profile2_get_types() as $type_name => $type) {
+    if (!empty($type->data['use_page'])) {
+      $path = profile2_page_get_base_path($type);
+      $paths[$path . '/*/edit'] = TRUE;
+    }
+  }
+  return $paths;
+}
+
+/**
+ * Implements hook_form_profile2_form_alter().
+ */
+function oc_profile_form_profile2_form_alter(&$form, &$form_state) {
+  $form['profile_researcher_profile']['field_rprofile_partner_ref'][LANGUAGE_NONE]['#description'] .= ' ' . t('If the institution is not yet there, you need to !create', array('!create' => l(t('create it first.'), 'node/add/partner', array('attributes' => array('target'=>'_blank')))));
+}
+
+/**
+ * Implements hook_migrate_api().
+ */
+function oc_profile_migrate_api() {
+  $api = array(
+    'api' => 2,
+    'migrations' => array(
+      'OCUsers' => array('class_name' => 'OCUsersMigration'),
+      'OCProfiles' => array('class_name' => 'OCProfilesMigration'),
+    ),
+  );
+  return $api;
+}
+
+/**
+ * Implements hook_field_default_fields_alter().
+ *
+ * Set the default image.
+ */
+function oc_profile_field_default_fields_alter(&$fields) {
+  $image_field = 'profile2-researcher_profile-field_rprofile_photo';
+  if (isset($fields[$image_field]['field_config']['settings']['default_image'])) {
+    $fid = $fields[$image_field]['field_config']['settings']['default_image'];
+    $fields[$image_field]['field_config']['settings']['default_image'] = variable_get('oc_profile_default_image_fid', $fid);
+  }
+}
+
+/**
+ * Implements hook_user_view().
+ */
+function oc_profile_user_view($account, $view_mode, $langcode) {
+  global $user;
+  if ($user->uid) {
+    drupal_set_message(t('This page is associated with your user account. To view and edit your publicly displayed profile, click !here',
+      array('!here' => l(t('here'), 'profile-researcher_profile/' . $account->uid))), 'warning');
+  }
+}
+
+/**
+ * Implements hook_field_attach_form().
+ * Make sure some fields can't be edited by anyone else than editors
+ */
+function oc_profile_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  global $user;
+
+  if ($entity_type == 'profile2' && !in_array('editor', $user->roles) && $user->uid != 1) {
+    $fields_disabled = array(
+      'field_rprofile_title',
+      'field_rprofile_partner_ref',
+      'field_rprofile_keywords',
+      'field_rprofile_members',
+    );
+
+    foreach ($fields_disabled as $field) {
+      $form[$field][LANGUAGE_NONE]['#disabled'] = TRUE;
+      $form[$field][LANGUAGE_NONE]['#description'] = '<strong>' . t('You do not have enough permissions to change this value. Contact a site administrator if this value is not correct.') . '</strong>';
+    }
+  }
+}
+

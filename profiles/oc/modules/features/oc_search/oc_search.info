@@ -1,0 +1,36 @@
+name = OC Search
+core = 7.x
+package = Open Consortium
+php = 5.2.4
+dependencies[] = context
+dependencies[] = ctools
+dependencies[] = current_search
+dependencies[] = ds
+dependencies[] = entity
+dependencies[] = facetapi
+dependencies[] = features
+dependencies[] = search_api
+dependencies[] = search_api_db
+dependencies[] = search_api_page
+features[context][] = oc_search
+features[context][] = oc_search_page
+features[ctools][] = context:context:3
+features[ctools][] = ds:ds:1
+features[ctools][] = facetapi:facetapi_defaults:1
+features[ds_view_modes][] = search
+features[facetapi][] = search_api@default_node_index::created
+features[facetapi][] = search_api@default_node_index::type
+features[facetapi][] = search_api@default_node_index:block:created
+features[facetapi][] = search_api@default_node_index:block:type
+features[features_api][] = api:1
+features[search_api_index][] = default_node_index
+features[search_api_page][] = oc_search
+features[search_api_server][] = database
+features[user_permission][] = access search_api_page
+
+
+; Information added by drush on 2013-03-26
+version = "master-dev"
+project = "oc_search"
+datestamp = "1364338556"
+

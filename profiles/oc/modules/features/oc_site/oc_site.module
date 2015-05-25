@@ -1,0 +1,305 @@
+<?php
+
+include_once('oc_site.features.inc');
+/**
+ * Implements hook_menu().
+ */
+function oc_site_menu() {
+  $items = array();
+
+  $items['admin/oc'] = array(
+    'title' => 'Site Configuration',
+    'description' => 'Administer Site settings',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('administer site configuration'),
+    'page arguments' => array('oc_site_settings_form'),
+		'file' => 'oc_site.admin.inc',
+  );
+
+  $items['admin/oc/site'] = array(
+    'title' => 'Site Configuration',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  // Add a menu item for editors to edit menu's easily
+  $items['admin/menu'] = array(
+    'title' => 'Menus',
+    'description' => 'Edit existing menus and rename and reorganize menu links.',
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('admin/structure/menu'),
+    'access callback' => TRUE,
+  );
+
+  // Add a menu item for editors to see google analytics reports
+  $items['admin/oc-google-analytics'] = array(
+    'title' => 'Analytics',
+    'description' => 'View a traffic report for your site.',
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('admin/reports/google-analytics'),
+    'access callback' => 'module_exists',
+    'access arguments' => array('googleanalytics'),
+    'weight' => 10,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_init().
+ */
+function oc_site_init() {
+  if (current_path() == 'admin/reports/google-analytics') {
+    drupal_set_message(t('To access complete and up-to-date statistics on !url you need to have a gmail account and request access to the site administrator.', array('!url' => l(t('Google Analytics'), 'http://analytics.google.com', array('attributes' => array('target'=>'_blank'))))), 'warning');
+  }
+}
+
+/**
+ * Implement hook_block_info()
+ */
+function oc_site_block_info() {
+  $blocks['oc-site-info'] = array(
+    'info' => t('OC Site General Info'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+    'region' => 'footer_first',
+  );
+  $blocks['oc-site-logos'] = array(
+    'info' => t('OC Site Logos and Funding'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+    'region' => 'footer_second',
+  );
+  $blocks['oc-site-map'] = array(
+    'info' => t('OC Site Map Europe'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+    'region' => 'footer_third',
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implement hook_block_view()
+ */
+function oc_site_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'oc-site-info':
+      $block['subject'] = '';
+      $block['content'] = array(
+        '#markup' => theme('oc_site_info'),
+        // '#contextual_links' => array(
+        //   'oc_site' => array('admin/oc', array($delta)),
+        // ),
+      );
+      break;
+    case 'oc-site-logos':
+      $logos_selected = variable_get('oc_site_logos', array('europe' => 1, 'fp7' => 1, 'mariecurie' => 0));
+      $logos = oc_site_logos();
+      foreach ($logos_selected as $logo => $selected) {
+        if (!$selected) {
+          unset($logos[$logo]);
+        }
+      }
+      $block['subject'] = '';
+      $block['content'] = array('#markup' => theme('oc_site_logos', array('logos' => $logos)));
+      break;
+    case 'oc-site-map':
+      $block['subject'] = '';
+      $block['content'] = array('#markup' => theme('oc_site_map'));
+      break;
+  }
+
+  return $block;
+}
+
+
+/**
+ * Return a list of logos to be used in the footer.
+ */
+function oc_site_logos() {
+  $img_path = base_path() . drupal_get_path('module', 'oc_site') . '/images/';
+
+  $default = array(
+    'europe' => array(
+      'img' => $img_path . 'european-flag.png',
+      'title' => t("European Comission"),
+      'link' => 'http://ec.europa.eu/index_en.htm',
+    ),
+    'fp7' => array(
+      'img' => $img_path . 'seventh-framework.png',
+      'title' => t("Seventh Framework Programme"),
+      'link' => 'http://cordis.europa.eu/fp7/people/home_en.html',
+    ),
+    'mariecurie' => array(
+      'img' => $img_path . 'marie-curie.png',
+      'title' => t("Marie Curie Actions"),
+      'link' => 'http://ec.europa.eu/research/mariecurieactions/',
+    ),
+  );
+
+  // Allow other modules to implement more options.
+  drupal_alter('oc_site_logos', $default);
+
+  return $default;
+}
+
+/**
+ * Implementation of hook_menu_block_blocks().
+ */
+function oc_site_menu_block_blocks() {
+  return array(
+    // Main navigation menu
+    'oc-main-menu' => array(
+      'menu_name' => 'main-menu',
+      'parent_mlid' => '0',
+      'title_link' => 0,
+      'admin_title' => 'Main navigation - custom menu block',
+      'level' => '1',
+      'follow' => 0,
+      'depth' => '0',
+      'expanded' => 1,
+      'sort' => 0,
+    ),
+    // Side navigation menu
+    'oc-side-menu' => array(
+      'delta' => 1,
+      'menu_name' => 'main-menu',
+      'parent_mlid' => '0',
+      'title_link' => 0,
+      'admin_title' => 'Side navigation - custom menu block',
+      'level' => '2',
+      'follow' => 0,
+      'depth' => '0',
+      'expanded' => 0,
+      'sort' => 0,
+    ),
+  );
+}
+
+/**
+ * Implement hook_block_view_alter()
+ */
+function oc_site_block_view_alter(&$data, $block) {
+  if ($block->module == 'system') {
+    switch ($block->delta) {
+      case 'user-menu':
+        $block->title = '<none>';
+        break;
+    }
+  }
+  if ($block->module == 'menu') {
+    switch ($block->delta) {
+      case 'menu-anonymous-menu':
+        $block->title = '<none>';
+        break;
+    }
+  }
+
+}
+
+/**
+ * Implement hook_theme().
+ */
+function oc_site_theme() {
+  return array(
+    'oc_site_info' => array(
+      'variables' => array(),
+      'template' => 'templates/oc_site_info'
+    ),
+    'oc_site_logos' => array(
+      'variables' => array('logos' => NULL),
+      'template' => 'templates/oc_site_logos'
+    ),
+    'oc_site_map' => array(
+      'variables' => array(),
+      'template' => 'templates/oc_site_map'
+    ),
+  );
+}
+
+/**
+ * Implement template_preprocess_views_view()
+ */
+function oc_site_preprocess_views_view(&$vars) {
+  // adds "active" class to first row of the view to kick off the slideshow
+  if (in_array($vars['name'], array('promoted_content_big_blocks', 'events'))) {
+    $vars['rows'] = preg_replace('/views-row-first/', 'views-row-first active', $vars['rows']);
+  }
+}
+
+/**
+ * Implements hook_contextual_links_view_alter().
+ *
+ * Add contextual links to the default blocks.
+ */
+function oc_site_contextual_links_view_alter(&$element, &$items) {
+  if (isset($element['#element']['#block'])) {
+    switch ($element['#element']['#block']->delta) {
+      case 'oc-site-logos':
+        $element['#links']['oc'] = array(
+          'title' => t('Edit logos'),
+          'href' => 'admin/oc',
+        );
+        break;
+      case 'oc-site-info':
+        $element['#links']['oc'] = array(
+          'title' => t('Edit information'),
+          'href' => 'admin/oc',
+        );
+        break;
+    }
+  }
+}
+
+/**
+ * Implements template_preprocess_page().
+ */
+function oc_site_preprocess(&$variables, $hook) {
+  $variables['oc_site_mission'] = filter_xss_admin(variable_get('oc_site_mission', ''));
+  $variables['oc_site_slogan'] = filter_xss_admin(variable_get('oc_site_slogan', ''));
+}
+
+
+/**
+ * Return a file object after saving a default image and storing the fid
+ * in a variable.
+ *
+ * @param $default_image
+ *   An associative array containing:
+ *   - scheme: File API stream wrapper scheme (ie: 'public://', 'private://')
+ *   - dest_directory: The directory within the files directory the default
+ *     image will be copied to. No leading or trailing slash.
+ *   - source_path: The full path to the existing default image that will
+ *     be copied.
+ *   - file_name: The name of the default image.
+ *   - variable: The variable name that will store the default image fid.
+ *
+ * @return
+ *   A file object of the saved default image file.
+ */
+function _oc_site_default_image_create($default_image) {
+  $file_uri = $default_image['scheme'] . $default_image['dest_directory'] . '/' . $default_image['file_name'];
+  $full_dir = $default_image['scheme'] . $default_image['dest_directory'];
+  file_prepare_directory($full_dir, FILE_CREATE_DIRECTORY);
+  file_unmanaged_copy($default_image['source_path'], $file_uri, FILE_EXISTS_REPLACE);
+  $file = (object) array(
+    'uid' => 1,
+    'status' => FILE_STATUS_PERMANENT,
+    'filename' => $default_image['file_name'],
+    'uri' => $file_uri,
+    'filemime' => file_get_mimetype($default_image['source_path']),
+  );
+  $file = file_save($file);
+  if ($file) {
+    variable_set($default_image['variable'], $file->fid);
+  }
+  return $file;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function oc_site_form_user_register_form_alter(&$form, &$form_state) {
+  $form['account']['status']['#default_value'] = 0;
+}

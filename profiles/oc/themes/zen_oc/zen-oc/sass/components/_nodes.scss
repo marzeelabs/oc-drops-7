@@ -1,0 +1,136 @@
+/**
+ * @file
+ * Node Styling
+ *
+ * Style anything that isn't in the $content variable.
+ */
+
+
+/* node-article */
+.node-article {
+  
+  &.view-mode-teaser {
+    
+    .field-name-field-article-image-teaser {
+      @include trailer(2);
+    }
+    
+    @media (min-width: 480px) {
+      
+      &,
+      .view-grid &,
+      .view-grid-less & {
+        padding-left: rhythm(27);
+        position: relative;
+        
+        .field-name-field-article-image-teaser {
+          float: left;
+          margin-left: rhythm(-27);
+        }
+      }
+    }
+  }
+  
+  &.view-mode-promoted_big {
+  
+    .field-name-field-article-image-teaser {
+      @include trailer(2);
+    }
+    
+    @media (min-width: 480px) {
+      
+      &,
+      .view-grid &,
+      .view-grid-less & {
+        padding-left: rhythm(20);
+        position: relative;
+        
+        .field-name-field-article-image-teaser {
+          float: left;
+          margin-left: rhythm(-20);
+          @include trailer(0);
+        }
+      }
+    }
+  }
+}
+
+
+/* node-event */
+.node-event {
+  
+  &.view-mode-teaser {
+    
+    .field-name-field-event-imageteaser {
+      @include trailer(2);
+    }
+    
+    @media (min-width: 480px) {
+      
+      &,
+      .view-grid &,
+      .view-grid-less & {
+        padding-left: rhythm(27);
+        position: relative;
+        
+        .field-name-field-event-imageteaser {
+          float: left;
+          margin-left: rhythm(-27);
+        }
+      }
+    }
+    
+    @media (min-width: 960px) {
+
+      .view-grid-less & {
+        
+        .field-name-body,
+        .field-name-field-event-tags {
+          clear: both;
+          margin-left: rhythm(-27);
+        }
+      }
+      
+      .count-1 & {
+        
+        .field-name-body,
+        .field-name-field-event-tags {
+          clear: none;
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
+
+/* node-project */
+.node-project {
+  
+  &.view-mode-teaser {
+  
+    .field-name-field-project-host {
+      @include trailer(2);
+    }
+    
+    .field-name-field-partner-logo {
+      text-align: center;
+    }
+    
+    @media (min-width: 480px) {
+      
+      &,
+      .view-grid &,
+      .view-grid-less & {
+        padding-left: rhythm(20);
+        position: relative;
+        
+        .field-name-field-project-host {
+          float: left;
+          margin-left: rhythm(-20);
+          @include trailer(0);
+        }
+      }
+    }
+  }
+}

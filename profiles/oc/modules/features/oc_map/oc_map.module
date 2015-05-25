@@ -1,0 +1,99 @@
+<?php
+/**
+ * @file
+ * Code for the OC Map feature.
+ */
+
+include_once('oc_map.features.inc');
+
+// define('OC_MAP_DEFAULT_LAYER', 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png');
+define('OC_MAP_DEFAULT_LAYER', 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/22677/256/{z}/{x}/{y}.png');
+
+/**
+ * Implements hook_menu().
+ */
+function oc_map_menu() {
+  $items = array();
+
+  $items['admin/oc/map'] = array(
+    'title' => 'Map settings',
+    'description' => 'Administer Map settings',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('administer site configuration'),
+    'page arguments' => array('oc_map_settings_form'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'oc_map.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_leaflet_map_info().
+ * Add custom map tiles for use with leaflet.
+ *
+ * Some of the code was borrowed from leaflet_more_maps_leaflet_map_info().
+ */
+function oc_map_leaflet_map_info() {
+  $map_info = array();
+
+  // $zxy = '{z}/{x}/{y}.png'; // as used by most
+  // $zyx = '{z}/{y}/{x}.png'; // as used by Esri
+
+  $default_settings = array(
+    'attributionControl' => TRUE,
+    'closePopupOnClick'  => TRUE,
+    'doubleClickZoom'    => TRUE,
+    'dragging'           => TRUE,
+    'fadeAnimation'      => TRUE,
+    'layerControl'       => FALSE, // TRUE works but forces user to pick one, not multiple
+    'maxZoom'            => 17,
+    'minZoom'            => 0,
+    'scrollWheelZoom'    => FALSE, // Better set to FALSE if not this can break the flow on a page when scrolling down
+    'touchZoom'          => TRUE,
+    'trackResize'        => TRUE,
+    // 'zoom'               => 10,
+    'zoomAnimation'      => TRUE,
+    'zoomControl'        => TRUE,
+    // markercluster settings
+    'showCoverageOnHover' => FALSE,
+    // 'maxClusterRadius' => 30,
+  );
+
+  // Fetch the mapbox layer
+  $map_layer = variable_get('oc_map_layer', OC_MAP_DEFAULT_LAYER);
+
+  // We define two types of layers: the world/europe view and the city view
+  $layers = array(
+    'multiple-markers' => array(
+      'name' => t('Multiple markers'),
+      'settings' => array(),
+    ),
+    'single-marker' => array(
+      'name' => t('Single marker'),
+      'settings' => array(
+        'minZoom' => 3,
+        'maxZoom' => 17,
+        'zoom' => 10, // corresponds to city level
+      ),
+    ),
+  );
+
+  foreach ($layers as $layer => $data) {
+    $map_info["oc_map-" . $layer] = array(
+      'label' => t('OC Maps') . ' ' . $data['name'],
+      'description' => $data['name'],
+      'settings' => $data['settings'] + $default_settings,
+      'layers' => array(
+        'earth' => array(
+          'urlTemplate' => $map_layer,
+          // 'options' => array(
+          //   'attribution' => 'Map tiles by <a href="http://mapbox.com">Mapbox</a>',
+          // )
+        ),
+      ),
+    );
+  }
+
+  return $map_info;
+}

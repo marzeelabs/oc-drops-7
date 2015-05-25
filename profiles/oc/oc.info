@@ -1,0 +1,179 @@
+name = Open Consortium
+description = An Open Consortium site in a box. Built by Marzee Labs.
+core = 7.x
+
+; MZ - core
+dependencies[] = block
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = dblog
+dependencies[] = field_ui
+dependencies[] = file
+
+; MZ - general
+dependencies[] = libraries
+dependencies[] = strongarm
+dependencies[] = masquerade
+dependencies[] = addressfield
+dependencies[] = advanced_help
+dependencies[] = backup_migrate
+dependencies[] = context
+dependencies[] = context_ui
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = date_all_day
+dependencies[] = date_api
+dependencies[] = date_popup
+dependencies[] = date_views
+dependencies[] = diff
+dependencies[] = email
+dependencies[] = entity
+dependencies[] = entityreference
+dependencies[] = entity_token
+dependencies[] = file
+dependencies[] = filter
+dependencies[] = jquery_update
+dependencies[] = link
+dependencies[] = menu_block
+dependencies[] = token
+dependencies[] = views_content
+dependencies[] = views_bulk_operations
+dependencies[] = field_group
+dependencies[] = ds
+dependencies[] = ds_extras
+dependencies[] = ds_ui
+dependencies[] = ds_format
+dependencies[] = views
+dependencies[] = views_ui
+dependencies[] = entitycache
+dependencies[] = rules
+dependencies[] = rules_admin
+dependencies[] = invisimail
+dependencies[] = spamicide
+dependencies[] = transliteration
+
+; MZ - Media
+dependencies[] = media
+; to be deprecated, but need to refactor oc_promote before we can move here
+dependencies[] = mediafield
+; To be reviewed carefully before enabling again
+;dependencies[] = media_internet
+;dependencies[] = media_youtube
+dependencies[] = module_filter
+dependencies[] = file_entity
+
+; MZ - Editor
+dependencies[] = wysiwyg
+dependencies[] = workbench
+dependencies[] = workbench_media
+dependencies[] = workbench_moderation
+dependencies[] = ckeditor_link
+dependencies[] = menu_admin_per_menu
+;Solve dependency on main make file from within the .install first and contribute patch - if not chosen is useless in a profile info file
+;dependencies[] = chosen
+
+; MZ - Developer
+dependencies[] = features
+dependencies[] = devel
+dependencies[] = admin_menu
+dependencies[] = admin_menu_toolbar
+
+; MZ - SEO
+;dependencies[] = googleanalytics
+dependencies[] = pathauto
+;dependencies[] = xmlsitemap
+;dependencies[] = xmlsitemap_custom
+;dependencies[] = xmlsitemap_node
+;dependencies[] = xmlsitemap_taxonomy
+;dependencies[] = xmlsitemap_user
+;dependencies[] = xmlsitemap_engines
+dependencies[] = globalredirect
+; Won't enable until http://drupal.org/node/1796596 is fixed, if not we create infinite redirects. Globalredirect alone should do the trick for
+;dependencies[] = redirect
+dependencies[] = page_title
+
+; MZ - features
+dependencies[] = mz_site
+dependencies[] = mz_editorial
+
+; MZ - Geo
+dependencies[] = geocoder
+dependencies[] = geofield
+dependencies[] = geophp
+dependencies[] = leaflet
+dependencies[] = leaflet_markercluster
+dependencies[] = leaflet_views
+
+; OC - core
+dependencies[] = calendar
+dependencies[] = date_repeat
+dependencies[] = fontyourface
+dependencies[] = logintoboggan
+dependencies[] = maxlength
+dependencies[] = php
+dependencies[] = profile2
+dependencies[] = profile2_page
+dependencies[] = toolbar
+dependencies[] = views_field_view
+dependencies[] = google_fonts_api
+dependencies[] = fitvids
+dependencies[] = pathauto_entity
+dependencies[] = profile2_page
+dependencies[] = bean
+dependencies[] = bean_admin_ui
+dependencies[] = bean_entitycache
+dependencies[] = blockreference
+dependencies[] = flexslider
+dependencies[] = flexslider_fields
+dependencies[] = flexslider_views
+dependencies[] = fonticon
+dependencies[] = fonticon_taxonomy
+dependencies[] = menu_attributes
+;dependencies[] = search_api
+;dependencies[] = search_api_db
+;dependencies[] = search_api_page
+;dependencies[] = current_search
+;dependencies[] = search_api_facetapi
+dependencies[] = taxonomy_title
+dependencies[] = better_exposed_filters
+dependencies[] = contact
+dependencies[] = multiple_selects
+dependencies[] = caption_filter
+dependencies[] = smart_trim
+dependencies[] = colorbox
+dependencies[] = chart
+dependencies[] = oauth_common
+dependencies[] = google_analytics_api
+dependencies[] = google_analytics_reports
+dependencies[] = crumbs
+dependencies[] = taxonomy_access_fix
+dependencies[] = ckeditor_link_profile2
+
+; OC - migrate
+dependencies[] = migrate
+dependencies[] = migrate_extras
+dependencies[] = migrate_ui
+dependencies[] = date_migrate
+
+; OC - features
+; Be careful with the order though, since that influences
+; the creation of taxonomies.
+dependencies[] = oc_site
+dependencies[] = oc_profile
+dependencies[] = oc_project
+dependencies[] = oc_news
+dependencies[] = oc_events
+dependencies[] = oc_map
+dependencies[] = oc_pages
+dependencies[] = oc_partner
+dependencies[] = oc_wp
+dependencies[] = oc_promote
+; @todo re-enable after the feature is fixed
+;dependencies[] = oc_search

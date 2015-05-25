@@ -1,0 +1,1158 @@
+/**
+ * @file
+ * RTL companion for the styles.scss file.
+ */
+/* Import Sass mixins, variables, Compass modules, etc. */
+/*
+ * Mixins from twitter Bootstrap sass conversion
+ * https://github.com/jlong/sass-twitter-bootstrap
+ */
+/* HTML element (SMACSS base) rules */
+/**
+ * @file
+ * Normalize-rtl.scss is the RTL language extension of normalize.scss
+ */
+/**
+ * Lists
+ */
+dd {
+  margin: 0 20px 0 0;
+}
+
+/* Address paddings set differently in IE 6/7. */
+menu,
+ol,
+ul {
+  padding: 0 20px 0 0;
+}
+
+/* Layout rules */
+/**
+ * @file
+ * RTL companion for the layout-responsive.css file.
+ */
+/**
+ * @file
+ * Positioning for a responsive layout.
+ *
+ * Define CSS classes to create a fluid grid layout with optional sidebars
+ * depending on whether blocks are placed in the left or right sidebars.
+ *
+ * This layout uses the Zen Grids plugin for Compass: http://zengrids.com
+ */
+@media all and (min-width: 480px) {
+  /* profile page */
+  .profile2-researcher-profile.view-mode-page {
+    margin: 0 -20px;
+  }
+  .profile2-researcher-profile.view-mode-page:before, .profile2-researcher-profile.view-mode-page:after {
+    content: "";
+    display: table;
+  }
+  .profile2-researcher-profile.view-mode-page:after {
+    clear: both;
+  }
+  .profile2-researcher-profile.view-mode-page > .field {
+    clear: both;
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .profile2-researcher-profile.view-mode-page > .group-profile {
+    float: right;
+    width: 40%;
+    margin-right: 0%;
+    margin-left: -40%;
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .profile2-researcher-profile.view-mode-page > .field-name-field-rprofile-desctitle,
+  .profile2-researcher-profile.view-mode-page > .field-name-field-rprofile-short-bio {
+    float: left;
+    width: 60%;
+    margin-left: 0%;
+    margin-right: -60%;
+    clear: right;
+  }
+
+  .region-menu-secondary .block {
+    float: left;
+  }
+}
+@media all and (min-width: 600px) {
+  #header {
+    padding-bottom: 3em;
+    /* Move all the children of #main down to make room. */
+  }
+
+  #navigation {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+  }
+
+  .region-menu {
+    position: static;
+  }
+}
+/**
+ * Use 12 grid columns for larger screens.
+ */
+@media all and (min-width: 600px) and (max-width: 959px) {
+  .no-sidebars {
+    /* flexslider */
+  }
+  .no-sidebars .view-grid > .view-content {
+    margin: 0 -20px;
+  }
+  .no-sidebars .view-grid > .view-content:before, .no-sidebars .view-grid > .view-content:after {
+    content: "";
+    display: table;
+  }
+  .no-sidebars .view-grid > .view-content:after {
+    clear: both;
+  }
+  .no-sidebars .view-grid .views-row {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .no-sidebars .view-grid .views-row:nth-child(3n+1) {
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+    clear: right;
+  }
+  .no-sidebars .view-grid .views-row:nth-child(3n+2) {
+    float: right;
+    width: 33.33333%;
+    margin-right: 33.33333%;
+    margin-left: -66.66667%;
+  }
+  .no-sidebars .view-grid .views-row:nth-child(3n+3) {
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+  }
+  .no-sidebars .view-grid-less > .view-content {
+    margin: 0 -20px;
+  }
+  .no-sidebars .view-grid-less > .view-content:before, .no-sidebars .view-grid-less > .view-content:after {
+    content: "";
+    display: table;
+  }
+  .no-sidebars .view-grid-less > .view-content:after {
+    clear: both;
+  }
+  .no-sidebars .view-grid-less .views-row {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .no-sidebars .view-grid-less .views-row-odd {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    clear: right;
+  }
+  .no-sidebars .view-grid-less .views-row-even {
+    float: right;
+    width: 50%;
+    margin-right: 50%;
+    margin-left: -100%;
+  }
+  .no-sidebars .view-grid-less.count-1 .views-row-odd {
+    float: right;
+    width: 100%;
+    margin-right: 0%;
+    margin-left: -100%;
+  }
+  .no-sidebars.front #content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .no-sidebars.front .flexslider .ds-primary {
+    float: right;
+    width: 66.66667%;
+    margin-right: 0%;
+    margin-left: -66.66667%;
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .no-sidebars.front .flexslider .ds-secondary {
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+
+  /*
+   * The layout when there is a sidebar.
+   */
+  .one-sidebar .view-grid > .view-content {
+    margin: 0 -20px;
+  }
+  .one-sidebar .view-grid > .view-content:before, .one-sidebar .view-grid > .view-content:after {
+    content: "";
+    display: table;
+  }
+  .one-sidebar .view-grid > .view-content:after {
+    clear: both;
+  }
+  .one-sidebar .view-grid .views-row {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .one-sidebar .view-grid .views-row-odd {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    clear: right;
+  }
+  .one-sidebar .view-grid .views-row-even {
+    float: right;
+    width: 50%;
+    margin-right: 50%;
+    margin-left: -100%;
+  }
+
+  /*
+   * The layout when there is only one sidebar, the left one.
+   */
+  .sidebar-first #content {
+    /* Span 8 columns, starting in 5th column from left. */
+    float: right;
+    width: 66.66667%;
+    margin-right: 33.33333%;
+    margin-left: -100%;
+  }
+  .sidebar-first .region-sidebar-first {
+    /* Span 4 column, starting in 1st column from left. */
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+  }
+
+  /*
+   * The layout when there is only one sidebar, the right one.
+   */
+  .sidebar-second #content {
+    /* Span 9 columns, starting in 1st column from left. */
+    float: right;
+    width: 66.66667%;
+    margin-right: 0%;
+    margin-left: -66.66667%;
+  }
+  .sidebar-second .region-sidebar-second {
+    /* Span 3 column, starting in 10th column from left. */
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+  }
+
+  /*
+   * The layout when there are two sidebars.
+   */
+  .two-sidebars #content {
+    /* Span 9 columns, starting in 4th column from left. */
+    float: right;
+    width: 66.66667%;
+    margin-right: 33.33333%;
+    margin-left: -100%;
+  }
+  .two-sidebars .region-sidebar-first {
+    /* Span 3 column, starting in 1st column from left. */
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+  }
+  .two-sidebars .region-sidebar-second {
+    /* Span 12 column, starting in 1st column from left. */
+    float: right;
+    width: 100%;
+    margin-right: 0%;
+    margin-left: -100%;
+    padding-left: 0;
+    padding-right: 0;
+    clear: right;
+  }
+  .two-sidebars .region-sidebar-second .block {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .two-sidebars .region-sidebar-second .block:nth-child(3n+1) {
+    /* Span 4 columns, starting in the 1st column from left. */
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+    clear: right;
+  }
+  .two-sidebars .region-sidebar-second .block:nth-child(3n+2) {
+    /* Span 4 columns, starting in the 5th column from left. */
+    float: right;
+    width: 33.33333%;
+    margin-right: 33.33333%;
+    margin-left: -66.66667%;
+  }
+  .two-sidebars .region-sidebar-second .block:nth-child(3n) {
+    /* Span 4 columns, starting in the 9th column from left. */
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+  }
+  .two-sidebars .view-grid > .view-content {
+    margin: 0 -20px;
+  }
+  .two-sidebars .view-grid > .view-content:before, .two-sidebars .view-grid > .view-content:after {
+    content: "";
+    display: table;
+  }
+  .two-sidebars .view-grid > .view-content:after {
+    clear: both;
+  }
+  .two-sidebars .view-grid .views-row {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .two-sidebars .view-grid .views-row-odd {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    clear: right;
+  }
+  .two-sidebars .view-grid .views-row-even {
+    float: right;
+    width: 50%;
+    margin-right: 50%;
+    margin-left: -100%;
+  }
+
+  #footer #block-oc-site-oc-site-info {
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+  }
+
+  #footer #block-oc-site-oc-site-logos {
+    float: right;
+    width: 33.33333%;
+    margin-right: 33.33333%;
+    margin-left: -66.66667%;
+  }
+
+  #footer #block-oc-site-oc-site-map {
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+  }
+
+  /* profile page */
+  .profile2-researcher-profile.view-mode-page > .field {
+    clear: both;
+    float: left;
+    width: 66.66667%;
+    margin-left: 0%;
+    margin-right: -66.66667%;
+    clear: right;
+  }
+  .profile2-researcher-profile.view-mode-page > .group-profile,
+  .profile2-researcher-profile.view-mode-page > .field-name-field-rprofile-partner-ref {
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+    clear: left;
+  }
+}
+@media all and (min-width: 960px) {
+  #page {
+    padding-top: 2.25em;
+    position: relative;
+  }
+
+  #main-menu {
+    padding: 0 20px;
+  }
+
+  #menu-secondary-wrapper {
+    position: absolute;
+    top: 0.75em;
+    left: 0;
+    width: 100%;
+  }
+
+  .region-menu-secondary:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .region-menu-secondary > .inner {
+    margin: 0 20px;
+    float: right;
+    max-width: 40%;
+  }
+  .region-menu-secondary .block {
+    float: right;
+    clear: both;
+  }
+
+  /*
+   * Use 12 grid columns for larger screens.
+   */
+  .front #content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .front .flexslider .ds-primary {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .front .flexslider .ds-secondary {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+
+  /*
+   * The layout when there is no sidebars.
+   */
+  .no-sidebars {
+    /* flexslider */
+  }
+  .no-sidebars.front .flexslider .ds-primary {
+    float: right;
+    width: 66.66667%;
+    margin-right: 0%;
+    margin-left: -66.66667%;
+  }
+  .no-sidebars.front .flexslider .ds-secondary {
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+  }
+  .no-sidebars.page-node #content > .oc-2regions {
+    margin: 0 -20px;
+  }
+  .no-sidebars.page-node #content > .oc-2regions > .ds-primary {
+    float: right;
+    width: 66.66667%;
+    margin-right: 0%;
+    margin-left: -66.66667%;
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .no-sidebars.page-node #content > .oc-2regions > .ds-secondary {
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .no-sidebars .view-grid > .view-content {
+    margin: 0 -20px;
+  }
+  .no-sidebars .view-grid > .view-content:before, .no-sidebars .view-grid > .view-content:after {
+    content: "";
+    display: table;
+  }
+  .no-sidebars .view-grid > .view-content:after {
+    clear: both;
+  }
+  .no-sidebars .view-grid .views-row {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .no-sidebars .view-grid .views-row:nth-child(4n+1) {
+    float: right;
+    width: 25%;
+    margin-right: 0%;
+    margin-left: -25%;
+    clear: right;
+  }
+  .no-sidebars .view-grid .views-row:nth-child(4n+2) {
+    float: right;
+    width: 25%;
+    margin-right: 25%;
+    margin-left: -50%;
+  }
+  .no-sidebars .view-grid .views-row:nth-child(4n+3) {
+    float: right;
+    width: 25%;
+    margin-right: 50%;
+    margin-left: -75%;
+  }
+  .no-sidebars .view-grid .views-row:nth-child(4n+4) {
+    float: right;
+    width: 25%;
+    margin-right: 75%;
+    margin-left: -100%;
+  }
+  .no-sidebars .view-grid-less > .view-content {
+    margin: 0 -20px;
+  }
+  .no-sidebars .view-grid-less > .view-content:before, .no-sidebars .view-grid-less > .view-content:after {
+    content: "";
+    display: table;
+  }
+  .no-sidebars .view-grid-less > .view-content:after {
+    clear: both;
+  }
+  .no-sidebars .view-grid-less .views-row {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .no-sidebars .view-grid-less .views-row:nth-child(3n+1) {
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+    clear: right;
+  }
+  .no-sidebars .view-grid-less .views-row:nth-child(3n+2) {
+    float: right;
+    width: 33.33333%;
+    margin-right: 33.33333%;
+    margin-left: -66.66667%;
+  }
+  .no-sidebars .view-grid-less .views-row:nth-child(3n+3) {
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+  }
+  .no-sidebars .view-grid-less.count-1 .views-row:nth-child(3n+1) {
+    float: right;
+    width: 100%;
+    margin-right: 0%;
+    margin-left: -100%;
+  }
+  .lt-ie9 .no-sidebars .view-grid .views-row-odd, .lt-ie9 .no-sidebars .view-grid-less .views-row-odd {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    clear: right;
+  }
+  .lt-ie9 .no-sidebars .view-grid .views-row-even, .lt-ie9 .no-sidebars .view-grid-less .views-row-even {
+    float: right;
+    width: 50%;
+    margin-right: 50%;
+    margin-left: -100%;
+  }
+  .lt-ie9 .no-sidebars .view-grid.count-1 .views-row-odd, .lt-ie9 .no-sidebars .view-grid-less.count-1 .views-row-odd {
+    float: right;
+    width: 100%;
+    margin-right: 0%;
+    margin-left: -100%;
+  }
+
+  /*
+   * The layout when there is a sidebar.
+   */
+  .one-sidebar .view-grid > .view-content {
+    margin: 0 -20px;
+  }
+  .one-sidebar .view-grid > .view-content:before, .one-sidebar .view-grid > .view-content:after {
+    content: "";
+    display: table;
+  }
+  .one-sidebar .view-grid > .view-content:after {
+    clear: both;
+  }
+  .one-sidebar .view-grid .views-row {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .one-sidebar .view-grid .views-row:nth-child(3n+1) {
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+    clear: right;
+  }
+  .one-sidebar .view-grid .views-row:nth-child(3n+2) {
+    float: right;
+    width: 33.33333%;
+    margin-right: 33.33333%;
+    margin-left: -66.66667%;
+  }
+  .one-sidebar .view-grid .views-row:nth-child(3n+3) {
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+  }
+  .one-sidebar .view-grid-less > .view-content {
+    margin: 0 -20px;
+  }
+  .one-sidebar .view-grid-less > .view-content:before, .one-sidebar .view-grid-less > .view-content:after {
+    content: "";
+    display: table;
+  }
+  .one-sidebar .view-grid-less > .view-content:after {
+    clear: both;
+  }
+  .one-sidebar .view-grid-less .views-row {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .one-sidebar .view-grid-less .views-row-odd {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    clear: right;
+  }
+  .one-sidebar .view-grid-less .views-row-even {
+    float: right;
+    width: 50%;
+    margin-right: 50%;
+    margin-left: -100%;
+  }
+  .one-sidebar .view-grid-less.count-1 .views-row-odd {
+    float: right;
+    width: 100%;
+    margin-right: 0%;
+    margin-left: -100%;
+  }
+  .lt-ie9 .one-sidebar .view-grid .views-row-odd, .lt-ie9 .one-sidebar .view-grid-less .views-row-odd {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    clear: right;
+  }
+  .lt-ie9 .one-sidebar .view-grid .views-row-even, .lt-ie9 .one-sidebar .view-grid-less .views-row-even {
+    float: right;
+    width: 50%;
+    margin-right: 50%;
+    margin-left: -100%;
+  }
+  .lt-ie9 .one-sidebar .view-grid.count-1 .views-row-odd, .lt-ie9 .one-sidebar .view-grid-less.count-1 .views-row-odd {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+  }
+
+  /*
+   * The layout when there is only one sidebar, the left one.
+   */
+  .sidebar-first {
+    /* flexslider */
+  }
+  .sidebar-first #content {
+    /* Span 8 columns, starting in 5th column from left. */
+    float: right;
+    width: 75%;
+    margin-right: 25%;
+    margin-left: -100%;
+  }
+  .sidebar-first .region-sidebar-first {
+    /* Span 4 column, starting in 1st column from left. */
+    float: right;
+    width: 25%;
+    margin-right: 0%;
+    margin-left: -25%;
+  }
+  .sidebar-first.front #content {
+    /* Span 8 columns, starting in 5th column from left. */
+    float: right;
+    width: 75%;
+    margin-right: 25%;
+    margin-left: -100%;
+  }
+  .sidebar-first.front .region-sidebar-first {
+    /* Span 4 column, starting in 1st column from left. */
+    float: right;
+    width: 25%;
+    margin-right: 0%;
+    margin-left: -25%;
+  }
+  .sidebar-first.front .flexslider .slides .ds-primary {
+    float: right;
+    width: 55.55556%;
+    margin-right: 0%;
+    margin-left: -55.55556%;
+  }
+  .sidebar-first.front .flexslider .slides .ds-secondary {
+    float: right;
+    width: 44.44444%;
+    margin-right: 55.55556%;
+    margin-left: -100%;
+  }
+
+  /*
+   * The layout when there is only one sidebar, the right one.
+   */
+  .sidebar-second {
+    /* flexslider */
+  }
+  .sidebar-second #content {
+    /* Span 9 columns, starting in 1st column from left. */
+    float: right;
+    width: 75%;
+    margin-right: 0%;
+    margin-left: -75%;
+  }
+  .sidebar-second .region-sidebar-second {
+    /* Span 3 column, starting in 10th column from left. */
+    float: right;
+    width: 25%;
+    margin-right: 75%;
+    margin-left: -100%;
+  }
+  .sidebar-second.front .flexslider .slides .ds-primary {
+    float: right;
+    width: 55.55556%;
+    margin-right: 44.44444%;
+    margin-left: -100%;
+  }
+  .sidebar-second.front .flexslider .slides .ds-secondary {
+    float: right;
+    width: 44.44444%;
+    margin-right: 0%;
+    margin-left: -44.44444%;
+  }
+
+  /*
+   * The layout when there are two sidebars.
+   */
+  .two-sidebars #content {
+    /* Span 6 columns, starting in 4th column from left. */
+    float: right;
+    width: 50%;
+    margin-right: 25%;
+    margin-left: -75%;
+  }
+  .two-sidebars .region-sidebar-first {
+    /* Span 3 column, starting in 1st column from left. */
+    float: right;
+    width: 25%;
+    margin-right: 0%;
+    margin-left: -25%;
+  }
+  .two-sidebars .region-sidebar-second {
+    /* Span 3 column, starting in 10th column from left. */
+    float: right;
+    width: 25%;
+    margin-right: 75%;
+    margin-left: -100%;
+  }
+  .two-sidebars .view-grid > .view-content {
+    margin: 0 -20px;
+  }
+  .two-sidebars .view-grid > .view-content:before, .two-sidebars .view-grid > .view-content:after {
+    content: "";
+    display: table;
+  }
+  .two-sidebars .view-grid > .view-content:after {
+    clear: both;
+  }
+  .two-sidebars .view-grid .views-row {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .two-sidebars .view-grid .views-row-odd {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    clear: right;
+  }
+  .two-sidebars .view-grid .views-row-even {
+    float: right;
+    width: 50%;
+    margin-right: 50%;
+    margin-left: -100%;
+  }
+  .two-sidebars .view-grid-less > .view-content {
+    margin: 0 -20px;
+  }
+  .two-sidebars .view-grid-less > .view-content:before, .two-sidebars .view-grid-less > .view-content:after {
+    content: "";
+    display: table;
+  }
+  .two-sidebars .view-grid-less > .view-content:after {
+    clear: both;
+  }
+  .two-sidebars .view-grid-less .views-row {
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .two-sidebars .view-grid-less .views-row-odd {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    clear: right;
+  }
+  .two-sidebars .view-grid-less .views-row-even {
+    float: right;
+    width: 50%;
+    margin-right: 50%;
+    margin-left: -100%;
+  }
+  .two-sidebars .view-grid-less.count-1 .views-row-odd {
+    float: right;
+    width: 100%;
+    margin-right: 0%;
+    margin-left: -100%;
+  }
+
+  #postscript .region-postscript-first {
+    float: right;
+    width: 66.66667%;
+    margin-right: 0%;
+    margin-left: -66.66667%;
+  }
+
+  #postscript .region-postscript-second {
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+  }
+
+  #postscript.third .region-postscript-first {
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+  }
+
+  #postscript.third .region-postscript-second {
+    float: right;
+    width: 33.33333%;
+    margin-right: 33.33333%;
+    margin-left: -66.66667%;
+  }
+
+  #postscript .region-postscript-third {
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+  }
+
+  #footer #block-oc-site-oc-site-info {
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+  }
+
+  #footer #block-oc-site-oc-site-logos {
+    float: right;
+    width: 33.33333%;
+    margin-right: 33.33333%;
+    margin-left: -66.66667%;
+  }
+
+  #footer #block-oc-site-oc-site-map {
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+  }
+
+  /* profile page */
+  .profile2-researcher-profile.view-mode-page > .field {
+    clear: none;
+    float: left;
+    width: 75%;
+    margin-left: 0%;
+    margin-right: -75%;
+    clear: right;
+  }
+  .profile2-researcher-profile.view-mode-page > .group-profile,
+  .profile2-researcher-profile.view-mode-page > .field-name-field-rprofile-location,
+  .profile2-researcher-profile.view-mode-page > .field-name-field-rprofile-partner-ref {
+    float: right;
+    width: 25%;
+    margin-right: 0%;
+    margin-left: -25%;
+    clear: left;
+  }
+}
+@media all and (min-width: 1100px) {
+  /*
+   * The layout when there is only one sidebar, the left one.
+   */
+  .sidebar-first.page-node #content > .oc-2regions {
+    margin: 0 -20px;
+  }
+  .sidebar-first.page-node #content > .oc-2regions > .ds-primary {
+    float: right;
+    width: 66.66667%;
+    margin-right: 0%;
+    margin-left: -66.66667%;
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .sidebar-first.page-node #content > .oc-2regions > .ds-secondary {
+    float: right;
+    width: 33.33333%;
+    margin-right: 66.66667%;
+    margin-left: -100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+}
+/* Component (SMACSS module) rules */
+/**
+ * @file
+ * RTL companion for the modular-styles.css file.
+ */
+/**
+ * Branding header.
+ */
+/* Wrapping link for logo. */
+.header__logo {
+  float: right;
+}
+
+/* The secondary menu (login, etc.) */
+.header__secondary-menu {
+  float: left;
+}
+
+/**
+ * Navigation bar.
+ */
+/* Main menu and secondary menu links and menu block links. */
+#navigation .links,
+#navigation .menu {
+  text-align: right;
+}
+#navigation .links li,
+#navigation .menu li {
+  /* A simple method to get navigation links to appear in one line. */
+  float: right;
+  padding: 0 0 0 10px;
+}
+
+/**
+ * Messages.
+ */
+.messages, .messages--status, .messages--warning, .messages--error {
+  padding: 10px 50px 10px 10px;
+  background-position: 99% 8px;
+}
+
+/**
+ * Tabs.
+ */
+.tabs-primary__tab, .tabs-primary__tab.is-active, .tabs-secondary__tab,
+.tabs-secondary__tab.is-active {
+  float: right;
+}
+
+/**
+ * Inline styles.
+ */
+/* List of links */
+.inline li {
+  /* Bug in Safari causes display: inline to fail. */
+  display: inline-block;
+  padding: 0 0 0 1em;
+}
+
+/* The inline field label used by the Fences.module */
+span.field-label {
+  padding: 0 0 0 1em;
+}
+
+/**
+ * "More" links.
+ */
+.more-link {
+  text-align: left;
+}
+
+.more-help-link {
+  text-align: left;
+}
+
+.more-help-link a {
+  background-position: 100% 50%;
+  padding: 1px 20px 1px 0;
+}
+
+/**
+ * Menus.
+ */
+.menu__item.is-collapsed {
+  list-style-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHAQMAAAD+nMWQAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAABNJREFUCB1j4GASYFJgcmD+A4IADUIDfIUMT4wAAAAASUVORK5CYII=');
+}
+
+/**
+ * Comments.
+ */
+/* Nested comments are indented. */
+.indented {
+  margin-left: 0;
+  margin-right: 20px;
+}
+
+/**
+ * Forms.
+ */
+/* Drupal's default login form block */
+#user-login-form {
+  text-align: right;
+}
+
+html.js #user-login-form li.openid-link,
+#user-login-form li.openid-link {
+  /* Un-do some of the padding on the ul list. */
+  margin-left: 0;
+  margin-right: -20px;
+}
+
+/*
+ * Drupal admin tables.
+ */
+form th {
+  text-align: right;
+  padding-left: 1em;
+  padding-right: 0;
+}
+
+/**
+ * Collapsible fieldsets.
+ *
+ * @see collapse.js
+ */
+html.js .collapsible .fieldset-legend {
+  background-position: 98% 75%;
+  padding-left: 0;
+  padding-right: 15px;
+}
+html.js .collapsed .fieldset-legend {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHAQMAAAD+nMWQAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAABNJREFUCB1j4GASYFJgcmD+A4IADUIDfIUMT4wAAAAASUVORK5CYII=');
+  background-position: 98% 50%;
+}
+
+/* SMACSS theme rules */
+/* @import "theme-A-rtl"; */
+/* @import "theme-B-rtl"; */

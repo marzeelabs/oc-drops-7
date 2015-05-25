@@ -1,0 +1,5 @@
+name = Features status
+description = Drush commands to assert features status
+core = 7.x
+package = "Features"
+dependencies[] = diff

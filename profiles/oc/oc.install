@@ -1,0 +1,603 @@
+<?php
+
+/**
+ * Implement hook_install().
+ */
+function oc_install() {
+  // Add text formats.
+  $filtered_html_format = array(
+    'format' => 'filtered_html',
+    'name' => 'Filtered HTML',
+    'weight' => 0,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // HTML filter.
+      'filter_html' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 2,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $filtered_html_format = (object) $filtered_html_format;
+  filter_format_save($filtered_html_format);
+
+  $full_html_format = array(
+    'format' => 'full_html',
+    'name' => 'Full HTML',
+    'weight' => 1,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $full_html_format = (object) $full_html_format;
+  filter_format_save($full_html_format);
+
+  // Enable the admin theme.
+  $admin_theme = 'seven';
+  theme_enable(array($admin_theme));
+  variable_set('admin_theme', $admin_theme);
+  variable_set('node_admin_theme', '1');
+
+  // Enable default permissions for system roles.
+  $filtered_html_permission = filter_permission_name($filtered_html_format);
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'access comments', $filtered_html_permission));
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'access comments', $filtered_html_permission));
+
+  // // Create a default role for site administrators, with all available permissions assigned.
+  // $admin_role = new stdClass();
+  // $admin_role->name = 'administrator';
+  // $admin_role->weight = 2;
+  // user_role_save($admin_role);
+  // user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
+  // // Set this as the administrator role.
+  // variable_set('user_admin_role', $admin_role->rid);
+
+  // // Assign user 1 the "administrator" role.
+  // db_insert('users_roles')
+  //   ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
+  //   ->execute();
+
+  // Only admininstrators can create new accounts
+  variable_set('user_register', USER_REGISTER_ADMINISTRATORS_ONLY);
+
+  // // Create an editor role
+  // $editor_role = new stdClass();
+  // $editor_role->name = 'editor';
+  // $editor_role->weight = 5;
+  // user_role_save($editor_role);
+
+  // Configure Views in developer mode
+  variable_set('views_ui_show_sql_query', 1);
+  variable_set('views_ui_show_master_display', 1);
+  variable_set('views_ui_show_advanced_column', 1);
+
+  // More devel settings
+  variable_set('devel_raw_names', 1);
+
+  // Update the menu router information.
+  menu_rebuild();
+
+  // // Create the default Search API server, features can't do this apparently
+  // $values = array(
+  //   'machine_name' => 'database',
+  //   'name' => 'Database',
+  //   'description' => '',
+  //   'class' => 'search_api_db_service',
+  //   'options' => array(
+  //     'database' => 'default:default',
+  //     'min_chars' => 3,
+  //   ),
+  // );
+  // search_api_server_insert($values);
+}
+
+/**
+ * Implements hook_install_tasks().
+ */
+function oc_install_tasks() {
+  // Increase maximum function nesting level to prevent install errors.
+  $max_nesting_level = ini_get('xdebug.max_nesting_level');
+  if ($max_nesting_level > 0 && $max_nesting_level <= '200') {
+    ini_set('xdebug.max_nesting_level', 200);
+  }
+
+  // Remove any status messages that might have been set. They are unneeded.
+  drupal_get_messages('status', TRUE);
+
+  $tasks = array();
+  // $current_task = variable_get('install_task', 'done');
+  // $install_demo_store = variable_get('commerce_kickstart_demo_store', FALSE);
+
+  // $tasks['oc_configure_store_form'] = array(
+  //   'display_name' => st('Configure store'),
+  //   'type' => 'form',
+  // );
+  // $tasks['oc_install_additional_modules'] = array(
+  //   'display_name' => st('Install additional functionality'),
+  //   'type' => 'batch',
+  //   // Show this task only after the OC steps have been reached.
+  //   'display' => strpos($current_task, 'oc_') !== FALSE,
+  // );
+  $tasks['oc_import_content'] = array(
+    'display_name' => st('Import content'),
+    'type' => 'normal',
+    // Show this task only after the OC steps have been reached.
+    // 'display' => strpos($current_task, 'oc_') !== FALSE,
+    'display' => TRUE,
+  );
+
+  return $tasks;
+}
+
+/**
+ * Implements hook_install_tasks_alter().
+ */
+function oc_install_tasks_alter(&$tasks, $install_state) {
+  // var_dump($tasks);
+
+  $tasks['install_finished']['function'] = 'oc_install_finished';
+
+  $tasks['install_select_locale']['display'] = FALSE;
+  $tasks['install_select_locale']['run'] = INSTALL_TASK_SKIP;
+
+  // The "Welcome" screen needs to come after the first two steps
+  // (profile and language selection), despite the fact that they are disabled.
+  $new_task['install_welcome'] = array(
+    'display' => TRUE,
+    'display_name' => st('Welcome'),
+    'type' => 'form',
+    'run' => isset($install_state['parameters']['welcome']) ? INSTALL_TASK_SKIP : INSTALL_TASK_RUN_IF_REACHED,
+  );
+  $old_tasks = $tasks;
+  $tasks = array_slice($old_tasks, 0, 2) + $new_task + array_slice($old_tasks, 2);
+
+  // Use omega_oc for installation as well. This doesn't work since the bootstrap theme can't get loaded
+  // _oc_set_theme('omega_oc');
+}
+
+/**
+ * Force-set a theme at any point during the execution of the request.
+ *
+ * Drupal doesn't give us the option to set the theme during the installation
+ * process and forces enable the maintenance theme too early in the request
+ * for us to modify it in a clean way.
+ */
+function _oc_set_theme($target_theme) {
+  if ($GLOBALS['theme'] != $target_theme) {
+    unset($GLOBALS['theme']);
+
+    drupal_static_reset();
+    $GLOBALS['conf']['maintenance_theme'] = $target_theme;
+    _drupal_maintenance_theme();
+  }
+}
+
+/**
+ * Task callback: shows the welcome screen.
+ */
+function install_welcome($form, &$form_state, &$install_state) {
+  drupal_set_title(st('Welcome'));
+
+  $message = st('Thank you for choosing Open Consortium!') . '<br />';
+  $message .= '<p>' . st('For more information, visit !site.', array('!site' => l(st('our site'), 'http://openconsortium.eu'))) . '</p>';
+
+  $form = array();
+  $form['welcome_message'] = array(
+    '#markup' => $message,
+  );
+  $form['actions'] = array(
+    '#type' => 'actions',
+  );
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => st("Let's Get Started!"),
+    '#weight' => 10,
+  );
+  return $form;
+}
+
+function install_welcome_submit($form, &$form_state) {
+  global $install_state;
+
+  $install_state['parameters']['welcome'] = 'done';
+  $install_state['parameters']['locale'] = 'en';
+}
+
+// /**
+//  * Task callback: uses Batch API to import modules based on user selection.
+//  * Installs all demo store modules if requested, or any modules providing
+//  * additional functionality to the base install.
+//  *
+//  * Any modules providing custom blocks should be enabled here, and not before
+//  * (as an install profile dependency), because the themes are setup during
+//  * commerce_kickstart_install(), which means region assignment can only happen
+//  * after that.
+//  */
+// function oc_install_additional_modules() {
+
+//   $modules = array(
+//     'oc_profile',
+//     'oc_project',
+//     'oc_news',
+//     'oc_events',
+//     'oc_map',
+//     'oc_pages',
+//     'oc_partner',
+//     'oc_promote',
+//     'oc_search',
+//     'oc_site',
+//   );
+
+//   $operations = array();
+//   // Enable and set as default the correct theme.
+//   $theme = 'omega_oc';
+//   $operations[] = array('_oc_enable_theme', array($theme));
+
+
+
+//   // Enable the selected modules.
+//   $files = system_rebuild_module_data();
+
+//   // foreach ($modules_sorted as $module => $weight) {
+//   foreach ($modules as $module) {
+//     $operations[] = array('_oc_enable_module', array($module, $files[$module]->info['name']));
+//   }
+//   // if ($install_localization) {
+//   //   $operations[] = array('_commerce_kickstart_setup_localization', array(t('Configured localization.')));
+//   // }
+//   // $operations[] = array('_oc_flush_caches', array(t('Flushed caches.')));
+
+//   $batch = array(
+//     'title' => t('Installing features'),
+//     'operations' => $operations,
+//     'file' => drupal_get_path('profile', 'oc') . '/oc.install_callbacks.inc',
+//   );
+
+//   return $batch;
+// }
+
+/**
+ * Task callback: return a batch API array
+ */
+function oc_import_content() {
+
+  // Set default theme
+  $theme = 'zen_oc';
+  theme_enable(array($theme));
+  variable_set('theme_default', $theme);
+
+  _oc_create_taxonomy();
+
+  _oc_create_bean();
+
+  _oc_setup_blocks();
+
+  _oc_create_menu_links();
+
+  // Fix to enable clean urls
+  // @todo investigate why Drupal.behaviors.cleanURLsSettingsCheck in system.js is not working properly
+  variable_set('clean_url', 1);
+}
+
+/**
+ * Custom installation task; perform final steps and redirect the user to the new site if there are no errors.
+ *
+ * @param $install_state
+ *   An array of information about the current installation state.
+ *
+ * @return
+ *   A message informing the user about errors if there was some.
+ */
+function oc_install_finished(&$install_state) {
+  drupal_set_title(st('@drupal installation complete', array('@drupal' => drupal_install_profile_distribution_name())), PASS_THROUGH);
+  $messages = drupal_set_message();
+
+  // Remember the profile which was used.
+  variable_set('install_profile', drupal_get_profile());
+  variable_set('install_task', 'done');
+
+  // Flush all caches to ensure that any full bootstraps during the installer
+  // do not leave stale cached data, and that any content types or other items
+  // registered by the install profile are registered correctly.
+  drupal_flush_all_caches();
+
+  // Install profiles are always loaded last
+  db_update('system')
+    ->fields(array('weight' => 1000))
+    ->condition('type', 'module')
+    ->condition('name', drupal_get_profile())
+    ->execute();
+
+  // Cache a fully-built schema.
+  drupal_get_schema(NULL, TRUE);
+
+  // Run cron to populate update status tables (if available) so that users
+  // will be warned if they've installed an out of date Drupal version.
+  // Will also trigger indexing of profile-supplied content or feeds.
+  drupal_cron_run();
+
+  if (isset($messages['error'])) {
+    $output = '<p>' . (isset($messages['error']) ? st('Review the messages above before visiting <a href="@url">your new site</a>.', array('@url' => url(''))) : st('<a href="@url">Visit your new site</a>.', array('@url' => url('')))) . '</p>';
+    return $output;
+  }
+  else {
+    // Since any module can add a drupal_set_message, this can bug the user
+    // when we redirect him to the front page. For a better user experience,
+    // remove all the message that are only "notifications" message.
+    drupal_get_messages('status', TRUE);
+    drupal_get_messages('completed', TRUE);
+    // Migrate adds its messages under the wrong type, see #1659150.
+    drupal_get_messages('ok', TRUE);
+
+    // If we don't install drupal using Drush, redirect the user to the front
+    // page.
+    if (!drupal_is_cli()) {
+      drupal_goto('<front>');
+    }
+  }
+}
+
+/**
+ * Create some default terms.
+ */
+function _oc_create_taxonomy() {
+  $data = array(
+    'researcher_profile_type' => array(
+      'partner' => 'Partners',
+      'researcher' => 'Researchers',
+      'advisory' => 'Advisory Board',
+      'contact' => 'Contact People',
+    ),
+    'project_type' => drupal_map_assoc(array(
+      'PhD (ESR)',
+      'Post-doc (ER)',
+    )),
+  );
+
+  foreach ($data as $name => $terms) {
+    $vocabulary = taxonomy_vocabulary_machine_name_load($name);
+
+    foreach ($terms as $term_name => $term_title) {
+      $term_array = array(
+        'name' => $term_name,
+        'vid' => $vocabulary->vid,
+      );
+
+      if ($term_name != $term_title) {
+        $term_array['taxonomy_title'] = $term_title;
+      }
+
+      $term = (object) $term_array;
+      taxonomy_term_save($term);
+    }
+  }
+}
+
+/**
+ * Configures the theme and assign blocks to the appropriate regions.
+ */
+function _oc_setup_blocks() {
+  $admin_theme = 'seven';
+  $default_theme = variable_get('theme_default', 'zen_oc');
+
+  $blocks = array(
+    array(
+      'module' => 'system',
+      'delta' => 'help',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'help',
+      'pages' => '',
+      'cache' => DRUPAL_NO_CACHE,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'help',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => DRUPAL_NO_CACHE,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'main',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '<front>', // Do not show the block on front.
+      'visibility' => 0,
+      'cache' => DRUPAL_NO_CACHE,
+    ),
+    // Masquerade block
+    array(
+      'module' => 'masquerade',
+      'delta' => 'masquerade',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 100,
+      'region' => 'closure',
+      'pages' => '',
+      'cache' => DRUPAL_NO_CACHE,
+    ),
+  );
+
+  drupal_static_reset();
+  _block_rehash($admin_theme);
+  _block_rehash($default_theme);
+  foreach ($blocks as $record) {
+    $module = array_shift($record);
+    $delta = array_shift($record);
+    $theme = array_shift($record);
+    db_update('block')
+      ->fields($record)
+      ->condition('module', $module)
+      ->condition('delta', $delta)
+      ->condition('theme', $theme)
+      ->execute();
+  }
+}
+
+function _oc_create_bean() {
+  // Create a welcome blocks
+  $values = array(
+    'delta' => 'oc-about',
+    'label' => 'OC About',
+    'title' => 'About ' . variable_get('site_name', 'Open Consortium'),
+    'type' => 'image_block',
+    'view_mode' => 'default',
+  );
+
+  $bean = bean_create($values);
+
+  $text = '<p>Your <a href="http://openconsortium.eu">Open Consortium</a> website is built on <a href="http://drupal.org">Drupal 7</a>, the <a href="https://association.drupal.org/files/education-list_0_0.pdf">most popular</a> web system in science & education today. You can use this box to provide a short description of your Consortium, and then you can link for example to a static page in your site explaining the network. <a href="#">Read more</a>.</p>';
+
+  $bean->field_imageblock_caption[LANGUAGE_NONE][0] = array(
+    'value' => $text,
+    'format' => 'full_html',
+    'safe_value' => $text,
+  );
+
+  bean_save($bean);
+}
+
+
+/**
+ * Create default menu items, disable certain menu links, and add icons.
+ *
+ * require_once drupal_get_path('profile', 'oc') . '/oc.install';
+ * _oc_create_menu_links();
+ *
+ * @return [type] [description]
+ */
+function _oc_create_menu_links() {
+  drupal_static_reset();
+  menu_cache_clear_all();
+
+  // Fetch a list of icons
+  $icons = fonticon_list();
+
+  $menu_items = array(
+    'main-menu' => array(
+      array(
+        'link_title' => 'Home',
+        'link_path' => '<front>',
+      ),
+      array(
+        'link_title' => 'Network',
+        'link_path' => 'network/partner',
+      ),
+      array(
+        'link_title' => 'Work Packages',
+        'link_path' => 'work-packages',
+      ),
+      array(
+        'link_title' => 'News',
+        'link_path' => 'news',
+      ),
+      array(
+        'link_title' => 'Events',
+        'link_path' => 'events',
+      ),
+      array(
+        'link_title' => 'Jobs',
+        'link_path' => 'jobs',
+      ),
+
+    ),
+    'menu-anonymous-menu' => array(
+      array(
+        'link_title' => 'Contact',
+        'link_path' => 'contact',
+        'options' => array('attributes' => array('fonticon' => $icons['mail'])),
+      ),
+      array(
+        'link_title' => 'Log in',
+        'link_path' => 'user',
+        'module' => 'oc',
+        'options' => array('attributes' => array('fonticon' => $icons['flow-tree'])),
+      ),
+    ),
+    'user-menu' => array(
+      array(
+        'link_title' => 'Contact',
+        'link_path' => 'contact',
+        'weight' => 10,
+        'options' => array('attributes' => array('fonticon' => $icons['mail'])),
+      ),
+    ),
+  );
+
+  // Clear just before changing items
+  menu_cache_clear_all();
+
+  // Save all the new menu items
+  foreach ($menu_items as $menu => $items) {
+    $weight = -10;
+    foreach ($items as $item) {
+      $item['menu_name'] = $menu;
+      if (!isset($item['weight'])) {
+        $item['weight'] = ++$weight;
+      }
+      menu_link_save($item);
+    }
+  }
+
+  // Clear again
+  menu_cache_clear_all();
+
+  // Change existing items; add icons and disable certain menu items
+  foreach (menu_load_links('user-menu') as $item) {
+    switch ($item['link_path']) {
+
+      case 'profile-researcher_profile':
+        $item['hidden'] = 1;
+        menu_link_save($item);
+        break;
+
+      case 'user':
+        $item['options']['attributes']['fonticon'] = $icons['user'];
+        menu_link_save($item);
+        break;
+
+      case 'user/logout':
+        $item['options']['attributes']['fonticon'] = $icons['logout'];
+        menu_link_save($item);
+        break;
+    }
+  }
+
+  // Clear all menu caches.
+  menu_cache_clear_all();
+}

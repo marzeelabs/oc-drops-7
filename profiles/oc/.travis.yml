@@ -1,0 +1,102 @@
+# No need for git history here
+git:
+ depth: 5
+
+# see http://about.travis-ci.org/docs/user/languages/php/ for more hints
+language: php
+
+# list any PHP version you want to test against
+php:
+  # aliased to a recent 5.4.x version
+  - 5.5
+
+mysql:
+ database: drupal
+ username: root
+ encoding: utf8
+
+# using travis ci cache mecanism
+cache:
+ directories:
+  # caching composer stuff
+  - $HOME/.composer/cache
+
+install:
+
+ - sudo apt-get update > /dev/null
+ - "mysql -e 'create database drupal;'"
+
+ # Install latest Drush 6.
+ - export PATH="$HOME/.composer/vendor/bin:$PATH"
+ - composer config -g github-oauth.github.com 74e0b824ac52875a63fbaeab8396b710c50c7328
+ - composer global require --no-interaction --prefer-dist drush/drush:6.*
+ - drush dl -y drupalorg_drush-7.x-1.x-dev --destination=$HOME/.drush
+ - drush cc drush
+
+ # Build Behat dependencies
+ #- cd ./tests/behat
+ #- composer install --no-interaction --prefer-dist
+ #- cd ../../../
+
+ # Setting Behat environment
+ #- DISTRO=`echo $TRAVIS_BUILD_DIR | sed -e "s/\/[^\/]*$//"`
+ #- export BEHAT_PARAMS="extensions[Drupal\\DrupalExtension\\Extension][drupal][drupal_root]=$DISTRO/drupal"
+
+ # Build Codebase
+ #- mkdir private_files
+ - cd ../
+ - mkdir profiles
+ - mv oc profiles/
+ - mkdir drupal
+ - mv profiles drupal/
+
+ # Build the current branch
+ - cd drupal
+ - drush make --yes profiles/oc/drupal-org-core.make --prepare-install
+ - drush make --yes profiles/oc/oc.make --no-core --contrib-destination=profiles/oc
+
+ # Setup files
+ #- chmod -R 777 sites/all
+
+ # Setup display for Selenium
+ - export DISPLAY=:99.0
+ - sh -e /etc/init.d/xvfb start
+ - sleep 5
+
+ # Get Selenium
+ - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.1.jar
+ - java -jar selenium-server-standalone-2.42.1.jar > /dev/null 2>&1 &
+ - until netstat -an 2>/dev/null | grep '4444.*LISTEN'; do true; done
+
+ # Disable sendmail
+ - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+before_script:
+ # Do the site install
+ - drush site-install oc --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Open Consortium" --yes
+ - drush cc all
+ # Check Features statuses, all should be clean
+ - ./profiles/oc/tests/scripts/check_features_status.sh
+ # Migrate processes
+ #- drush mreg
+ - drush mi --all
+
+ # Start server
+ #- drush runserver --server=builtin 8888 > /dev/null 2>&1 &
+ #- until netstat -an 2>/dev/null | grep '8888.*LISTEN'; do true; done
+
+script:
+ - pwd
+ # Run Behat tests
+ #- cd profiles/foundation/tests/behat
+ #- ./bin/behat --config behat.travis.yml
+
+# notifications:
+#   hipchat:
+#     rooms:
+#       - 1e80f2454ae0d2b400b16190f0332f@ARTE
+#     on_success: change
+#     on_failure: always
+#     template:
+#       - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} (<a href="%{build_url}">Details</a>/<a href="%{compare_url}">Change view</a>)'
+#     format: html

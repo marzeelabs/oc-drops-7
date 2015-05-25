@@ -1,0 +1,37 @@
+<?php
+
+
+/**
+ * Implements hook_install().
+ */
+function oc_profile_install() {
+  module_load_include('module', 'oc_site');
+  $default_image = array(
+    'scheme' => 'public://',
+    'dest_directory' => 'default-images',
+    'source_path' => drupal_get_path('module', 'oc_profile') . '/import/images/' . 'default-user.png',
+    'file_name' => 'default-user.png',
+    'variable' => 'oc_profile_default_image_fid',
+  );
+  $file = _oc_site_default_image_create($default_image);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function oc_profile_uninstall() {
+  $fid = variable_get('oc_profile_default_image_fid', FALSE);
+  if ($fid) {
+    $file = file_load($fid);
+    file_delete($file, TRUE);
+    variable_del('oc_profile_default_image_fid');
+  }
+}
+
+/**
+ * Implements hook_disable().
+ */
+function oc_profile_disable() {
+  Migration::deregisterMigration('OCUsers');
+  Migration::deregisterMigration('OCProfiles');
+}

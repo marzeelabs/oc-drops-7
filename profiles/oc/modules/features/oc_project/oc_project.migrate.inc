@@ -1,0 +1,59 @@
+<?php
+
+class OCProjectsMigration extends OCMigration {
+
+  public function __construct() {
+    parent::__construct();
+    $this->description = t('Import project nodes.');
+
+    // Create a map object for tracking the relationships between source rows
+    $this->map = new MigrateSQLMap($this->machineName,
+      array(
+        'title' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+        ),
+      ),
+      MigrateDestinationNode::getKeySchema()
+    );
+
+    // Create a MigrateSource object.
+    $this->source = new MigrateSourceCSV(drupal_get_path('module', 'oc_project') . '/import/projects.csv', array(), array('header_rows' => 1));
+
+    $this->destination = new MigrateDestinationNode('project');
+    $this->dependencies = array('OCUsers', 'OCProfiles', 'OCPartners');
+
+
+    $this->addFieldMapping('title', 'title');
+    $this->addFieldMapping('body', 'body');
+    $this->addFieldMapping('body:format')->defaultValue('full_html');
+
+    $this->addFieldMapping('field_project_goal', 'goal');
+
+    $this->addFieldMapping('field_project_supervisor', 'supervisor')
+      ->separator('|');
+
+    $this->addFieldMapping('field_project_host', 'host')
+      ->sourceMigration('OCPartners');
+
+    $this->addFieldMapping('field_project_period', 'period');
+    $this->addFieldMapping('field_project_type', 'type');
+
+    // @todo research why this isn't importing properly. Of type "number_integer"
+    // $this->addFieldMapping('field_project_nrpositions', 'posititons');
+
+    $this->addFieldMapping('field_project_contact', 'contact');
+    $this->addFieldMapping('field_project_status', 'status');
+
+    $this->addFieldMapping('uid')->defaultValue(1);
+    $this->addFieldMapping('is_new')->defaultValue(TRUE);
+    $this->addFieldMapping('workbench_moderation_state_new')->defaultValue('published');
+  }
+
+  public function prepareRow($current_row) {
+    $this->usersToProfiles($current_row, 'supervisor');
+    $this->processDates($current_row, 'period');
+  }
+
+}

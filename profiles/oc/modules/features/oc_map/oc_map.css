@@ -1,0 +1,7 @@
+/* Leaflet has a problem with img CSS.
+See http://drupal.org/node/1489432#comment-5969354
+*/
+.leaflet-map-pane img {
+  max-width: none;
+  max-height: none;
+}
