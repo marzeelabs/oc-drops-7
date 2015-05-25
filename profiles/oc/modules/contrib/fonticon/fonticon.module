@@ -1,0 +1,133 @@
+<?php
+
+// Code relating to using fonticon as a field.
+require_once (dirname(__FILE__) . '/fonticon.fields.inc');
+
+/**
+ * Return a list of fonticons, receiving either true a hook implementation, either via
+ * the theme info file.
+ */
+function fonticon_list() {
+  $mapping_hook = module_invoke_all('fonticon_info');
+
+  $theme_default = variable_get('theme_default', 'bartik');
+  $info = drupal_parse_info_file(drupal_get_path('theme', $theme_default) . '/' . $theme_default . '.info');
+
+  $mapping_theme = array();
+  if (isset($info['fonticon'])) {
+    $mapping_theme = $info['fonticon'];
+  }
+
+  $mapping_merged = array_merge($mapping_hook, $mapping_theme);
+
+  return $mapping_merged;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function fonticon_menu() {
+  $items['help/fonticon'] = array(
+    'title' => 'Font Icon list',
+    'page callback' => 'fonticon_page_list',
+    'access arguments' => array('administer site configuration'),
+  );
+
+  return $items;
+}
+
+function fonticon_page_list() {
+  $list = fonticon_list();
+
+  foreach ($list as $name => $code) {
+    $markup[] = $name . ': <span style="font-size: 2em">' . theme('fonticon_icon', array('icon' => $name)) . '</span>';
+  }
+
+  return array(
+    '#markup' => theme('item_list', array('items' => $markup)),
+  );
+}
+
+/**
+ * Implement hook_theme().
+ */
+function fonticon_theme() {
+  return array(
+    'fonticon_icon' => array(
+      'variables' => array(
+        'icon' => NULL,
+        'data-icon' => NULL,
+        'class' => NULL,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu_attribute_info().
+ *
+ * Allow the user to select an icon for a menu link.
+ * See also omega_oc_menu_link() for the actual theme implementation.
+ */
+function fonticon_menu_attribute_info_alter(&$attributes) {
+  $options = array_flip(fonticon_list());
+
+  // Add a no-icon option
+  array_unshift($options, '- none - ');
+
+  $attributes['fonticon'] = array(
+    'label' => t('Icon'),
+    'description' => t('The actual icon displayed depends on the theme that will be used. !link', array('!link' => l(t('View the list of icons for your current theme.'), 'help/fonticon', array('attributes' => array('target' => '_blank'))))),
+    'form' => array(
+      '#type' => 'select',
+      '#options' => $options,
+      '#default_value' => 0, // per default we don't add an icon
+    ),
+  );
+}
+
+/**
+ * Theme function for a single icon format.
+ */
+function theme_fonticon_icon($vars) {
+  if ($vars['icon']) {
+    $list = fonticon_list();
+    $icon = $vars['icon'];
+    if (isset($list[$icon])) {
+      return '<span class="fonticon" aria-hidden="true" data-icon="' . $list[$icon] . '"></span> ';
+    }
+  }
+  elseif ($vars['data-icon']) {
+    return '<span class="fonticon" aria-hidden="true" data-icon="' . $vars['data-icon'] . '"></span> ';
+  }
+
+  elseif ($vars['class']) {
+    return '<span class="' . $vars['class'] . '"></span> ';
+  }
+
+  return '';
+}
+
+
+/**
+ * Implementation of hook_preprocess_menu_link().
+ *
+ * This removes the fonticon code from the attributes list, and renders it right in front of the menu title.
+ */
+function fonticon_preprocess_menu_link(&$variables) {
+  $element = &$variables['element'];
+
+  if (isset($element['#localized_options']['attributes']['fonticon'])) {
+    $icon = $element['#localized_options']['attributes']['fonticon'];
+    if ($icon) {
+      // Append it right in front of the title
+      $element['#title'] = theme('fonticon_icon', array('data-icon' => $icon)) . $element['#title'];
+
+      // We need full HTML now since we're adding spans
+      $element['#localized_options']['html'] = TRUE;
+
+      // Remove it from the attributes if not it would be rendered
+      unset($element['#localized_options']['attributes']['fonticon']);
+    }
+  }
+}

@@ -1,0 +1,12 @@
+name = "Pathauto Entity"
+description = "Support module for Pathauto."
+core = "7.x"
+
+dependencies[] = "pathauto"
+
+
+; Information added by drush on 2015-05-25
+version = "unknown"
+project = "pathauto_entity"
+datestamp = "1432576840"
+

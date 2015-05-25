@@ -1,0 +1,10 @@
+name = "Font Icon"
+description = "Use font icons to decorate menu links, taxonomy terms, or via code"
+core = "7.x"
+
+; Information added by drupal.org packaging script on 2013-09-30
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "fonticon"
+datestamp = "1380579862"
+

@@ -1,0 +1,129 @@
+<?php
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function fonticon_taxonomy_field_formatter_info() {
+  return array(
+    'fonticon_taxonomy_term_reference_link' => array(
+      'label' => t('Link (with Font Icon)'),
+      'field types' => array('taxonomy_term_reference'),
+    ),
+    'fonticon_taxonomy_term_reference_plain' => array(
+      'label' => t('Plain text (with Font Icon)'),
+      'field types' => array('taxonomy_term_reference'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * See hook_field_formatter_view().
+ *
+ * @todo find out if we cannot overwrite the taxonomy view, since that would be better than creating a new one.
+ */
+function fonticon_taxonomy_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  // Terms whose tid is 'autocreate' do not exist
+  // yet and $item['taxonomy_term'] is not set. Theme such terms as
+  // just their name.
+
+  switch ($display['type']) {
+    case 'fonticon_taxonomy_term_reference_link':
+
+      foreach ($items as $delta => $item) {
+        if ($item['tid'] == 'autocreate') {
+          $element[$delta] = array(
+            '#markup' => check_plain($item['name']),
+          );
+        }
+        else {
+          $term = $item['taxonomy_term'];
+          $icon_html = _fonticon_taxonomy_format_icon($term);
+
+          $uri = entity_uri('taxonomy_term', $term);
+
+          // Add full HTML support
+          $uri['options']['html'] = TRUE;
+
+          $element[$delta] = array(
+            '#type' => 'link',
+            '#title' => $icon_html . $term->name,
+            '#href' => $uri['path'],
+            '#options' => $uri['options'],
+          );
+        }
+      }
+      break;
+
+    case 'fonticon_taxonomy_term_reference_plain':
+      foreach ($items as $delta => $item) {
+
+        if ($item['tid'] == 'autocreate') {
+          $element[$delta] = array(
+            '#markup' => check_plain($item['name']),
+          );
+        }
+        else {
+          $term = $item['taxonomy_term'];
+          $icon_html = _fonticon_taxonomy_format_icon($term);
+
+          $element[$delta] = array(
+            '#markup' => $icon_html . check_plain($term->name),
+          );
+        }
+      }
+      break;
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_prepare_view().
+ *
+ * This preloads all taxonomy terms for multiple loaded objects at once and
+ * unsets values for invalid terms that do not exist.
+ *
+ * Needed to load taxonomy terms.
+ */
+function fonticon_taxonomy_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+  return taxonomy_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, $items, $displays);
+}
+
+/**
+ * Helper function to format an icon for a term.
+ */
+function _fonticon_taxonomy_format_icon($term) {
+  // Retrieve the fields part of this taxonomy term
+  $field_name_icon = FALSE;
+  $field_data = FALSE;
+  $fields = field_info_instances('taxonomy_term', $term->vocabulary_machine_name);
+  foreach ($fields as $field_name => $field_data) {
+    $field_info = field_info_field($field_name);
+    if ($field_info['type'] == 'fonticon_field') {
+      $field_name_icon = $field_name;
+      $field_data_icon = $field_data;
+      break;
+    }
+  }
+
+  // Find the icon value and provide html
+  $icon_html = '';
+  if ($field_name_icon) {
+    $icon = field_get_items('taxonomy_term', $term, $field_name_icon);
+
+    if ($icon) {
+      $icon_name = $icon[0]['name'];
+    } else {
+      // Put the default icon
+      $icon_name = $field_data['default_value'][0]['name'];
+    }
+
+    $icon_html = theme('fonticon_icon', array('icon' => $icon_name));
+  }
+
+  return $icon_html;
+}

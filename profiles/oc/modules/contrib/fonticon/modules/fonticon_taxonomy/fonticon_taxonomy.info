@@ -1,0 +1,10 @@
+name = "Font Icon Taxonomy"
+description = "Provided Font Icon support for taxonomies"
+core = "7.x"
+
+; Information added by drupal.org packaging script on 2013-09-30
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "fonticon"
+datestamp = "1380579862"
+

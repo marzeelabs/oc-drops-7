@@ -1,0 +1,24 @@
+<?php
+/**
+ * @file
+ * Install, update, and uninstall functions for the fonticon module.
+ */
+
+/**
+ * Implements hook_field_schema().
+ *
+ * Defines the database schema of the field, using the format used by the
+ * Schema API.
+ */
+function fonticon_field_schema($field) {
+  $columns = array(
+    'name' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE),
+  );
+  $indexes = array(
+    'name' => array('name'),
+  );
+  return array(
+    'columns' => $columns,
+    'indexes' => $indexes,
+  );
+}
