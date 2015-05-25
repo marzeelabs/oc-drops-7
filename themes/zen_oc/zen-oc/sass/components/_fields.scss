@@ -1,0 +1,108 @@
+/**
+ * @file
+ * SMACSS Modules
+ *
+ * Adds modular sets of styles for fields
+ *
+ * Additional useful selectors can be found in Zen's online documentation.
+ * https://drupal.org/node/1707736
+ */
+
+
+
+.field-label-above .field-label {
+  border-bottom: 1px solid #d4d4d4;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 27px;
+  margin-bottom: 6px;
+}
+
+.view-mode-search {
+  
+  .field-label-above {
+    @include trailer(2);
+    
+    .field-label {
+      border: 0 none;
+      margin: 0;
+    }
+  }
+  
+}
+
+.view-mode-full > .ds-secondary {
+  > .field,
+  > .field-group-div {
+    margin-bottom: rhythm(4);
+  }
+}
+
+
+/*
+ * Field types (Core)
+ */
+
+.field-type-taxonomy-term-reference {
+ 
+  .field-item {
+    display: inline-block;
+    text-transform: capitalize;
+    @include adjust-font-size-to(14px);
+    margin: 0 rhythm(1) rhythm(1) 0;
+    
+    a {
+      display: inline-block;
+      padding: rhythm(.5) rhythm(1);
+      background-color: #EBEBEB;
+    }
+  }
+}
+
+
+/*
+ * Field types (Contrib)
+ */
+
+.field-type-addressfield {
+  .field-item {
+    padding-left: rhythm(3);
+  }
+  .fonticon {
+    float: left;
+    margin-left: rhythm(-3);
+  }
+}
+
+
+/*
+ * Named fields
+ */
+
+.field-name-title {
+  .node-event.view-mode-ticker & {
+    clear: both;
+  }
+}
+
+
+/* .date-wrapper */
+.date-wrapper {
+  @include clearfix();
+}
+
+/* reset clearfix on address field */
+.addressfield-container-inline {
+  @include clearfix();
+  
+  div.form-item {
+    float: none;
+    @include inline-block();
+  }
+  
+  &:after {
+    content: "";
+    display: none;
+    clear: none;
+  }
+}

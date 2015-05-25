@@ -1,0 +1,41 @@
+/**
+ * @file
+ * Layouts overrides
+ */
+
+/* Import Sass mixins, variables, Compass modules, etc. */
+@import "init";
+
+// We are going to create a 980px wide, 5 column grid with 20px gutters between
+// columns (applied as 10px of left/right padding on each column).
+$zen-column-count:  5;
+
+
+// You can generate more efficient CSS if you manually apply the
+// zen-grid-item-base mixin to all grid items from within a single ruleset.
+$zen-auto-include-item-base: false;
+// $zen-auto-include-flow-item-base: false;
+
+
+
+
+
+@media all and (min-width: 480px) {
+
+}
+
+@media all and (min-width: 600px) {
+  
+}
+
+@media all and (min-width: 600px) and (max-width: 959px) {
+  
+}
+
+@media all and (min-width: 960px) {
+  
+}
+
+@media all and (min-width: 1100px) {
+  
+}

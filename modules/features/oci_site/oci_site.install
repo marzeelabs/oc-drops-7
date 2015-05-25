@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function oci_site_install() {
+  // Enable required modules=
+  module_enable(array('atrium_folders', 'atrium_username', 'poormanscron', 'masquerade', 'backup_migrate_files', 'googleanalytics', 'backup_migrate'));
+
+  // Increase the user's upload size to 2GB each
+  variable_set('upload_usersize_default', 2000);
+
+  // Do this also for all the roles
+  foreach(array(2,3,4) as $rid) {
+    $var = 'upload_usersize_' . $rid;
+    variable_set($var, 2000);
+  }
+}
+
+function oci_site_update_6001() {
+  oci_site_install();
+}

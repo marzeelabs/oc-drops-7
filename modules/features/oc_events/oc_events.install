@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function oc_events_install() {
+  module_load_include('module', 'oc_site');
+  $default_image = array(
+    'scheme' => 'public://',
+    'dest_directory' => 'default-images',
+    'source_path' => drupal_get_path('module', 'oc_events') . '/import/images/' . 'default-event.png',
+    'file_name' => 'default-event.png',
+    'variable' => 'oc_events_default_image_fid',
+  );
+  $file = _oc_site_default_image_create($default_image);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function oc_events_uninstall() {
+  $fid = variable_get('oc_events_default_image_fid', FALSE);
+  if ($fid) {
+    $file = file_load($fid);
+    file_delete($file, TRUE);
+    variable_del('oc_events_default_image_fid');
+  }
+}

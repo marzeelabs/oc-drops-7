@@ -1,0 +1,54 @@
+<?php
+/**
+ * @file
+ * Code for the OC Pages feature.
+ */
+
+include_once('oc_pages.features.inc');
+
+/**
+ * Implementation of hook_menu().
+ */
+function oc_pages_menu() {
+  $items = array();
+
+  $items['admin/workbench/content/pages/add'] = array(
+    'title' => 'Add page',
+    'type' => MENU_LOCAL_ACTION,
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('node/add/page', array('query' => array('destination' => 'admin/workbench/content/pages'))),
+    'access callback' => TRUE,
+  );
+
+  $items['admin/workbench/content/blocks/add'] = array(
+    'title' => 'Add block',
+    'type' => MENU_LOCAL_ACTION,
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('block/add/image-block', array('query' => array('destination' => 'admin/workbench/content/blocks'))),
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function oc_pages_form_page_node_form_alter(&$form, &$form_state) {
+  // Add a help link for creating a new block
+  $form['field_page_blocks'][LANGUAGE_NONE]['#description'] .= ' ' . l(t('Create a new block.'), 'block/add/image-block', array('attributes' => array('target'=>'_blank')));
+}
+
+/**
+ * Implements hook_migrate_api().
+ */
+function oc_pages_migrate_api() {
+  $api = array(
+    'api' => 2,
+    'migrations' => array(
+      'OCPages' => array('class_name' => 'OCPages'),
+      'OCPagesMenus' => array('class_name' => 'OCPagesMenus'),
+    ),
+  );
+  return $api;
+}

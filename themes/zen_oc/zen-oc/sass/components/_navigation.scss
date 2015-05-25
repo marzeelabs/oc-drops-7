@@ -1,0 +1,328 @@
+/**
+ * @file
+ * Navigation Styling
+ */
+
+
+/**
+ * Menus.
+ */
+.menu__item.is-leaf {
+  list-style-image: inline-image("menu-leaf.png");
+  @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+    *list-style-image: image-url("menu-leaf.png");
+  }
+  list-style-type: square;
+}
+.menu__item.is-expanded {
+  list-style-image: inline-image("menu-expanded.png");
+  @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+    *list-style-image: image-url("menu-expanded.png");
+  }
+  list-style-type: circle;
+}
+.menu__item.is-collapsed {
+  list-style-image: inline-image("menu-collapsed.png"); /* LTR */
+  @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+    *list-style-image: image-url("menu-collapsed.png"); /* LTR */
+  }
+  list-style-type: disc;
+}
+
+/* The active item in a Drupal menu. */
+.menu a.active {
+  color: #000;
+}
+
+.navigation-toggle {
+  position: relative;
+  float: right;
+  z-index: 300;
+  padding: 7px 10px;
+  background: $grey2;
+  display: block;
+  
+  .icon-bar {
+    display: block;
+    width: 18px;
+    height: 3px;
+    background-color: #f5f5f5;
+    @include border-radius(1px);
+    @include box-shadow(0 1px 0 rgba(0,0,0,.25));
+  }
+
+  .icon-bar + .icon-bar {
+    margin-top: 4px;
+  }
+}
+
+@media all and (min-width: 600px) {
+  .navigation-jump {
+    display: none;
+  }
+}
+
+
+/*
+ * Navigation bar
+ */
+
+.region-menu {
+  clear: both;
+  overflow: hidden;
+	max-height: 0;
+	-webkit-transition: all 0.3s ease-out;  
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+ 
+  .block {
+    margin-bottom: 0;
+    @include pie-clearfix();
+  }
+
+  .block-menu .block-title,
+  .block-menu-block .block-title {
+    @include element-invisible();
+  }
+
+  .links, /* Main menu and secondary menu links */
+  .menu { /* Menu block links */
+    @include reset-list();
+    text-align: left;
+  
+    a {
+      display: block;
+      padding: rhythm(.5) rhythm(2);
+    }
+  }
+  
+  .dropdown-toggle {
+   
+    &:after {
+      font-family: "OC_Font";
+      content: "\e011";
+    }
+  }
+  
+  .dropdown-menu {
+    display: none;
+  }
+  
+  .open {
+    .dropdown-toggle:after {
+      content: "\e010";
+    }
+  
+    .dropdown-menu {
+      display: block;
+    }
+  }
+  
+  .menu-active & {
+    max-height: 55em;
+  }
+}
+
+@media all and (max-width: 599px) {
+  
+  .region-menu {
+  
+    .links, /* Main menu and secondary menu links */
+    .menu { /* Menu block links */
+      .dropdown > a {
+        padding-right: rhythm(.5);
+      }
+    }
+  
+    .dropdown-toggle {
+      float: right;
+      width: rhythm(4);
+      text-align: center;
+    }
+  }
+}
+
+@media all and (min-width: 600px) {
+  
+  .navigation-toggle {
+    display: none;
+  }
+  
+  .region-menu {
+    max-height: none;
+    overflow: visible;
+
+    .links, /* Main menu and secondary menu links */
+    .menu { /* Menu block links */
+      @include pie-clearfix();
+      
+      > li { /* A simple method to get navigation links to appear in one line. */
+        float: left;
+        height: auto;
+      }
+    }
+    
+    .dropdown-toggle {
+    
+      &:after {
+        content: " \2193";
+        padding: 0 0 0 rhythm(1);
+      }
+    }
+    
+    .open {
+      .dropdown-toggle:after {
+        content: " \2191";
+      }
+    }
+    
+    .dropdown-menu {
+      position: absolute;
+      @include reset-list();
+    }
+    
+    .dropdown:hover .dropdown-menu {
+      display: block;
+    }
+  }
+}
+
+@media all and (min-width: 960px) {
+  
+  .region-menu {
+    .links, /* Main menu and secondary menu links */
+    .menu {
+      @include adjust-font-size-to(18px, 6);
+      
+      a {
+        padding: 0 rhythm(3);
+      }
+    }
+  }
+}
+
+
+.region-menu-secondary {
+  padding: rhythm(.5) 0;
+  
+  .inner {
+    @include pie-clearfix();
+  }
+
+  .block-menu {
+    margin-bottom: 0;
+    
+    .menu {
+      @include reset-list();
+      
+      li {
+        display: inline;
+        border-right: 1px solid;
+        
+        &.last {
+          border-right: 0 none;
+        }
+        
+        a {
+          display: inline-block;
+          padding: rhythm(.5) rhythm(2);
+        }
+      }
+    }
+  }
+}
+
+@media all and (min-width: 960px) {
+  
+  .region-menu-secondary {
+    .block-menu {
+      text-align: right;
+    }
+  }
+  
+}
+
+
+/*
+ * "Menu block" blocks
+ *
+ * Drupal core has limited ways in which it can display its menus. To get around
+ * these limitations, see http://drupal.org/project/menu_block
+ */
+
+.region-sidebar-first {
+  
+  ul.views-summary,
+  ul.menu {
+    @include adjust-font-size-to(16px);
+    @include reset-list();
+    margin-bottom: 0;
+    
+    li {
+      margin: rhythm(1) 0;
+      overflow: hidden;
+      clear: both;
+    }
+    
+    a {
+      padding: 0 rhythm(2);
+      float: left;
+      border: 0 none;
+      white-space: normal;
+      line-height: rhythm(5);
+    }
+  }
+  
+  ul.menu {
+   
+    a a {
+      margin-left: rhythm(1);
+    }
+  }
+  
+  ul.views-summary {
+    li {
+      line-height: rhythm(4);
+    }
+    
+    a {
+      margin-right: rhythm(1);
+      line-height: rhythm(4);
+    }
+  }
+}
+
+
+/**
+ * List/Map toggle
+ */
+
+.list-map-toggle {
+  text-align: right;
+  margin-top: rhythm(-5, 14px);
+  @include adjust-font-size-to(14px);
+
+  a {
+    display: inline-block;
+    padding: rhythm(1, 14px) rhythm(2, 14px);
+    margin-left: rhythm(2, 14px);
+
+    &.active {
+      cursor: default;
+    }
+  }
+}
+
+@media all and (max-width: 479px) {
+  .list-map-toggle {
+    text-align: left;
+    margin-top: rhythm(0, 14px);
+    
+    a {
+      margin-left: 0;
+      margin-right: rhythm(2, 14px);
+    }
+  }
+}

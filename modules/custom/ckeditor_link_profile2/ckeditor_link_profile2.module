@@ -1,0 +1,9 @@
+<?php
+
+/**
+ * Implementation of hook_ckeditor_link_types().
+ */
+function ckeditor_link_profile2_ckeditor_link_types() {
+  $types[] = array('type' => 'profile2', 'file' => 'includes/ckeditor_link_profile2.profile2.inc');
+  return $types;
+}

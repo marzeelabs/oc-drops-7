@@ -1,0 +1,382 @@
+/**
+ * @file
+ * Specific styles
+ */
+/* Import Sass mixins, variables, Compass modules, etc. */
+/*
+ * Mixins from twitter Bootstrap sass conversion
+ * https://github.com/jlong/sass-twitter-bootstrap
+ */
+/**
+ * General styles
+ */
+html,
+button,
+input,
+select,
+textarea,
+.fieldset-description {
+  font-family: Helvetica, Arial, "Nimbus Sans L", sans-serif;
+}
+
+.leaflet-container {
+  font-family: Helvetica, Arial, "Nimbus Sans L", sans-serif;
+}
+
+body {
+  color: #404040;
+  background: #242424;
+}
+
+a:link,
+a:visited {
+  color: #1c75bc;
+}
+.sidebar a:link, .breadcrumb a:link, .sidebar
+a:visited, .breadcrumb
+a:visited {
+  color: #a6a6a6;
+}
+.sidebar a:link .fonticon, .breadcrumb a:link .fonticon, .sidebar
+a:visited .fonticon, .breadcrumb
+a:visited .fonticon {
+  color: gray;
+}
+.region-menu a:link, .region-menu
+a:visited {
+  color: #6e6e6e;
+}
+.region-menu a:link .fonticon, .region-menu
+a:visited .fonticon {
+  color: #595959;
+}
+
+a:hover,
+a:focus {
+  color: #446994;
+  text-decoration: none;
+}
+.sidebar a:hover, .region-menu a:hover, .breadcrumb a:hover, .sidebar
+a:focus, .region-menu
+a:focus, .breadcrumb
+a:focus {
+  color: #1c75bc;
+}
+.sidebar a:hover .fonticon, .region-menu a:hover .fonticon, .breadcrumb a:hover .fonticon, .sidebar
+a:focus .fonticon, .region-menu
+a:focus .fonticon, .breadcrumb
+a:focus .fonticon {
+  color: #1c75bc;
+}
+
+a:active {
+  color: #1c75bc;
+}
+
+li a.active, .sidebar a.active, .region-menu a.active, .breadcrumb a.active {
+  color: #1c75bc;
+}
+li a.active .fonticon, .sidebar a.active .fonticon, .region-menu a.active .fonticon, .breadcrumb a.active .fonticon {
+  color: #1c75bc;
+}
+
+blockquote {
+  background: #1c75bc;
+  color: white;
+  padding: 1.5em;
+}
+@media all and (min-width: 960px) {
+  blockquote {
+    max-width: 40%;
+    float: right;
+    margin-right: 0;
+  }
+}
+blockquote p {
+  margin-bottom: 0;
+}
+
+/* pages */
+.page__title {
+  text-transform: none;
+  margin-bottom: 0.5625em;
+}
+
+#page {
+  background: white;
+  padding-top: 0;
+}
+
+.branding {
+  margin-top: 0.75em;
+}
+
+.header__logo {
+  position: relative;
+  z-index: 100;
+}
+
+.header__site-slogan {
+  color: #6bb5ef;
+}
+
+.breadcrumb {
+  color: #6e6e6e;
+}
+
+div.caption-inner {
+  background: #f2f2f2;
+  border-color: #d1d1d1;
+  font-size: 0.8125em;
+  line-height: 1.38462em;
+}
+
+#footer-wrapper {
+  border-top: 4px solid #a6a6a6;
+  background: #242424;
+}
+
+#footer {
+  color: #e6e6e6;
+  padding-top: 1.875em;
+}
+#footer a {
+  color: white;
+}
+#footer a:hover, #footer a:focus {
+  color: #e6e6e6;
+}
+
+@media all and (max-width: 599px) {
+  #header {
+    border-bottom-style: solid;
+    border-bottom-width: 0.125em;
+    padding-bottom: 0.625em;
+    margin-bottom: 0.75em;
+    border-color: #e6e6e6;
+  }
+
+  .header__logo {
+    width: 280px;
+  }
+}
+/* navigation */
+.navigation-title {
+  padding: 0 0.75em;
+}
+
+#navigation {
+  background: #f2f2f2;
+  height: auto;
+}
+
+.region-menu {
+  height: auto;
+}
+.region-menu .menu li {
+  margin-bottom: 0.375em;
+}
+.region-menu .menu a:hover {
+  background: #e6e6e6;
+}
+.region-menu .menu a.active {
+  background: #a6a6a6;
+  color: white;
+}
+.region-menu .menu .dropdown-menu a:hover,
+.region-menu .menu .dropdown-menu a.active {
+  background: #a6a6a6;
+  color: white;
+}
+.region-menu .dropdown.open,
+.region-menu .dropdown.active-trail,
+.region-menu .dropdown:hover,
+.region-menu .dropdown-menu {
+  background: #e6e6e6;
+}
+.region-menu .dropdown.active {
+  background: #a6a6a6;
+}
+.region-menu .dropdown-menu {
+  padding: 0.375em 0.75em 0.375em;
+}
+
+.region-sidebar-first ul.menu a {
+  float: none;
+  display: block;
+  border-bottom: 1px solid #e6e6e6;
+}
+.region-sidebar-first ul.menu li li a {
+  border-color: #f2f2f2;
+}
+.region-sidebar-first ul.views-summary a {
+  padding-right: 0;
+}
+.region-sidebar-first ul.views-summary a:hover, .region-sidebar-first ul.views-summary a:focus, .region-sidebar-first ul.views-summary a.active, .region-sidebar-first ul.views-summary a.active:hover, .region-sidebar-first ul.views-summary a.active:focus {
+  background: transparent;
+}
+
+@media all and (max-width: 599px) {
+  .region-menu .dropdown-toggle {
+    background: #a6a6a6;
+    color: white;
+  }
+}
+@media all and (min-width: 600px) {
+  .region-menu .menu li {
+    margin-bottom: 0;
+  }
+  .region-menu .menu .dropdown-menu li {
+    margin-bottom: 0.375em;
+  }
+  .region-menu .menu a {
+    padding: 0.1875em 0.75em 0.1875em 20px;
+  }
+}
+@media all and (max-width: 959px) {
+  .region-menu-secondary {
+    background: #e6e6e6;
+  }
+}
+@media all and (min-width: 960px) {
+  .region-menu .menu {
+    font-size: 1em;
+    line-height: 1.875em;
+  }
+  .region-menu .menu > li {
+    margin-right: 1.125em;
+  }
+  .region-menu .menu a {
+    padding: 0.375em 1.125em;
+  }
+  .region-menu .menu .dropdown-menu a {
+    padding: 0 0.375em;
+  }
+
+  .region-menu-secondary .menu a {
+    color: #a6a6a6;
+  }
+  .region-menu-secondary .menu a:hover, .region-menu-secondary .menu a:focus {
+    color: #1c75bc;
+  }
+}
+/**
+ * Nodes
+ */
+/**
+ *  Blocks
+ */
+.list-map-toggle a {
+  background: #d1d1d1;
+  color: white;
+}
+.list-map-toggle a:hover, .list-map-toggle a:focus {
+  background: #1c75bc;
+}
+.list-map-toggle a.active {
+  background: #1c75bc;
+}
+
+/* fields */
+.field-type-taxonomy-term-reference .field-item a {
+  background-color: #d1d1d1;
+  color: white;
+}
+.field-type-taxonomy-term-reference .field-item a:hover, .field-type-taxonomy-term-reference .field-item a:focus {
+  background-color: #1c75bc;
+}
+
+.field-name-field-rprofile-partner-ref {
+  font-size: 0.875em;
+  line-height: 1.28571em;
+}
+.field-name-field-rprofile-partner-ref .field-item {
+  padding-left: 1.28571em;
+}
+.field-name-field-rprofile-partner-ref .fonticon {
+  float: left;
+  margin-left: -1.28571em;
+}
+
+.date-wrapper {
+  text-align: center;
+  margin: 0 0.75em 0.375em 0;
+  display: block;
+  color: #595959;
+}
+.date-wrapper .date-item {
+  width: auto;
+  float: left;
+}
+.date-wrapper .day {
+  font-size: 1.125em;
+  line-height: 1.33333em;
+  font-weight: 700;
+  display: inline;
+}
+.date-wrapper .month {
+  font-size: 0.9375em;
+  line-height: 1.6em;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+.date-wrapper .year {
+  font-size: 1.125em;
+  line-height: 1.33333em;
+  font-weight: 700;
+  display: inline;
+  margin-left: 0.66667em;
+}
+.date-wrapper .date-join {
+  float: left;
+  font-size: 2em;
+  line-height: 0.75em;
+  height: 0.75em;
+  margin-top: -0.13125em;
+}
+.view-mode-ticker .date-wrapper {
+  float: left;
+}
+.view-mode-ticker .date-wrapper .date-item {
+  width: 2.25em;
+}
+.view-mode-ticker .date-wrapper .day {
+  display: block;
+  line-height: 1em;
+}
+.view-mode-ticker .date-wrapper .month {
+  line-height: 1.2em;
+}
+.view-mode-ticker .date-wrapper .year {
+  display: none;
+}
+.view-mode-ticker .date-wrapper .date-join {
+  line-height: 1.3125em;
+  height: 1.3125em;
+  margin-top: 0;
+}
+
+.field-name-event-location {
+  float: left;
+  padding-top: 0.1875em;
+  margin-bottom: 0.375em;
+}
+.field-name-event-location .field-item {
+  padding-left: 2.625em;
+  font-size: 0.75em;
+  line-height: 1.5em;
+}
+.field-name-event-location [data-icon] {
+  font-size: 1.75em;
+  line-height: 1.71429em;
+  margin-left: -1.42857em;
+  float: left;
+}
+.field-name-event-location .event-city {
+  display: block;
+}
+.field-name-event-location .event-country {
+  display: block;
+  font-weight: 700;
+  text-transform: uppercase;
+}

@@ -1,0 +1,11 @@
+mlid,ref_parent,path,title,weight
+1,0,"content/about-project","Project",-9
+2,1,"content/about-project","About",0
+3,1,"content/background","Background",1
+4,0,"network/partner","Network",2
+5,4,"network/partner","Partners",5
+6,4,"network/researcher","Researchers",6
+7,4,"network/advisory","Advisory Board",7
+8,4,"institutions","Institutions",8
+20,0,"news","News",3
+21,0,"events","Events",4

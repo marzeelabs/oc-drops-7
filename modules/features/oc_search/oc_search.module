@@ -1,0 +1,76 @@
+<?php
+/**
+ * @file
+ * Code for the OC Search feature.
+ */
+
+include_once 'oc_search.features.inc';
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function oc_search_form_search_api_page_search_form_oc_search_alter(&$form, &$form_state) {
+  // Add the search placeholder
+  $id = $form['id']['#value'];
+  $form['keys_' . $id]['#attributes'] = array('placeholder' => t('Search !site...', array('!site' => variable_get('site_name'))));
+}
+
+/**
+ * Implements hook_block_view_MODULE_DELTA_alter().
+ */
+function oc_search_block_view_search_api_page_oc_search_alter(&$data, $block) {
+  // Remove the title from the block
+  $data['subject'] = '';
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * Alter the search page results theming.
+ */
+function oc_search_theme_registry_alter(&$theme_registry) {
+  $theme_registry['search_api_page_results']['function'] = 'oc_search_theme_search_api_page_results';
+}
+
+/**
+ * Overwriting the search page theming, to remove the time (very geeky!) and some unneeded markup.
+ *
+ * Code mostly taken from theme_search_api_page_results().
+ */
+function oc_search_theme_search_api_page_results($variables) {
+  drupal_add_css(drupal_get_path('module', 'search_api_page') . '/search_api_page.css');
+
+  $index = $variables['index'];
+  $results = $variables['results'];
+  $items = $variables['items'];
+  $keys = $variables['keys'];
+
+  $output = '<p class="search-performance">' . format_plural($results['result count'],
+      'The search found 1 result.',
+      'The search found @count results.') . '</p>';
+
+  if (!$results['result count']) {
+    $output .= "\n<h2>" . t('Your search yielded no results') . "</h2>\n";
+    return $output;
+  }
+
+  // This is what we have taken out
+  // $output .= "\n<h2>" . t('Search results') . "</h2>\n";
+
+  if ($variables['view_mode'] == 'search_api_page_result') {
+    $output .= '<ol class="search-results">';
+    foreach ($results['results'] as $item) {
+      $output .= '<li class="search-result">' . theme('search_api_page_result', array('index' => $index, 'result' => $item, 'item' => isset($items[$item['id']]) ? $items[$item['id']] : NULL, 'keys' => $keys)) . '</li>';
+    }
+    $output .= '</ol>';
+  }
+  else {
+    // This option can only be set when the items are entities.
+    $output .= '<div class="search-results">';
+    $render = entity_view($index->item_type, $items, $variables['view_mode']);
+    $output .= render($render);
+    $output .= '</div>';
+  }
+
+  return $output;
+}

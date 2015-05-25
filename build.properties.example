@@ -1,0 +1,7 @@
+# Your local properties file, to be adapted and renamed to `build.properties`
+
+drupal.db.url = mysql://USER:PASS@localhost/DATABASE
+
+# The location of the drupal root
+
+project.drupal.dir = ~/Sites/oc/oc-site

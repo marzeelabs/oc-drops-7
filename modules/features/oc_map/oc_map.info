@@ -1,0 +1,16 @@
+name = OC Map
+description = Mapping for partners, projects, etc
+core = 7.x
+package = Open Consortium
+version = master-dev
+project = oc_map
+dependencies[] = context
+dependencies[] = ctools
+dependencies[] = leaflet_views
+dependencies[] = views
+features[context][] = oc_partner_map
+features[ctools][] = context:context:3
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = oc_partner_map
+features[views_view][] = oc_profile_map
