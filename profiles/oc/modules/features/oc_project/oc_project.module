@@ -124,7 +124,10 @@ function oc_project_migrate_api() {
   $api = array(
     'api' => 2,
     'migrations' => array(
-      'OCProjects' => array('class_name' => 'OCProjectsMigration'),
+      'OCProjects' => array(
+        'class_name' => 'OCProjectsMigration',
+        'group_name' => 'OCMigrations'
+      ),
     ),
   );
   return $api;

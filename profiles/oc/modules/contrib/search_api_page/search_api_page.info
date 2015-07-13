@@ -6,9 +6,9 @@ package = Search
 
 configure = admin/config/search/search_api/page
 
-; Information added by Drupal.org packaging script on 2015-05-23
-version = "7.x-1.1+8-dev"
+; Information added by Drupal.org packaging script on 2015-06-08
+version = "7.x-1.2+2-dev"
 core = "7.x"
 project = "search_api_page"
-datestamp = "1432381082"
+datestamp = "1433756882"
 

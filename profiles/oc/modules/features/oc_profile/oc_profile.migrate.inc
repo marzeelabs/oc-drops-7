@@ -1,8 +1,8 @@
 <?php
 
 class OCUsersMigration extends OCMigration {
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments) {
+    parent::__construct($arguments);
     $this->description = t('Import users.');
 
     // Create a map object for tracking the relationships between source rows
@@ -53,8 +53,8 @@ class OCUsersMigration extends OCMigration {
 
 class OCProfilesMigration extends OCMigration {
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments) {
+    parent::__construct($arguments);
     $this->description = t('Import profiles.');
 
     // Create a map object for tracking the relationships between source rows
@@ -109,13 +109,11 @@ class OCProfilesMigration extends OCMigration {
     $this->addFieldMapping('field_rprofile_publications:format')
       ->defaultValue('full_html');
 
-    $address_arguments = array(
-      'thoroughfare' => array('source_field' => 'address'),
-      'locality' => array('source_field' => 'city'),
-      'postal_code' => array('source_field' => 'postal_code'),
-    );
-    $this->addFieldMapping('field_rprofile_address', 'country')
-      ->arguments($address_arguments);
+    // Adress
+    $this->addFieldMapping('field_rprofile_address', 'country');
+    $this->addFieldMapping('field_rprofile_address:thoroughfare', 'address');
+    $this->addFieldMapping('field_rprofile_address:locality', 'city');
+    $this->addFieldMapping('field_rprofile_address:postal_code', 'postal_code');
 
     $this->addFieldMapping('field_rprofile_members', 'members')
       ->separator('|');

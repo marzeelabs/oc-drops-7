@@ -67,7 +67,10 @@ function oc_news_migrate_api() {
   $api = array(
     'api' => 2,
     'migrations' => array(
-      'OCNews' => array('class_name' => 'OCNews'),
+      'OCNews' => array(
+        'class_name' => 'OCNews',
+        'group_name' => 'OCMigrations'
+      ),
     ),
   );
   return $api;

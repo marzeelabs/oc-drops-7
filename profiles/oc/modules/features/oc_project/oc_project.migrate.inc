@@ -2,8 +2,8 @@
 
 class OCProjectsMigration extends OCMigration {
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments) {
+    parent::__construct($arguments);
     $this->description = t('Import project nodes.');
 
     // Create a map object for tracking the relationships between source rows
@@ -40,8 +40,7 @@ class OCProjectsMigration extends OCMigration {
     $this->addFieldMapping('field_project_period', 'period');
     $this->addFieldMapping('field_project_type', 'type');
 
-    // @todo research why this isn't importing properly. Of type "number_integer"
-    // $this->addFieldMapping('field_project_nrpositions', 'posititons');
+    $this->addFieldMapping('field_project_nrpositions', 'positions');
 
     $this->addFieldMapping('field_project_contact', 'contact');
     $this->addFieldMapping('field_project_status', 'status');

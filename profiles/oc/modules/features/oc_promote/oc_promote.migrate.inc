@@ -2,8 +2,8 @@
 
 class OCPromote extends OCMigration {
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments) {
+    parent::__construct($arguments);
     $this->description = t('Import featured content nodes.');
 
     // Create a map object for tracking the relationships between source rows

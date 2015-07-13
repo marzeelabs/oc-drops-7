@@ -161,7 +161,10 @@ function oc_promote_migrate_api() {
   $api = array(
     'api' => 2,
     'migrations' => array(
-      'OCPromote' => array('class_name' => 'OCPromote'),
+      'OCPromote' => array(
+        'class_name' => 'OCPromote',
+        'group_name' => 'OCMigrations'
+      ),
     ),
   );
   return $api;

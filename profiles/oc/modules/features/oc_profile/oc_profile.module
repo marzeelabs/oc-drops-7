@@ -212,8 +212,14 @@ function oc_profile_migrate_api() {
   $api = array(
     'api' => 2,
     'migrations' => array(
-      'OCUsers' => array('class_name' => 'OCUsersMigration'),
-      'OCProfiles' => array('class_name' => 'OCProfilesMigration'),
+      'OCUsers' => array(
+        'class_name' => 'OCUsersMigration',
+        'group_name' => 'OCMigrations'
+      ),
+      'OCProfiles' => array(
+        'class_name' => 'OCProfilesMigration',
+        'group_name' => 'OCMigrations'
+      ),
     ),
   );
   return $api;

@@ -143,7 +143,10 @@ function oc_partner_migrate_api() {
   $api = array(
     'api' => 2,
     'migrations' => array(
-      'OCPartners' => array('class_name' => 'OCPartners'),
+      'OCPartners' => array(
+        'class_name' => 'OCPartners',
+        'group_name' => 'OCMigrations'
+      ),
     ),
   );
   return $api;

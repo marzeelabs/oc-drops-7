@@ -12,7 +12,7 @@
  */
 function imagecache_actions_file_field_description() {
   return t('File is either a file with one of the valid schemes, an absolute path, or a relative path (relative to the current directory, probably the Drupal site root). Valid schemes are a.o. private://, public://, and if the !module module has been installed, also module:// and theme://.',
-   array('!module' => l('System Stream Wrapper', 'http://drupal.org/project/system_stream_wrapper', array('external' => TRUE))));
+   array('!module' => l('System Stream Wrapper', 'https://drupal.org/project/system_stream_wrapper', array('external' => TRUE))));
 }
 
 /**
@@ -77,6 +77,35 @@ function imagecache_actions_image_load($file, $toolkit = FALSE) {
   }
 
   return $image;
+}
+
+/**
+ * Returns the label for the given style name.
+ *
+ * As of D7.23 image styles can also have a human readable label besides their
+ * machine readable name. This function returns that label if available, or the
+ * name if the label is absent.
+ *
+ * @param string|null $style_name
+ *   The name of the image style.
+ *
+ * @return string
+ *   The label for the image style.
+ */
+function imagecache_actions_get_style_label($style_name) {
+  if (!empty($style_name)) {
+    $style = image_style_load($style_name);
+    $label = isset($style['label']) ? $style['label'] : $style['name'];
+    if (!empty($style)) {
+      return $label;
+    }
+    else {
+      return $label . ' ' . t('<span class="error">Invalid reference. The referenced image style may have been deleted!</span>');
+    }
+  }
+  else {
+    return t('none');
+  }
 }
 
 /**
@@ -258,7 +287,7 @@ function imagecache_actions_calculate_offset($keyword, $value, $base_size, $laye
 
   // Handle keyword-number cases like top+50% or bottom-100px,
   // @see imagecache_actions_keyword_filter().
-  if (preg_match('/^(.+)([\+\-])(\d+)([^\d]*)$/', $value, $results)) {
+  if (preg_match('/^([a-z]+) *([+-]) *(\d+)((px|%)?)$/', $value, $results)) {
     list(, $value_key, $value_mod, $mod_value, $mod_unit) = $results;
     if ($mod_unit == '%') {
       $mod_value = $mod_value / 100 * $base_size;
@@ -371,7 +400,7 @@ function imagecache_actions_hex2rgba($hex) {
  */
 function imagecache_actions_keyword_filter($value, $base_size, $layer_size) {
   // See above for the patterns this matches
-  if (! preg_match('/([a-z]*)([\+\-]?)(\d*)([^\d]*)/', $value, $results) ) {
+  if (!preg_match('/([a-z]*) *([+-]?) *(\d*)((px|%)?)/', $value, $results) ) {
     trigger_error("imagecache_actions had difficulty parsing the string '$value' when calculating position. Please check the syntax.", E_USER_WARNING);
   }
   list(, $keyword, $plusminus, $value, $unit) = $results;

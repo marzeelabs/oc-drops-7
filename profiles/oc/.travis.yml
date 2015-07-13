@@ -1,3 +1,8 @@
+notifications:
+  email: false
+  slack:
+    secure: "LTnCgREJY7JDuUTBYljE5IG2CtTRawl5mZ6Lv/EVxWtQPE7P8kn5gnRJ1gQvETxCQt+F4/u5AKx51Mkh+ubAufWF6+OdLZvtWtnLVKmXuCQSrioRNUn7mzCweBZmBkbxCfND22ATsiUeeBqVPOX+m7e5G7kn0fGuZTHzuXBJ938="
+
 # No need for git history here
 git:
  depth: 5
@@ -91,12 +96,17 @@ script:
  #- cd profiles/foundation/tests/behat
  #- ./bin/behat --config behat.travis.yml
 
-# notifications:
-#   hipchat:
-#     rooms:
-#       - 1e80f2454ae0d2b400b16190f0332f@ARTE
-#     on_success: change
-#     on_failure: always
-#     template:
-#       - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} (<a href="%{build_url}">Details</a>/<a href="%{compare_url}">Change view</a>)'
-#     format: html
+# Commit to deploy repo
+after_success:
+- cd ..
+- git clone git@github.com:marzeelabs/oc-drops-7.git
+- rm -Rf oc-drops-7/profiles/oc
+- cp -R drupal/profiles/oc oc-drops-7/profiles/oc
+- cd oc-drops-7/profiles/oc
+- rm -Rf .git
+- rm .gitignore
+- git config user.name "Marzee Labs"
+- git config user.email "info@marzeelabs.org"
+- git add --all :/
+- git commit -m "Built from commit $REV"
+- git push origin master

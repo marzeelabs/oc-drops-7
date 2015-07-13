@@ -4,7 +4,7 @@ api = 2
 ; Projects
 ; --------
 
-projects[geofield][version] = 1.1
+projects[geofield][version] = 1.2
 projects[geofield][subdir] = "contrib"
 projects[leaflet][version] = 1.x-dev
 projects[leaflet][subdir] = "contrib"

@@ -111,7 +111,10 @@ function oc_events_migrate_api() {
   $api = array(
     'api' => 2,
     'migrations' => array(
-      'OCEvents' => array('class_name' => 'OCEvents'),
+      'OCEvents' => array(
+        'class_name' => 'OCEvents',
+        'group_name' => 'OCMigrations'
+      ),
     ),
   );
   return $api;

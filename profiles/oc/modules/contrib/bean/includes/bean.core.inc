@@ -262,6 +262,16 @@ class Bean extends Entity {
   }
 
   /**
+   * Set the revision as default
+   *
+   * @return Bean
+   */
+  public function setDefault() {
+    $this->default_revision = TRUE;
+    return $this;
+  }
+
+  /**
    * Get the plugin form
    */
   public function getForm($form, &$form_state) {
@@ -359,7 +369,11 @@ class Bean extends Entity {
     $this->plugin->submit($this);
 
     $return = parent::save();
-    bean_reset();
+    bean_reset(TRUE, TRUE);
+
+    if (module_exists('block')) {
+      bean_cache_clear_block($this);
+    }
 
     return $return;
   }
@@ -384,10 +398,15 @@ class Bean extends Entity {
 
       // Base it on the label and make sure it isn't too long for the database.
       if (module_exists('transliteration')) {
-        $delta = drupal_clean_css_identifier(transliteration_get($this->label));
+        $delta = drupal_clean_css_identifier(strtolower(transliteration_get($this->label)));
       }
       else {
         $delta = drupal_clean_css_identifier(strtolower($this->label));;
+      }
+
+      // Add 'bean-' prefix when it's need to avoid a purely numeric delta.
+      if (is_numeric($delta)) {
+        $delta = 'bean-' . $delta;
       }
 
       $this->delta = substr($delta, 0, $max_length);
@@ -478,6 +497,29 @@ class BeanEntityAPIController extends EntityAPIControllerExportable {
       }
     }
     parent::delete($ids, $transaction);
+  }
+
+  /**
+   * Overridden to add Rules integration back in.
+   */
+  public function invoke($hook, $entity) {
+    parent::invoke($hook, $entity);
+
+    // Invoke rules.
+    if (module_exists('rules')) {
+      rules_invoke_event($this->entityType . '_' . $hook, $entity);
+    }
+  }
+
+  protected function saveRevision($entity) {
+    global $user;
+
+    $org_uid = $entity->uid;
+    $entity->uid = $user->uid;
+    $return = parent::saveRevision($entity);
+    $entity->uid = $org_uid;
+
+    return $return;
   }
 }
 

@@ -2,8 +2,8 @@
 
 class OCPartners extends OCMigration {
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments) {
+    parent::__construct($arguments);
     $this->description = t('Import partner nodes.');
 
     // Create a map object for tracking the relationships between source rows
@@ -32,13 +32,10 @@ class OCPartners extends OCMigration {
     $this->addFieldMapping('field_partner_url', 'url');
 
     // Address
-    $address_arguments = array(
-      'thoroughfare' => array('source_field' => 'address'),
-      'locality' => array('source_field' => 'city'),
-      'postal_code' => array('source_field' => 'postal_code'),
-    );
-    $this->addFieldMapping('field_partner_address', 'country')
-      ->arguments($address_arguments);
+    $this->addFieldMapping('field_partner_address', 'country');
+    $this->addFieldMapping('field_partner_address:thoroughfare', 'address');
+    $this->addFieldMapping('field_partner_address:locality', 'city');
+    $this->addFieldMapping('field_partner_address:postal_code', 'postal_code');
 
     // Images
     $this->addFieldMapping('field_partner_logo', 'image');

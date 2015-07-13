@@ -8,8 +8,8 @@ class OCNews extends OCMigration {
     'Europe' => 'world',
   );
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments) {
+    parent::__construct($arguments);
     $this->description = t('Import news nodes.');
 
     // Create a map object for tracking the relationships between source rows

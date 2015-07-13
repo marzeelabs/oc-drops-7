@@ -46,8 +46,14 @@ function oc_pages_migrate_api() {
   $api = array(
     'api' => 2,
     'migrations' => array(
-      'OCPages' => array('class_name' => 'OCPages'),
-      'OCPagesMenus' => array('class_name' => 'OCPagesMenus'),
+      'OCPages' => array(
+        'class_name' => 'OCPages',
+        'group_name' => 'OCMigrations'
+      ),
+      'OCPagesMenus' => array(
+        'class_name' => 'OCPagesMenus',
+        'group_name' => 'OCMigrations'
+      ),
     ),
   );
   return $api;

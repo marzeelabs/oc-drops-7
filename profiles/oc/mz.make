@@ -32,17 +32,17 @@ projects[link][subdir] = "contrib"
 ; @see https://www.drupal.org/node/1475790#comment-7743415
 projects[link][patch][] = "http://www.drupal.org/files/7.x-1.x-_link_sanitize-bandaid-1475790-16.diff"
 
-projects[addressfield][version] = 1.0
+projects[addressfield][version] = 1.1
 projects[addressfield][subdir] = "contrib"
 
 ; Site building modules
-projects[views][version] = 3.10
+projects[views][version] = 3.11
 projects[views][subdir] = "contrib"
 
 projects[views_bulk_operations][version] = 3.2
 projects[views_bulk_operations][subdir] = "contrib"
 
-projects[rules][version] = 2.6
+projects[rules][version] = 2.9
 projects[rules][subdir] = "contrib"
 
 projects[context][version] = 3.6
@@ -51,10 +51,10 @@ projects[context][subdir] = "contrib"
 projects[flag][version] = 3.5
 projects[flag][subdir] = "contrib"
 
-projects[menu_block][version] = 2.4
+projects[menu_block][version] = 2.6
 projects[menu_block][subdir] = "contrib"
 
-projects[token][version] = 1.5
+projects[token][version] = 1.6
 projects[token][subdir] = "contrib"
 
 ; We need this module to work around a D7 core limitation in
@@ -67,7 +67,7 @@ projects[taxonomy_entity_index][subdir] = "contrib"
 projects[admin_menu][version] = 3.0-rc5
 projects[admin_menu][subdir] = "contrib"
 
-projects[advanced_help][version] = 1.1
+projects[advanced_help][version] = 1.3
 projects[advanced_help][subdir] = "contrib"
 
 projects[ctools][version] = 1.7
@@ -80,7 +80,7 @@ projects[module_filter][subdir] = "contrib"
 projects[devel][version] = 1.5
 projects[devel][subdir] = "contrib"
 
-projects[features][version] = 2.4
+projects[features][version] = 2.5
 projects[features][subdir] = "contrib"
 
 ; Feature Extra: additional exporting capabilities
@@ -97,7 +97,7 @@ projects[diff][version] = 3.2
 projects[diff][subdir] = "contrib"
 
 ; Use when deploying on a server which doesn't have automatic backups configured.
-projects[backup_migrate][version] = 3.0
+projects[backup_migrate][version] = 3.1
 projects[backup_migrate][subdir] = "contrib"
 
 projects[libraries][version] = 2.2
@@ -106,7 +106,7 @@ projects[libraries][subdir] = "contrib"
 ; projects[libraries][patch][] = "http://drupal.org/files/1811486-sub-profiles-2.patch"
 projects[libraries][patch][] = "http://gist.github.com/pvhee/7307987/raw/c2cbf531d6766895d4a25c6292974596f26b7d3f/gistfile1.txt"
 
-projects[jquery_update][version] = 2.4
+projects[jquery_update][version] = 2.6
 projects[jquery_update][subdir] = "contrib"
 
 ; To fix role exports for deployments. See https://drupal.org/node/1702626
@@ -146,9 +146,13 @@ projects[media][version] = 2.x-dev
 ; Media is moving a lot, until this revision we tested. Needs a serious review and then can be upgraded
 projects[media][download][revision] = b097d48
 
+; The search in media_youtube submodule
+; has been disabled on 3.0 due to changes
+; in the Youtube API. Please see issue
+; https://github.com/marzeelabs/oc/issues/4
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = 2.x-dev
-projects[media_youtube][revision] = 187283f
+projects[media_youtube][version] = 3.0
+
 
 projects[file_entity][subdir] = "contrib"
 ; Use dev release until 2.0-alpha3 is bumped to a new version
@@ -186,7 +190,9 @@ projects[menu_admin_per_menu][version] = 1.0
 projects[menu_admin_per_menu][subdir] = "contrib"
 
 ; Anti-spam
-projects[invisimail][version] = 1.1
+; Development for Drupal 7 has stopped,
+; next release will be Drupal 8 only
+projects[invisimail][version] = 1.2
 projects[invisimail][subdir] = "contrib"
 
 ;projects[spamicide][version] = 1.1
@@ -197,11 +203,8 @@ projects[chosen][version] = 2.0-alpha4
 projects[chosen][subdir] = "contrib"
 
 ; Theming
-projects[ds][version] = 2.6
+projects[ds][version] = 2.10
 projects[ds][subdir] = "contrib"
-; DS in combination with Solr
-; @see https://drupal.org/node/2184139
-projects[ds][patch][] = "https://drupal.org/files/issues/ds_search-2184139-missing-entity-causes-exception-2.patch"
 
 projects[fontyourface][version] = 2.8
 projects[fontyourface][subdir] = "contrib"

@@ -58,7 +58,7 @@ function image_effects_text_form_inc(array $data) {
   module_load_include('inc', 'imagecache_actions', 'utility-color');
 
   // Note: we also need to check for the existence of the module: admin has
-  //   all rights, so user_acccess(...) returns TRUE even if the module is not
+  //   all rights, so user_access(...) returns TRUE even if the module is not
   //   enabled and the permission does not exist.
   // A user without the 'use PHP for settings' permission (defined by the core
   // PHP filter module) may not:
@@ -90,6 +90,8 @@ if ($field) {
 ',
   );
   $data += $defaults;
+  $tokens = token_info();
+  $tokens = array_keys($tokens['types']);
   $form = array(
     'size' => array(
       '#type' => 'textfield',
@@ -117,14 +119,22 @@ if ($field) {
       '#title' => t('Horizontal alignment'),
       '#default_value' => $data['halign'],
       '#description' => t('The horizontal alignment of the text around the given %xpos.', array('%xpos' => t('X offset'))),
-      '#options' => array('left' => t('Left'), 'center' => t('Center'), 'right' => t('Right')),
+      '#options' => array(
+        'left' => t('Left'),
+        'center' => t('Center'),
+        'right' => t('Right')
+      ),
     ),
     'valign' => array(
       '#type' => 'select',
       '#title' => t('Vertical alignment'),
       '#default_value' => $data['valign'],
       '#description' => t('The vertical alignment of the text around the given %ypos.', array('%ypos' => t('Y offset'))),
-      '#options' => array('top' => t('Top'), 'center' => t('Center'), 'bottom' => t('Bottom')),
+      '#options' => array(
+        'top' => t('Top'),
+        'center' => t('Center'),
+        'bottom' => t('Bottom')
+      ),
     ),
     'RGB' => imagecache_rgb_form($data['RGB']),
     'alpha' => array(
@@ -156,7 +166,7 @@ if ($field) {
 <ul>
 <li><strong>Image alt</strong>: the alt text of an image field referring to this image is taken.</li>
 <li><strong>Image title</strong>: the title text of an image field referring to this image is taken.</li>
-<li><strong>Static text</strong>: a text that will be the same for each image, e.g. a copyright message. You can define the text in the text field below the drop down.</li>
+<li><strong>Text (with token replacement)</strong>: A text with optional token replacement. Line breaks can be inserted with \n (\\\\n for a literal \n). You can define the text in the text field below the drop down.</li>
 <li><strong>PHP code</strong>: a piece of PHP code that returns the text to display. You can define the PHP code in the text area below the drop down. You will need the \'%use_php\' permission, defined by the \'PHP filter\' module.</li>
 </ul>
 <p>See the help in README.txt for an extensive explanation of the possibilities.</p>',
@@ -166,12 +176,36 @@ if ($field) {
       '#type' => 'select',
       '#title' => t('Text source'),
       '#default_value' => $data['text_source'],
-      '#options' => array('alt' => t('Image alt'), 'title' => t('Image title'), 'text' => t('Static text'), 'php' => t('PHP code')),
+      '#options' => array(
+        'alt' => t('Image alt'),
+        'title' => t('Image title'),
+        'text' => t('Text (with token replacement)'),
+        'php' => t('PHP code'),
+      ),
     ),
     'text' => array(
       '#type' => 'textfield',
       '#title' => t('Text'),
       '#default_value' => $data['text'],
+      '#states' => array(
+        'visible' => array(':input[name="data[text_source]"]' => array('value' => 'text')),
+      ),
+    ),
+    'token_help' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Token replacement patterns'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      'tree' => array(
+        '#theme' => 'token_tree',
+        '#token_types' => $tokens,
+      ),
+      'token_module_notice' => array(
+        '#markup' => !module_exists('token') ? t('You might want to enable the token module to view token replacement patterns.') : '',
+      ),
+      'entity_token_module_notice' => array(
+        '#markup' => !module_exists('entity_token') ? t('You might want to enable the entity_token module to get token options for all entities and field properties.') : '',
+      ),
       '#states' => array(
         'visible' => array(':input[name="data[text_source]"]' => array('value' => 'text')),
       ),
@@ -277,6 +311,14 @@ function image_effects_text_effect_inc(stdClass $image, array $data) {
   // Start with a straight copy.
   $params = $data;
 
+  // Get the text to overlay.
+  $params['text'] = image_effects_text_get_text($image, $params);
+  if (empty($params['text'])) {
+    // No text to overlay. This is a situation that can be expected with token
+    // replacement, or custom PHP code. Return immediately with success.
+    return TRUE;
+  }
+
   // Find out where the font file is located and if it is readable.
   $params['fontpath'] = imagecache_actions_find_file($data['fontfile']);
   if ($params['fontpath'] === FALSE) {
@@ -285,28 +327,22 @@ function image_effects_text_effect_inc(stdClass $image, array $data) {
     $params['fontpath'] = $data['fontfile'];
   }
 
-  // Get the text to overlay.
-  $params['text'] = image_effects_text_get_text($image, $params);
-  if ($params['text'] === FALSE) {
-    drupal_set_message(t("Failed to evaluate text (is the 'PHP Filter' module enabled?). Not overlaying text."), 'error');
-    return FALSE;
-  }
-
-  // Parse offsets
+  // Parse offsets.
   $params['xpos'] = image_effects_text_get_offset($data['xpos'], $image->info['width'], $image->info['height'], $image->info['width']);
   $params['ypos'] = image_effects_text_get_offset($data['ypos'], $image->info['width'], $image->info['height'], $image->info['height']);
 
   // Convert color from hex (as it is stored in the UI).
   $params['RGB'] = $data['RGB'];
-  if($params['RGB']['HEX'] && $deduced = imagecache_actions_hex2rgba($params['RGB']['HEX'])) {
+  if ($params['RGB']['HEX'] && $deduced = imagecache_actions_hex2rgba($params['RGB']['HEX'])) {
     $params['RGB'] += $deduced;
   }
 
-  // Make int's of various parameters
+  // Make integers of various parameters.
   $params['size'] = (int) $params['size'];
   $params['xpos'] = (int) $params['xpos'];
   $params['ypos'] = (int) $params['ypos'];
-  // Hand over to toolkit
+
+  // Hand over to toolkit.
   return image_toolkit_invoke('image_effects_text', $image, array($params));
 }
 
@@ -314,43 +350,43 @@ function image_effects_text_effect_inc(stdClass $image, array $data) {
  * GD toolkit specific implementation of the text effect.
  *
  * @param stdClass $image
- * @param array $params
+ * @param array $data
  *   The parameters for this effect.
  *
  * @return bool
  *   true on success, false otherwise.
  */
-function image_gd_image_effects_text(stdClass $image, array $params) {
+function image_gd_image_effects_text(stdClass $image, array $data) {
   // Convert color and alpha to GD alpha and color value.
   // GD alpha value: 0 = opaque, 127 = transparent.
-  $params['alpha'] = (int) ((1 - ($params['alpha'] / 100)) * 127);
-  $color = imagecolorallocatealpha($image->resource, $params['RGB']['red'], $params['RGB']['green'], $params['RGB']['blue'], $params['alpha']);
+  $data['alpha'] = (int) ((1 - ($data['alpha'] / 100)) * 127);
+  $color = imagecolorallocatealpha($image->resource, $data['RGB']['red'], $data['RGB']['green'], $data['RGB']['blue'], $data['alpha']);
   if ($color !== FALSE) {
     $bounds = NULL;
     // Adjust Y position for vertical alignment (if different from bottom).
-    if ($params['valign'] !== 'bottom') {
+    if ($data['valign'] !== 'bottom') {
       // Get bounding box.
       // PHP Manual: "This function requires both the GD library and the » FreeType library."
       // So it is not more demanding than imagettftext, which we need anyway.
-      $bounds = imagettfbbox($params['size'], 0, $params['fontpath'], $params['text']);
-      if ($bounds === FALSE) {
+      $bounds = imagettfbbox($data['size'], 0, $data['fontpath'], $data['text']);
+      if (!$bounds) {
         drupal_set_message(t('Failed to calculate text dimensions using GD toolkit. Ignoring the alignment settings.'), 'warning');
       }
       else {
         // Get height of bounding box.
         $height = $bounds[1] - $bounds[7];
         // Shift ypos down (full height on bottom, half the height on center).
-        $params['ypos'] += $params['valign'] === 'center' ? (int) ($height/2) : $height;
+        $data['ypos'] += $data['valign'] === 'center' ? (int) ($height / 2) : $height;
       }
     }
     // Adjust X position for horizontal alignment (if different from left).
-    if ($params['halign'] !== 'left') {
-      // Get bounding box.
-      // PHP Manual: "This function requires both the GD library and the » FreeType library."
-      // So it is not more demanding than imagettftext, which we need anyway.
+    if ($data['halign'] !== 'left') {
+      // Get bounding box. PHP Manual: "This function requires both the GD
+      // library and the » FreeType library.", so it is not more demanding than
+      // imagettftext(), which we need anyway.
       if ($bounds === NULL) {
-        $bounds = imagettfbbox($params['size'], 0, $params['fontpath'], $params['text']);
-        if ($bounds === FALSE) {
+        $bounds = imagettfbbox($data['size'], 0, $data['fontpath'], $data['text']);
+        if (!$bounds) {
           drupal_set_message(t('Failed to calculate text dimensions using GD toolkit. Ignoring the alignment.'), 'warning');
         }
       }
@@ -358,12 +394,12 @@ function image_gd_image_effects_text(stdClass $image, array $params) {
         // Get width of bounding box.
         $width = $bounds[2] - $bounds[0];
         // Shift xpos to the left (full width on right, half the width on center).
-        $params['xpos'] -= $params['halign'] === 'center' ? (int) ($width/2) : $width;
+        $data['xpos'] -= $data['halign'] === 'center' ? (int) ($width / 2) : $width;
       }
     }
 
     // PHP Manual: "This function requires both the GD library and the » FreeType library."
-    $bounds = imagettftext($image->resource, $params['size'], $params['angle'], $params['xpos'], $params['ypos'], $color, $params['fontpath'], $params['text']);
+    $bounds = imagettftext($image->resource, $data['size'], $data['angle'], $data['xpos'], $data['ypos'], $color, $data['fontpath'], $data['text']);
     return $bounds !== FALSE;
   }
   return FALSE;
@@ -373,25 +409,25 @@ function image_gd_image_effects_text(stdClass $image, array $params) {
  * Imagemagick toolkit specific implementation of the text effect.
  *
  * Text in Imagemagick:
- * @link http://www.imagemagick.org/script/command-line-options.php?#draw
- * @link http://www.imagemagick.org/script/command-line-options.php?#annotate
+ * - http://www.imagemagick.org/script/command-line-options.php?#draw
+ * - http://www.imagemagick.org/script/command-line-options.php?#annotate
  *
  * UTF-8/non-ascii characters:
  * To prevent problems with non-ASCII characters, the online manual suggests to
  * put the text in a file and use the @{file} syntax. This does not work with
  * the text primitive of the -draw command, so we use -annotate.
  * We put the text in a temporary file which will be deleted by our hook_exit().
- * @see: http://www.imagemagick.org/Usage/windows/#character_encoding
+ * http://www.imagemagick.org/Usage/windows/#character_encoding
  *
  * Alignment in Imagemagick:
  * This is not directly supported, though a justification option has been
- * proposed: @see http://www.imagemagick.org/Usage/bugs/future/#justification.
+ * proposed: http://www.imagemagick.org/Usage/bugs/future/#justification.
  *
  * What we do have is the gravity option:
  * Gravity is used to position a text, but it also automatically applies a
  * justification based on that placement. So we use gravity here for alignment,
  * but will thus have to rebase our positioning.
- * @see http://www.imagemagick.org/Usage/annotating/#gravity
+ * - http://www.imagemagick.org/Usage/annotating/#gravity
  *
  * Gravity  |halign|valign |hpos change|vpos change
  * ------------------------------------------------
@@ -404,8 +440,16 @@ function image_gd_image_effects_text(stdClass $image, array $params) {
  * SouthWest left   bottom  0           -height
  * South     center bottom  -width/2    -height
  * SouthEast right  bottom  -width      -height
+ *
+ * @param stdClass $image
+ * @param array $data
+ *   The parameters for this effect.
+ *
+ * @return bool
+ *   true on success, false otherwise.
+
  */
-function image_imagemagick_image_effects_text(stdClass $image, array $params) {
+function image_imagemagick_image_effects_text(stdClass $image, array $data) {
   static $alignments2gravity = array(
     'left' => array(
       'top' => array(
@@ -461,49 +505,49 @@ function image_imagemagick_image_effects_text(stdClass $image, array $params) {
   );
 
   // Convert color and alpha to Imagemagick rgba color argument.
-  $alpha = $params['alpha'] / 100;
-  $color = 'rgba(' . $params['RGB']['red']. ',' . $params['RGB']['green'] . ',' . $params['RGB']['blue'] . ','. $alpha . ')';
+  $alpha = $data['alpha'] / 100;
+  $color = 'rgba(' . $data['RGB']['red'] . ',' . $data['RGB']['green'] . ',' . $data['RGB']['blue'] . ',' . $alpha . ')';
 
   // Set gravity for the alignment and calculate the translation to the
   // requested x and y offset as starting from the gravity point.
-  $alignment_corrections = $alignments2gravity[$params['halign']][$params['valign']];
+  $alignment_corrections = $alignments2gravity[$data['halign']][$data['valign']];
   $gravity = $alignment_corrections['gravity'];
   if ($alignment_corrections['tx'] > 0) {
-    $params['xpos'] = (int) ($alignment_corrections['tx'] * $image->info['width'] - $params['xpos']);
+    $data['xpos'] = (int) ($alignment_corrections['tx'] * $image->info['width'] - $data['xpos']);
   }
   else {
-    $params['xpos'] += (int) ($alignment_corrections['tx'] * $image->info['width']);
+    $data['xpos'] += (int) ($alignment_corrections['tx'] * $image->info['width']);
   }
   if ($alignment_corrections['ty'] > 0) {
-    $params['ypos'] = (int) ($alignment_corrections['ty'] * $image->info['height'] - $params['ypos']);
+    $data['ypos'] = (int) ($alignment_corrections['ty'] * $image->info['height'] - $data['ypos']);
   }
   else {
-    $params['ypos'] += (int) ($alignment_corrections['ty'] * $image->info['height']);
+    $data['ypos'] += (int) ($alignment_corrections['ty'] * $image->info['height']);
   }
 
   // Add signs to translation, also when positive or 0.
-  if ($params['xpos'] >= 0) {
-    $params['xpos'] = '+' . $params['xpos'];
+  if ($data['xpos'] >= 0) {
+    $data['xpos'] = '+' . $data['xpos'];
   }
-  if ($params['ypos'] >= 0) {
-    $params['ypos'] = '+' . $params['ypos'];
+  if ($data['ypos'] >= 0) {
+    $data['ypos'] = '+' . $data['ypos'];
   }
 
   // Angle must be positive.
-  if ($params['angle'] < 0) {
-    $params['angle'] = $params['angle'] % 360 + 360;
+  if ($data['angle'] < 0) {
+    $data['angle'] = $data['angle'] % 360 + 360;
   }
 
-  // Set font file, size and color.
-  $image->ops[] = '-font ' . escapeshellarg($params['fontpath']);
-  $image->ops[] = "-pointsize {$params['size']}";
+  // Set font file, size and color. fontpath is the real path, not a wrapper.
+  $image->ops[] = '-font ' . escapeshellarg($data['fontpath']);
+  $image->ops[] = "-pointsize {$data['size']}";
   $image->ops[] = '-fill ' . escapeshellarg($color);
 
   // Add text to a temporary file,
   $tmp_file_name = drupal_tempnam('temporary://', 'image_effects_text');
   $tmp_file = fopen($tmp_file_name, 'w');
   if ($tmp_file) {
-    fwrite($tmp_file, $params['text']);
+    fwrite($tmp_file, $data['text']);
     fclose($tmp_file);
     // and inform our hook_exit about it.
     image_effects_text_exit($tmp_file_name);
@@ -513,13 +557,13 @@ function image_imagemagick_image_effects_text(stdClass $image, array $params) {
   else {
     // Fallback to pass the text via the command line, let's hope there are no
     // non-ASCII characters or that it works anyway (OS and locale dependent).
-    $text = $params['text'];
+    $text = $data['text'];
   }
 
   // Add gravity.
   $image->ops[] = "-gravity $gravity";
   // Add text angle, position and text (file) itself.
-  $image->ops[] = "-annotate {$params['angle']}x{$params['angle']}{$params['xpos']}{$params['ypos']} " . escapeshellarg($text);
+  $image->ops[] = "-annotate {$data['angle']}x{$data['angle']}{$data['xpos']}{$data['ypos']} " . escapeshellarg($text);
 
   return TRUE;
 }
@@ -548,14 +592,14 @@ function image_imagemagick_image_effects_text(stdClass $image, array $params) {
  * The algorithm will accept many more situations, though the result may be hard
  * to predict.
  *
+ * @param string $position
+ *   The string defining the position.
  * @param int $width
  *   The length of the horizontal dimension.
  * @param int $height
  *   The length of the vertical dimension.
  * @param int $length
  *   The length of the current dimension (should be either width or height).
- * @param string $position
- *   The string defining the position.
  *
  * @return number
  *   The computed offset in pixels.
@@ -592,7 +636,7 @@ function image_effects_text_get_offset($position, $width, $height, $length) {
         break;
       case 'center':
         // half the current dimension as provided by $length.
-        $value += $sign * $length/2;
+        $value += $sign * $length / 2;
         $sign = 1;
         break;
       default:
@@ -623,46 +667,62 @@ function image_effects_text_get_offset($position, $width, $height, $length) {
  *   Plain text to be placed on the image.
  */
 function image_effects_text_get_text(stdClass $image, array $data) {
+  // Get context about the image.
+  $image_context = imagecache_actions_get_image_context($image, $data);
+
   if ($data['text_source'] === 'text') {
+    // Replace \n with a newline character, except when preceded by a \.
     $text = preg_replace('/([^\\\\])\\\\n/', "$1\n", $data['text']);
+    // Replace \\n by \n.
     $text = preg_replace('/\\\\\\\\n/', '\n', $text);
+
+    // Replace tokens.
+    $token_data = array();
+    foreach ($image_context['referring_entities'] as /*$field_name =>*/ $field_referring_entities) {
+      foreach ($field_referring_entities as $entity_type => $entities) {
+        // We can pass only 1 entity per given type to token_replace(), we take
+        // the first.
+        $token_data[$entity_type] = reset($entities);
+      }
+    }
+    if ($image_context['managed_file']) {
+      $token_data['file'] = $image_context['managed_file'];
+    }
+    // We should not sanitize the text as it will not be rendered in the browser
+    // but is rendered on the image canvas on the server.
+    $text = token_replace($text, $token_data, array('clear' => TRUE, 'sanitize' => FALSE));
   }
-  else {
-    // Get context about the image.
-    $image_context = imagecache_actions_get_image_context($image, $data);
-
-    if ($data['text_source'] === 'alt' || $data['text_source'] === 'title') {
-      $text = '';
-      // We have 2 possible sources for the alt or title text:
-      // - Image field.
-      // - Media module (7.x-2.x) with file_entity: the alt and title come as
-      // fields of the file entity, stored in 'managed_file'. The names of the
-      // fields are field_file_image_alt_text resp. field_file_image_title_text.
-      // BTW: these fields are also available in the 'image_field' entry, but as
-      // a managed file may be existing without any image field referring to it,
-      // we do the lookup in the managed_file entry.
-      if (!empty($image_context['image_field'][$data['text_source']])) {
-        $text = $image_context['image_field'][$data['text_source']];
-      }
-      else if (!empty($image_context['managed_file'])) {
-        $field = field_get_items('file', $image_context['managed_file'], "field_file_image_{$data['text_source']}_text");
-        if ($field) {
-          $text = $field[0]['value'];
-        }
+  else if ($data['text_source'] === 'alt' || $data['text_source'] === 'title') {
+    $text = '';
+    // We have 2 possible sources for the alt or title text:
+    // - Image field.
+    // - Media module (7.x-2.x) with file_entity: the alt and title come as
+    // fields of the file entity, stored in 'managed_file'. The names of the
+    // fields are field_file_image_alt_text resp. field_file_image_title_text.
+    // BTW: these fields are also available in the 'image_field' entry, but as
+    // a managed file may be existing without any image field referring to it,
+    // we do the lookup in the managed_file entry.
+    if (!empty($image_context['image_field'][$data['text_source']])) {
+      $text = $image_context['image_field'][$data['text_source']];
+    }
+    else if (!empty($image_context['managed_file'])) {
+      $field = field_get_items('file', $image_context['managed_file'], "field_file_image_{$data['text_source']}_text");
+      if ($field) {
+        $text = $field[0]['value'];
       }
     }
-    else { // $data['text_source'] === 'php'
-      // Process the php using php_eval (rather than eval), but with GLOBAL
-      // variables, so they can be passed successfully.
-      $GLOBALS['image_context'] = $image_context;
-      $GLOBALS['image'] = $image;
-      // We don't need to check_plain() the resulting text, as the text is not
-      // rendered in a browser but processed on the server.
-      $text = module_exists('php') ? php_eval('<'.'?php global $image, $image_context; ' . $data['php'] . ' ?'.'>') : '';
+  }
+  else { // $data['text_source'] === 'php'
+    // Process the php using php_eval (rather than eval), but with GLOBAL
+    // variables, so they can be passed successfully.
+    $GLOBALS['image_context'] = $image_context;
+    $GLOBALS['image'] = $image;
+    // We don't need to check_plain() the resulting text, as the text is not
+    // rendered in a browser but processed on the server.
+    $text = module_exists('php') ? php_eval('<' . '?php global $image, $image_context; ' . $data['php'] . ' ?' . '>') : '';
 
-      unset($GLOBALS['image']);
-      unset($GLOBALS['image_context']);
-    }
+    unset($GLOBALS['image']);
+    unset($GLOBALS['image_context']);
   }
   return $text;
 }

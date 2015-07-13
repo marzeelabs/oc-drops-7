@@ -436,11 +436,18 @@ class SearchApiDbService extends SearchApiAbstractService {
       $db_field['not null'] = TRUE;
     }
     $this->connection->schema()->addField($db['table'], $db['column'], $db_field);
-    if ($db_field['type'] === 'varchar') {
-      $this->connection->schema()->addIndex($db['table'], $db['column'], array(array($db['column'], 10)));
+    try {
+      if ($db_field['type'] === 'varchar') {
+        $this->connection->schema()->addIndex($db['table'], $db['column'], array(array($db['column'], 10)));
+      }
+      else {
+        $this->connection->schema()->addIndex($db['table'], $db['column'], array($db['column']));
+      }
     }
-    else {
-      $this->connection->schema()->addIndex($db['table'], $db['column'], array($db['column']));
+    catch (PDOException $e) {
+      $variables['%field'] = $field['name'];
+      $variables['%index'] = $index->name;
+      watchdog_exception('search_api_db', $e, '%type while trying to add DBMS index for the column of field %field on index %index: !message in %function (line %line of %file).', $variables, WATCHDOG_WARNING);
     }
     if ($new_table) {
       if (search_api_is_list_type($field['type'])) {
@@ -503,11 +510,19 @@ class SearchApiDbService extends SearchApiAbstractService {
       $cleared = FALSE;
       $change = FALSE;
       $text_table = NULL;
+      $missing_text_tables = array();
 
       foreach ($fields as $name => $field) {
         if (!isset($text_table) && search_api_is_text_type($field['type'])) {
-          // Stash the shared text table name for the index.
-          $text_table = $field['table'];
+          // Stash the shared text table name for the index, if it exists.
+          // Otherwise, there was some error previously and we have to remember
+          // to later come back and set the correct table here.
+          if ($this->connection->schema()->tableExists($field['table'])) {
+            $text_table = $field['table'];
+          }
+          else {
+            $missing_text_tables[$name] = $name;
+          }
         }
 
         if (!isset($new_fields[$name])) {
@@ -552,7 +567,7 @@ class SearchApiDbService extends SearchApiAbstractService {
             $reindex = TRUE;
           }
         }
-        elseif ($new_inner_type == 'text' && $field['boost'] != $new_fields[$name]['boost']) {
+        elseif ($text_table && $new_inner_type == 'text' && $field['boost'] != $new_fields[$name]['boost']) {
           $change = TRUE;
           if (!$reindex) {
             $multiplier = $new_fields[$name]['boost'] / $field['boost'];
@@ -571,6 +586,13 @@ class SearchApiDbService extends SearchApiAbstractService {
           if (!$storageExists) {
             $this->createFieldTable($index, $new_fields[$name], $field);
           }
+        }
+        // People have reported that sometimes a text field has a different
+        // table set than the combined fulltext table, so we try to fix that
+        // here as well.
+        elseif ($text_table && $fields[$name]['table'] != $text_table) {
+          $fields[$name]['table'] = $text_table;
+          $change = TRUE;
         }
         unset($new_fields[$name]);
       }
@@ -599,6 +621,17 @@ class SearchApiDbService extends SearchApiAbstractService {
         $fields[$name]['type'] = $field['type'];
         $fields[$name]['boost'] = $field['boost'];
         $change = TRUE;
+      }
+
+      // If there were fulltext fields without valid table set, set it now.
+      if ($missing_text_tables) {
+        if (!isset($text_table)) {
+          // If we have not encountered a text table, assign a name for it.
+          $text_table = $this->findFreeTable($prefix . '_', 'text');
+        }
+        foreach ($missing_text_tables as $name) {
+          $fields[$name]['table'] = $text_table;
+        }
       }
 
       // If needed, make sure the text table exists.
@@ -711,6 +744,11 @@ class SearchApiDbService extends SearchApiAbstractService {
    *   Server-internal information about the field.
    */
   protected function removeFieldStorage($name, $field) {
+    // This might, in some instances, be called when the necessary table hasn't
+    // even been created yet.
+    if (!$this->connection->schema()->tableExists($field['table'])) {
+      return;
+    }
     if (search_api_is_text_type($field['type'])) {
       $this->connection->delete($field['table'])
         ->condition('field_name', self::getTextFieldName($name))

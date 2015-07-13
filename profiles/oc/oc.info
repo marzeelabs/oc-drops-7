@@ -166,12 +166,12 @@ dependencies[] = date_migrate
 ; Be careful with the order though, since that influences
 ; the creation of taxonomies.
 dependencies[] = oc_site
+dependencies[] = oc_pages
 dependencies[] = oc_profile
 dependencies[] = oc_project
 dependencies[] = oc_news
 dependencies[] = oc_events
 dependencies[] = oc_map
-dependencies[] = oc_pages
 dependencies[] = oc_partner
 dependencies[] = oc_wp
 dependencies[] = oc_promote

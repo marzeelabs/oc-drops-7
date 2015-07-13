@@ -17,21 +17,19 @@ projects[profile2][version] = 1.3
 projects[profile2][subdir] = "contrib"
 ; Patch to provide support for entitycache; see issue https://drupal.org/node/1387268
 projects[profile2][patch][] = "http://drupal.org/files/profile2-1387268-9.patch"
-projects[calendar][version] = 3.4
+projects[calendar][version] = 3.5
 projects[calendar][subdir] = "contrib"
-projects[bean][version] = 1.2
+projects[bean][version] = 1.9
 projects[bean][subdir] = "contrib"
-projects[blockreference][version] = 1.15
+projects[blockreference][version] = 1.16
 projects[blockreference][subdir] = "contrib"
-; We cannot apply this patch cleanly since it modifies the .info file, which is previously modified by Drush's packaging script.
-;projects[blockreference][patch][] = "http://drupal.org/files/blockreference_add_migrate_handler-1985836-1.patch"
 projects[multiple_selects][version] = 1.2
 projects[multiple_selects][subdir] = "contrib"
 
 ; Site Building
 projects[views_field_view][version] = 1.1
 projects[views_field_view][subdir] = "contrib"
-projects[draggableviews][version] = 2.0
+projects[draggableviews][version] = 2.1
 projects[draggableviews][subdir] = "contrib"
 
 ; Search
@@ -49,8 +47,7 @@ projects[facetapi][version] = 1.3
 projects[facetapi][subdir] = "contrib"
 
 ; Migrate
-
-projects[migrate][version] = 2.5
+projects[migrate][version] = 2.7
 projects[migrate][subdir] = "contrib"
 
 projects[migrate_extras][version] = 2.5
@@ -63,7 +60,7 @@ projects[migrate_extras][patch][] = "https://drupal.org/files/migrate_extras_ent
 projects[webform][version] = 3.18
 projects[webform][subdir] = "contrib"
 
-projects[logintoboggan][version] = 1.3
+projects[logintoboggan][version] = 1.5
 projects[logintoboggan][subdir] = "contrib"
 
 projects[maxlength][version] = 3.x-dev
@@ -75,61 +72,60 @@ projects[maxlength][subdir] = "contrib"
 ;projects[fivestar][version] = 2.0-alpha2
 ;projects[fivestar][subdir] = "contrib"
 
-projects[fitvids][version] = 1.9
+projects[fitvids][version] = 1.17
 projects[fitvids][subdir] = "contrib"
 
 projects[flexslider][version] = 2.x-dev
 projects[flexslider][subdir] = "contrib"
 
-projects[menu_attributes][version] = 1.0-rc2
+projects[menu_attributes][version] = 1.0-rc3
 projects[menu_attributes][subdir] = "contrib"
 
 projects[taxonomy_title][version] = 1.5
 projects[taxonomy_title][subdir] = "contrib"
 
-projects[better_exposed_filters][version] = 3.0-beta3
+projects[better_exposed_filters][version] = 3.2
 projects[better_exposed_filters][subdir] = "contrib"
 
 projects[fonticon][version] = 1.x-dev
 projects[fonticon][subdir] = "contrib"
 
-projects[smart_trim][version] = 1.4
+projects[smart_trim][version] = 1.5
 projects[smart_trim][subdir] = "contrib"
 
-projects[colorbox][version] = 2.4
+projects[colorbox][version] = 2.8
 projects[colorbox][subdir] = "contrib"
 
-projects[imagecache_actions][version] = 1.3
+projects[imagecache_actions][version] = 1.5
 projects[imagecache_actions][subdir] = "contrib"
 
-projects[crumbs][version] = 1.9
+projects[crumbs][version] = 1.10
 projects[crumbs][subdir] = "contrib"
 
-projects[taxonomy_access_fix][version] = 1.1
+projects[taxonomy_access_fix][version] = 1.3
 projects[taxonomy_access_fix][subdir] = "contrib"
+
+projects[pathauto_entity][version] = 1.0
+projects[pathauto_entity][subdir] = "contrib"
 
 ; Reporting
 ; ---------
 
-projects[google_analytics_reports][version] = 1.3
+projects[google_analytics_reports][version] = 3.0-beta1
 projects[google_analytics_reports][subdir] = "contrib"
 
 projects[chart][version] = 1.1
 projects[chart][subdir] = "contrib"
 
-projects[oauth][version] = 3.1
+projects[oauth][version] = 3.2
 projects[oauth][subdir] = "contrib"
 
 
 ; Custom modules or sandboxes
 ; ---------------------------
 
-projects[pathauto_entity][type] = "module"
-projects[pathauto_entity][download][type] = "git"
-projects[pathauto_entity][download][url] = "http://git.drupal.org/sandbox/damz/1332096.git"
-projects[pathauto_entity][subdir] = "contrib"
-projects[pathauto_entity][patch][] = "http://drupal.org/files/pathauto_entity-bulk_update_support-1407176-2.patch"
-projects[pathauto_entity][patch][] = "http://drupal.org/files/pathauto_entity-sandbox--issue-1540010-3.patch"
+;
+;
 
 ; Projects overwritten specifically for OC
 ; ----------------------------------------
@@ -154,7 +150,7 @@ projects[field_collection][patch][] = "http://drupal.org/files/field_collection_
 ; Themes
 ; ------
 
-projects[zen][version] = 5.4
+projects[zen][version] = 5.5
 
 ; Libraries
 ; ---------
