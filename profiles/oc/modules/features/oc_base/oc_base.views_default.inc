@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * oc_site.views_default.inc
+ * oc_base.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function oc_site_views_default_views() {
+function oc_base_views_default_views() {
   $export = array();
 
   $view = new view();

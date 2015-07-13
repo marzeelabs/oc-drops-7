@@ -39,17 +39,16 @@ install:
  - drush cc drush
 
  # Build Behat dependencies
- #- cd ./tests/behat
- #- composer install --no-interaction --prefer-dist
- #- cd ../../../
+ - cd ./tests/behat
+ - composer install --no-interaction --prefer-dist
+ - cd ../../../
 
  # Setting Behat environment
- #- DISTRO=`echo $TRAVIS_BUILD_DIR | sed -e "s/\/[^\/]*$//"`
- #- export BEHAT_PARAMS="extensions[Drupal\\DrupalExtension\\Extension][drupal][drupal_root]=$DISTRO/drupal"
+ - DISTRO=`echo $TRAVIS_BUILD_DIR | sed -e "s/\/[^\/]*$//"`
+ - export BEHAT_PARAMS="extensions[Drupal\\DrupalExtension\\Extension][drupal][drupal_root]=$DISTRO/drupal"
 
  # Build Codebase
  #- mkdir private_files
- - cd ../
  - mkdir profiles
  - mv oc profiles/
  - mkdir drupal
@@ -87,26 +86,37 @@ before_script:
  - drush mi --all
 
  # Start server
- #- drush runserver --server=builtin 8888 > /dev/null 2>&1 &
- #- until netstat -an 2>/dev/null | grep '8888.*LISTEN'; do true; done
+ - drush runserver --server=builtin 8888 > /dev/null 2>&1 &
+ - until netstat -an 2>/dev/null | grep '8888.*LISTEN'; do true; done
 
 script:
  - pwd
  # Run Behat tests
- #- cd profiles/foundation/tests/behat
- #- ./bin/behat --config behat.travis.yml
+ - cd profiles/oc/tests/behat
+ - ./bin/behat --config behat.travis.yml
+ - cd ../../../..
+ - pwd
 
 # Commit to deploy repo
 after_success:
+# Only deploy on tag
+- if ([ -z "$TRAVIS_TAG" ]); then exit 0 ; fi
+# Change to $HOME/build/marzeelabs
 - cd ..
+# Get current oc-drops-7
 - git clone git@github.com:marzeelabs/oc-drops-7.git
+# Replace OC Profile on oc-drops-7 with the one we just built
 - rm -Rf oc-drops-7/profiles/oc
 - cp -R drupal/profiles/oc oc-drops-7/profiles/oc
+# Change to $HOME/build/marzeelabs/oc-drops-7/profiles/oc
 - cd oc-drops-7/profiles/oc
+# Get rid of all the git stuff so we don't commit as a submodule
 - rm -Rf .git
 - rm .gitignore
+# Config git for our commit
 - git config user.name "Marzee Labs"
 - git config user.email "info@marzeelabs.org"
+# Stage, commit and push back to Github
 - git add --all :/
-- git commit -m "Built from commit $REV"
+- git commit -m "OC Profile $TRAVIS_TAG"
 - git push origin master

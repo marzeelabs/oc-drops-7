@@ -65,6 +65,7 @@ function oc_pages_field_default_field_instances() {
           'colorbox_image_style' => 'flexslider_full',
           'colorbox_multivalue_index' => NULL,
           'colorbox_node_style' => 'oc_small_block',
+          'colorbox_node_style_first' => '',
         ),
         'type' => 'colorbox',
         'weight' => 2,

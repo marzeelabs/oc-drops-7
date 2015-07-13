@@ -7,7 +7,6 @@ dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = multiple_selects
 dependencies[] = node
-dependencies[] = oc_news
 dependencies[] = options
 dependencies[] = smart_trim
 dependencies[] = strongarm

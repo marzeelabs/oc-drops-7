@@ -18,7 +18,6 @@ dependencies[] = leaflet_views
 dependencies[] = list
 dependencies[] = multiple_selects
 dependencies[] = number
-dependencies[] = oc_news
 dependencies[] = strongarm
 dependencies[] = taxonomy
 dependencies[] = views

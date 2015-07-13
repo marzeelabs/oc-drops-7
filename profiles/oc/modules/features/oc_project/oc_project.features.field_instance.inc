@@ -615,7 +615,8 @@ function oc_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'taxonomy_term-project_type-field_projecttype_fonticon'
+  // Exported field_instance:
+  // 'taxonomy_term-project_type-field_projecttype_fonticon'
   $field_instances['taxonomy_term-project_type-field_projecttype_fonticon'] = array(
     'bundle' => 'project_type',
     'default_value' => NULL,

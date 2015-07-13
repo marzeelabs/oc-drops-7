@@ -1,0 +1,21 @@
+default:
+  paths:
+    features: 'features'
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte: ~
+      selenium2: ~
+      base_url: http://${drupal.uri}
+      files_path: ../../
+    Drupal\DrupalExtension\Extension:
+      blackbox: ~
+      drupal:
+        drupal_root: ${drush.root}
+      drush:
+        root: ${drush.root}
+      api_driver: 'drupal'
+      region_map:
+        Video Area: ".video-container"
+        Video Iframe: "#arte_vp_jwplayer_iframe"
+        Tabs: ".tabs"
+        Body first letter: ".firstletter"

@@ -13,7 +13,6 @@ dependencies[] = geocoder
 dependencies[] = geofield
 dependencies[] = leaflet
 dependencies[] = leaflet_views
-dependencies[] = oc_news
 dependencies[] = smart_trim
 features[context][] = events_archive
 features[context][] = events_list

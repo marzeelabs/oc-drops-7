@@ -14,7 +14,6 @@ dependencies[] = image
 dependencies[] = maxlength
 dependencies[] = media
 dependencies[] = media_youtube
-dependencies[] = mediafield
 dependencies[] = node
 dependencies[] = php
 dependencies[] = strongarm

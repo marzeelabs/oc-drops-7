@@ -5,7 +5,7 @@
  * Implements hook_install().
  */
 function oc_profile_install() {
-  module_load_include('module', 'oc_site');
+  module_load_include('module', 'oc_base');
   $default_image = array(
     'scheme' => 'public://',
     'dest_directory' => 'default-images',
@@ -13,7 +13,7 @@ function oc_profile_install() {
     'file_name' => 'default-user.png',
     'variable' => 'oc_profile_default_image_fid',
   );
-  $file = _oc_site_default_image_create($default_image);
+  $file = _oc_base_default_image_create($default_image);
 }
 
 /**

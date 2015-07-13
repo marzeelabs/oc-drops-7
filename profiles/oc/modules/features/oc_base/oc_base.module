@@ -1,10 +1,10 @@
 <?php
 
-include_once('oc_site.features.inc');
+include_once('oc_base.features.inc');
 /**
  * Implements hook_menu().
  */
-function oc_site_menu() {
+function oc_base_menu() {
   $items = array();
 
   $items['admin/oc'] = array(
@@ -12,8 +12,8 @@ function oc_site_menu() {
     'description' => 'Administer Site settings',
     'page callback' => 'drupal_get_form',
     'access arguments' => array('administer site configuration'),
-    'page arguments' => array('oc_site_settings_form'),
-		'file' => 'oc_site.admin.inc',
+    'page arguments' => array('oc_base_settings_form'),
+		'file' => 'oc_base.admin.inc',
   );
 
   $items['admin/oc/site'] = array(
@@ -48,7 +48,7 @@ function oc_site_menu() {
 /**
  * Implements hook_init().
  */
-function oc_site_init() {
+function oc_base_init() {
   if (current_path() == 'admin/reports/google-analytics') {
     drupal_set_message(t('To access complete and up-to-date statistics on !url you need to have a gmail account and request access to the site administrator.', array('!url' => l(t('Google Analytics'), 'http://analytics.google.com', array('attributes' => array('target'=>'_blank'))))), 'warning');
   }
@@ -57,7 +57,7 @@ function oc_site_init() {
 /**
  * Implement hook_block_info()
  */
-function oc_site_block_info() {
+function oc_base_block_info() {
   $blocks['oc-site-info'] = array(
     'info' => t('OC Site General Info'),
     'cache' => DRUPAL_CACHE_GLOBAL,
@@ -80,33 +80,33 @@ function oc_site_block_info() {
 /**
  * Implement hook_block_view()
  */
-function oc_site_block_view($delta = '') {
+function oc_base_block_view($delta = '') {
   $block = array();
 
   switch ($delta) {
     case 'oc-site-info':
       $block['subject'] = '';
       $block['content'] = array(
-        '#markup' => theme('oc_site_info'),
+        '#markup' => theme('oc_base_info'),
         // '#contextual_links' => array(
-        //   'oc_site' => array('admin/oc', array($delta)),
+        //   'oc_base' => array('admin/oc', array($delta)),
         // ),
       );
       break;
     case 'oc-site-logos':
-      $logos_selected = variable_get('oc_site_logos', array('europe' => 1, 'fp7' => 1, 'mariecurie' => 0));
-      $logos = oc_site_logos();
+      $logos_selected = variable_get('oc_base_logos', array('europe' => 1, 'fp7' => 1, 'mariecurie' => 0));
+      $logos = oc_base_logos();
       foreach ($logos_selected as $logo => $selected) {
         if (!$selected) {
           unset($logos[$logo]);
         }
       }
       $block['subject'] = '';
-      $block['content'] = array('#markup' => theme('oc_site_logos', array('logos' => $logos)));
+      $block['content'] = array('#markup' => theme('oc_base_logos', array('logos' => $logos)));
       break;
     case 'oc-site-map':
       $block['subject'] = '';
-      $block['content'] = array('#markup' => theme('oc_site_map'));
+      $block['content'] = array('#markup' => theme('oc_base_map'));
       break;
   }
 
@@ -117,8 +117,8 @@ function oc_site_block_view($delta = '') {
 /**
  * Return a list of logos to be used in the footer.
  */
-function oc_site_logos() {
-  $img_path = base_path() . drupal_get_path('module', 'oc_site') . '/images/';
+function oc_base_logos() {
+  $img_path = base_path() . drupal_get_path('module', 'oc_base') . '/images/';
 
   $default = array(
     'europe' => array(
@@ -139,7 +139,7 @@ function oc_site_logos() {
   );
 
   // Allow other modules to implement more options.
-  drupal_alter('oc_site_logos', $default);
+  drupal_alter('oc_base_logos', $default);
 
   return $default;
 }
@@ -147,7 +147,7 @@ function oc_site_logos() {
 /**
  * Implementation of hook_menu_block_blocks().
  */
-function oc_site_menu_block_blocks() {
+function oc_base_menu_block_blocks() {
   return array(
     // Main navigation menu
     'oc-main-menu' => array(
@@ -180,7 +180,7 @@ function oc_site_menu_block_blocks() {
 /**
  * Implement hook_block_view_alter()
  */
-function oc_site_block_view_alter(&$data, $block) {
+function oc_base_block_view_alter(&$data, $block) {
   if ($block->module == 'system') {
     switch ($block->delta) {
       case 'user-menu':
@@ -201,19 +201,19 @@ function oc_site_block_view_alter(&$data, $block) {
 /**
  * Implement hook_theme().
  */
-function oc_site_theme() {
+function oc_base_theme() {
   return array(
-    'oc_site_info' => array(
+    'oc_base_info' => array(
       'variables' => array(),
-      'template' => 'templates/oc_site_info'
+      'template' => 'templates/oc_base_info'
     ),
-    'oc_site_logos' => array(
+    'oc_base_logos' => array(
       'variables' => array('logos' => NULL),
-      'template' => 'templates/oc_site_logos'
+      'template' => 'templates/oc_base_logos'
     ),
-    'oc_site_map' => array(
+    'oc_base_map' => array(
       'variables' => array(),
-      'template' => 'templates/oc_site_map'
+      'template' => 'templates/oc_base_map'
     ),
   );
 }
@@ -221,7 +221,7 @@ function oc_site_theme() {
 /**
  * Implement template_preprocess_views_view()
  */
-function oc_site_preprocess_views_view(&$vars) {
+function oc_base_preprocess_views_view(&$vars) {
   // adds "active" class to first row of the view to kick off the slideshow
   if (in_array($vars['name'], array('promoted_content_big_blocks', 'events'))) {
     $vars['rows'] = preg_replace('/views-row-first/', 'views-row-first active', $vars['rows']);
@@ -233,7 +233,7 @@ function oc_site_preprocess_views_view(&$vars) {
  *
  * Add contextual links to the default blocks.
  */
-function oc_site_contextual_links_view_alter(&$element, &$items) {
+function oc_base_contextual_links_view_alter(&$element, &$items) {
   if (isset($element['#element']['#block'])) {
     switch ($element['#element']['#block']->delta) {
       case 'oc-site-logos':
@@ -255,9 +255,9 @@ function oc_site_contextual_links_view_alter(&$element, &$items) {
 /**
  * Implements template_preprocess_page().
  */
-function oc_site_preprocess(&$variables, $hook) {
-  $variables['oc_site_mission'] = filter_xss_admin(variable_get('oc_site_mission', ''));
-  $variables['oc_site_slogan'] = filter_xss_admin(variable_get('oc_site_slogan', ''));
+function oc_base_preprocess(&$variables, $hook) {
+  $variables['oc_base_mission'] = filter_xss_admin(variable_get('oc_base_mission', ''));
+  $variables['oc_base_slogan'] = filter_xss_admin(variable_get('oc_base_slogan', ''));
 }
 
 
@@ -278,7 +278,7 @@ function oc_site_preprocess(&$variables, $hook) {
  * @return
  *   A file object of the saved default image file.
  */
-function _oc_site_default_image_create($default_image) {
+function _oc_base_default_image_create($default_image) {
   $file_uri = $default_image['scheme'] . $default_image['dest_directory'] . '/' . $default_image['file_name'];
   $full_dir = $default_image['scheme'] . $default_image['dest_directory'];
   file_prepare_directory($full_dir, FILE_CREATE_DIRECTORY);
@@ -300,6 +300,6 @@ function _oc_site_default_image_create($default_image) {
 /**
  * Implements hook_form_alter().
  */
-function oc_site_form_user_register_form_alter(&$form, &$form_state) {
+function oc_base_form_user_register_form_alter(&$form, &$form_state) {
   $form['account']['status']['#default_value'] = 0;
 }

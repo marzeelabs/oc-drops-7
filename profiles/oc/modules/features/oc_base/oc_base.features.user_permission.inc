@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * oc_site.features.user_permission.inc
+ * oc_base.features.user_permission.inc
  */
 
 /**
  * Implements hook_user_default_permissions().
  */
-function oc_site_user_default_permissions() {
+function oc_base_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: 'access content'.

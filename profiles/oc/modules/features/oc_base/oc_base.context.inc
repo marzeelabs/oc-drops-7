@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * oc_site.context.inc
+ * oc_base.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function oc_site_context_default_contexts() {
+function oc_base_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();
@@ -134,7 +134,7 @@ function oc_site_context_default_contexts() {
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
-  $context->name = 'oc_site_front_page';
+  $context->name = 'oc_base_front_page';
   $context->description = 'Sets the front page blocks.';
   $context->tag = 'site';
   $context->conditions = array(
@@ -174,7 +174,7 @@ function oc_site_context_default_contexts() {
   // Included for use with string extractors like potx.
   t('Sets the front page blocks.');
   t('site');
-  $export['oc_site_front_page'] = $context;
+  $export['oc_base_front_page'] = $context;
 
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
@@ -192,14 +192,14 @@ function oc_site_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'oc_site-oc-site-info' => array(
-          'module' => 'oc_site',
+        'oc_base-oc-site-info' => array(
+          'module' => 'oc_base',
           'delta' => 'oc-site-info',
           'region' => 'footer',
           'weight' => '-10',
         ),
-        'oc_site-oc-site-logos' => array(
-          'module' => 'oc_site',
+        'oc_base-oc-site-logos' => array(
+          'module' => 'oc_base',
           'delta' => 'oc-site-logos',
           'region' => 'footer',
           'weight' => '-9',

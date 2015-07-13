@@ -86,7 +86,7 @@ function oc_pages_field_default_field_bases() {
         'menu_block' => 0,
         'node' => 0,
         'oc_promote' => 0,
-        'oc_site' => 0,
+        'oc_base' => 0,
         'search_api_page' => 0,
         'system' => 0,
         'user' => 0,

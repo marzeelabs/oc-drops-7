@@ -67,12 +67,15 @@ function oc_promote_field_default_field_bases() {
       ),
     ),
     'locked' => 0,
-    'module' => 'mediafield',
+    'module' => 'file',
     'settings' => array(
+      'display_default' => 0,
+      'display_field' => 0,
       'profile2_private' => FALSE,
+      'uri_scheme' => 'public',
     ),
     'translatable' => 0,
-    'type' => 'media',
+    'type' => 'file',
   );
 
   // Exported field_base: 'field_promoted_text'

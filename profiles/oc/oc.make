@@ -47,7 +47,7 @@ projects[facetapi][version] = 1.3
 projects[facetapi][subdir] = "contrib"
 
 ; Migrate
-projects[migrate][version] = 2.7
+projects[migrate][version] = 2.8
 projects[migrate][subdir] = "contrib"
 
 projects[migrate_extras][version] = 2.5

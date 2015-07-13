@@ -74,30 +74,25 @@ function oc_promote_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'mediafield',
-        'settings' => array(
-          'file_view_mode' => 'default',
-        ),
-        'type' => 'media',
-        'weight' => 0,
+        'module' => 'file',
+        'settings' => array(),
+        'type' => 'file_default',
+        'weight' => 3,
       ),
       'promoted_big' => array(
         'label' => 'hidden',
-        'module' => 'mediafield',
+        'module' => 'file_entity',
         'settings' => array(
           'file_view_mode' => 'promoted_big',
         ),
-        'type' => 'media',
+        'type' => 'file_rendered',
         'weight' => 0,
       ),
       'promoted_small' => array(
-        'label' => 'hidden',
-        'module' => 'mediafield',
-        'settings' => array(
-          'file_view_mode' => 'promoted_small',
-        ),
-        'type' => 'media',
-        'weight' => -10,
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -112,7 +107,10 @@ function oc_promote_field_default_field_instances() {
     'label' => 'Media Teaser',
     'required' => 1,
     'settings' => array(
+      'description_field' => 0,
+      'file_directory' => 'featured-images',
       'file_extensions' => 'jpg jpeg gif png',
+      'max_filesize' => '',
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -134,13 +132,11 @@ function oc_promote_field_default_field_instances() {
           'media_default--media_browser_my_files' => 0,
           'media_internet' => 'media_internet',
           'upload' => 'upload',
-          'youtube' => 'youtube',
         ),
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
         'progress_indicator' => 'throbber',
       ),
       'type' => 'media_generic',
-      'weight' => 2,
+      'weight' => 7,
     ),
   );
 

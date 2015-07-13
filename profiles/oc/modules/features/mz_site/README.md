@@ -48,7 +48,7 @@ function mz_site_update_N() {
 /**
  * Remove field_group
  */
-function oc_site_update_7012() {
+function oc_base_update_7012() {
   ctools_include('export');
   $group = field_group_load_field_group('group_rprofile_project', 'profile2', 'researcher_profile', 'form');
   field_group_group_export_delete($group, FALSE);

@@ -28,7 +28,7 @@
         <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" class="header__logo" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" class="header__logo-image" /></a>
       <?php endif; ?>
   
-      <?php if ($site_name || isset($oc_site_slogan) || isset($oc_site_mission)): ?>
+      <?php if ($site_name || isset($oc_base_slogan) || isset($oc_base_mission)): ?>
         <div class="header__name-and-slogan" id="name-and-slogan">
           <?php if ($site_name): ?>
             <h1 class="header__site-name" id="site-name">
@@ -36,12 +36,12 @@
             </h1>
           <?php endif; ?>
   
-          <?php if (isset($oc_site_slogan)): ?>
-            <div class="header__site-slogan" id="site-slogan"><?php print $oc_site_slogan; ?></div>
+          <?php if (isset($oc_base_slogan)): ?>
+            <div class="header__site-slogan" id="site-slogan"><?php print $oc_base_slogan; ?></div>
           <?php endif; ?>
           
-          <?php if (isset($oc_site_mission)): ?>
-            <div class="header__site-mission" id="site-mission"><?php print $oc_site_mission; ?></div>
+          <?php if (isset($oc_base_mission)): ?>
+            <div class="header__site-mission" id="site-mission"><?php print $oc_base_mission; ?></div>
           <?php endif; ?>
           
         </div>

@@ -61,8 +61,6 @@ dependencies[] = transliteration
 
 ; MZ - Media
 dependencies[] = media
-; to be deprecated, but need to refactor oc_promote before we can move here
-dependencies[] = mediafield
 ; To be reviewed carefully before enabling again
 ;dependencies[] = media_internet
 ;dependencies[] = media_youtube
@@ -165,7 +163,7 @@ dependencies[] = date_migrate
 ; OC - features
 ; Be careful with the order though, since that influences
 ; the creation of taxonomies.
-dependencies[] = oc_site
+dependencies[] = oc_base
 dependencies[] = oc_pages
 dependencies[] = oc_profile
 dependencies[] = oc_project

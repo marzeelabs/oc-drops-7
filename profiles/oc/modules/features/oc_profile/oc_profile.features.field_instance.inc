@@ -10,7 +10,8 @@
 function oc_profile_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'profile2-researcher_profile-field_rprofile_address'
+  // Exported field_instance:
+  // 'profile2-researcher_profile-field_rprofile_address'
   $field_instances['profile2-researcher_profile-field_rprofile_address'] = array(
     'bundle' => 'researcher_profile',
     'default_value' => array(
@@ -119,7 +120,8 @@ function oc_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-researcher_profile-field_rprofile_desctitle'
+  // Exported field_instance:
+  // 'profile2-researcher_profile-field_rprofile_desctitle'
   $field_instances['profile2-researcher_profile-field_rprofile_desctitle'] = array(
     'bundle' => 'researcher_profile',
     'default_value' => NULL,
@@ -288,7 +290,8 @@ function oc_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-researcher_profile-field_rprofile_first_name'
+  // Exported field_instance:
+  // 'profile2-researcher_profile-field_rprofile_first_name'
   $field_instances['profile2-researcher_profile-field_rprofile_first_name'] = array(
     'bundle' => 'researcher_profile',
     'default_value' => NULL,
@@ -367,7 +370,8 @@ function oc_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-researcher_profile-field_rprofile_keywords'
+  // Exported field_instance:
+  // 'profile2-researcher_profile-field_rprofile_keywords'
   $field_instances['profile2-researcher_profile-field_rprofile_keywords'] = array(
     'bundle' => 'researcher_profile',
     'default_value' => NULL,
@@ -519,7 +523,8 @@ function oc_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-researcher_profile-field_rprofile_last_name'
+  // Exported field_instance:
+  // 'profile2-researcher_profile-field_rprofile_last_name'
   $field_instances['profile2-researcher_profile-field_rprofile_last_name'] = array(
     'bundle' => 'researcher_profile',
     'default_value' => NULL,
@@ -598,7 +603,8 @@ function oc_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-researcher_profile-field_rprofile_location'
+  // Exported field_instance:
+  // 'profile2-researcher_profile-field_rprofile_location'
   $field_instances['profile2-researcher_profile-field_rprofile_location'] = array(
     'bundle' => 'researcher_profile',
     'deleted' => 0,
@@ -738,7 +744,8 @@ function oc_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-researcher_profile-field_rprofile_members'
+  // Exported field_instance:
+  // 'profile2-researcher_profile-field_rprofile_members'
   $field_instances['profile2-researcher_profile-field_rprofile_members'] = array(
     'bundle' => 'researcher_profile',
     'default_value' => NULL,
@@ -808,7 +815,8 @@ function oc_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-researcher_profile-field_rprofile_partner_ref'
+  // Exported field_instance:
+  // 'profile2-researcher_profile-field_rprofile_partner_ref'
   $field_instances['profile2-researcher_profile-field_rprofile_partner_ref'] = array(
     'bundle' => 'researcher_profile',
     'default_value' => NULL,
@@ -1022,7 +1030,8 @@ function oc_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-researcher_profile-field_rprofile_publications'
+  // Exported field_instance:
+  // 'profile2-researcher_profile-field_rprofile_publications'
   $field_instances['profile2-researcher_profile-field_rprofile_publications'] = array(
     'bundle' => 'researcher_profile',
     'default_value' => NULL,
@@ -1100,7 +1109,8 @@ function oc_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-researcher_profile-field_rprofile_short_bio'
+  // Exported field_instance:
+  // 'profile2-researcher_profile-field_rprofile_short_bio'
   $field_instances['profile2-researcher_profile-field_rprofile_short_bio'] = array(
     'bundle' => 'researcher_profile',
     'default_value' => NULL,
@@ -1178,7 +1188,8 @@ function oc_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-researcher_profile-field_rprofile_telephone'
+  // Exported field_instance:
+  // 'profile2-researcher_profile-field_rprofile_telephone'
   $field_instances['profile2-researcher_profile-field_rprofile_telephone'] = array(
     'bundle' => 'researcher_profile',
     'default_value' => NULL,
@@ -1340,7 +1351,8 @@ function oc_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-researcher_profile-field_rprofile_website'
+  // Exported field_instance:
+  // 'profile2-researcher_profile-field_rprofile_website'
   $field_instances['profile2-researcher_profile-field_rprofile_website'] = array(
     'bundle' => 'researcher_profile',
     'default_value' => NULL,
@@ -1435,7 +1447,8 @@ function oc_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'taxonomy_term-researcher_profile_type-field_researcherpt_fonticon'
+  // Exported field_instance:
+  // 'taxonomy_term-researcher_profile_type-field_researcherpt_fonticon'
   $field_instances['taxonomy_term-researcher_profile_type-field_researcherpt_fonticon'] = array(
     'bundle' => 'researcher_profile_type',
     'default_value' => NULL,

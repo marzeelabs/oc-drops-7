@@ -32,6 +32,11 @@ function oc_promote_ds_field_settings_info() {
         'class' => '',
       ),
     ),
+    'field_promoted_media' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['node|featured_content|promoted_big'] = $ds_fieldsetting;
 
@@ -112,6 +117,8 @@ function oc_promote_ds_layout_settings_info() {
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
     'layout_attributes_merge' => 0,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
   );
   $export['node|featured_content|promoted_big'] = $ds_layout;
 

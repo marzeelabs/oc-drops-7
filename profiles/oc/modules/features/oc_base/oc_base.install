@@ -3,7 +3,7 @@
 /**
  * Implements hook_enable().
  */
-function oc_site_enable() {
+function oc_base_enable() {
   // Manually inserting permissions of features that define these taxonomies.
   // Until https://drupal.org/node/1063204 is fixed.
 
@@ -33,14 +33,14 @@ function oc_site_enable() {
   // Set some default values that will be overwritten
   $slogan = t('Science communication and open-source technology for your Consortium');
   variable_set('site_slogan', $slogan);
-  variable_set('oc_site_slogan', $slogan);
-  variable_set('oc_site_attribution', t("[Your Consortium] is a collaborative project of the European Commission's Seventh Framework Programme."));
-  variable_set('oc_site_address', "[Your Consortium]<br/>Escullera del Poblenou 15<br/>08005 Barcelona");
+  variable_set('oc_base_slogan', $slogan);
+  variable_set('oc_base_attribution', t("[Your Consortium] is a collaborative project of the European Commission's Seventh Framework Programme."));
+  variable_set('oc_base_address', "[Your Consortium]<br/>Escullera del Poblenou 15<br/>08005 Barcelona");
 }
 
 // /**
 //  * Enable module abc.
 //  */
-// function oc_site_update_7001() {
+// function oc_base_update_7001() {
 //   module_enable(array('abc'));
 // }

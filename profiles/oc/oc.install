@@ -253,7 +253,7 @@ function install_welcome_submit($form, &$form_state) {
 //     'oc_partner',
 //     'oc_promote',
 //     'oc_search',
-//     'oc_site',
+//     'oc_base',
 //   );
 
 //   $operations = array();

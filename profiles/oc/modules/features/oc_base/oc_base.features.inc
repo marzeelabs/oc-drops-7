@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * oc_site.features.inc
+ * oc_base.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function oc_site_ctools_plugin_api($module = NULL, $api = NULL) {
+function oc_base_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "context" && $api == "context") {
     return array("version" => "3");
   }
@@ -19,14 +19,14 @@ function oc_site_ctools_plugin_api($module = NULL, $api = NULL) {
 /**
  * Implements hook_views_api().
  */
-function oc_site_views_api($module = NULL, $api = NULL) {
+function oc_base_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
 /**
  * Implements hook_image_default_styles().
  */
-function oc_site_image_default_styles() {
+function oc_base_image_default_styles() {
   $styles = array();
 
   // Exported image style: oc_elastislide.

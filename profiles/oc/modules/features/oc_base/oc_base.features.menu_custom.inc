@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * oc_site.features.menu_custom.inc
+ * oc_base.features.menu_custom.inc
  */
 
 /**
  * Implements hook_menu_default_menu_custom().
  */
-function oc_site_menu_default_menu_custom() {
+function oc_base_menu_default_menu_custom() {
   $menus = array();
 
   // Exported menu: menu-anonymous-menu.

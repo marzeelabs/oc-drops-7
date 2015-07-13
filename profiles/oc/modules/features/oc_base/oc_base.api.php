@@ -8,7 +8,7 @@
 /**
  * Alter the list of logos provided by OC.
  */
-function hook_oc_site_logos_alter(&$logos) {
+function hook_oc_base_logos_alter(&$logos) {
   $logos['europe'] = array(
     'img' => $img_path . 'europe.png',
     'title' => t("European Comission"),

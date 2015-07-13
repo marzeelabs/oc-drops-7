@@ -4,7 +4,7 @@
  * Copied settings from systems form, for easy changing.
  * Added a couple of site-wide settings.
  */
-function oc_site_settings_form() {
+function oc_base_settings_form() {
 
   $form['site_information'] = array(
     '#type' => 'fieldset',
@@ -23,18 +23,18 @@ function oc_site_settings_form() {
     '#default_value' => variable_get('site_slogan', ''),
     '#description' => t("Will appear in Google, etc."),
   );
-  $form['site_information']['oc_site_slogan'] = array(
+  $form['site_information']['oc_base_slogan'] = array(
     '#type' => 'textarea',
     '#rows' => 3,
     '#title' => t('Slogan (header)'),
-    '#default_value' => variable_get('oc_site_slogan', variable_get('site_slogan', '')),
+    '#default_value' => variable_get('oc_base_slogan', variable_get('site_slogan', '')),
     '#description' => t("Will appear on the home page"),
   );
-  $form['site_information']['oc_site_mission'] = array(
+  $form['site_information']['oc_base_mission'] = array(
     '#type' => 'textarea',
     '#rows' => 3,
     '#title' => t('Mission (header)'),
-    '#default_value' => variable_get('oc_site_mission', ''),
+    '#default_value' => variable_get('oc_base_mission', ''),
     '#description' => t("Will often appear on the home page below the slogan"),
   );
   $form['site_information']['site_mail'] = array(
@@ -44,31 +44,31 @@ function oc_site_settings_form() {
     '#description' => t("The <em>From</em> address in automated e-mails sent during registration and new password requests, and other notifications. (Use an address ending in your site's domain to help prevent this e-mail being flagged as spam.)"),
     '#required' => TRUE,
   );
-  $form['site_information']['oc_site_address'] = array(
+  $form['site_information']['oc_base_address'] = array(
     '#type' => 'textarea',
     '#rows' => 3,
     '#title' => t('Postal address'),
-    '#default_value' => variable_get('oc_site_address', ''),
+    '#default_value' => variable_get('oc_base_address', ''),
     '#description' => t("Will usually appear in the footer."),
   );
-  $form['site_information']['oc_site_attribution'] = array(
+  $form['site_information']['oc_base_attribution'] = array(
     '#type' => 'textarea',
     '#rows' => 1,
     '#title' => t('Attribution'),
-    '#default_value' => variable_get('oc_site_attribution', ''),
+    '#default_value' => variable_get('oc_base_attribution', ''),
     '#description' => t("Will usually appear in the footer. <br/>For example: \"MYPROJECT is a project in the 'Marie Curie Initial Training Networks Theme' of the European Commission's Seventh Framework Programme.\""),
   );
 
 
-  foreach (oc_site_logos() as $logo => $logo_data) {
+  foreach (oc_base_logos() as $logo => $logo_data) {
     $logos_options[$logo] = $logo_data['title'];
   }
 
-  $form['site_information']['oc_site_logos'] = array(
+  $form['site_information']['oc_base_logos'] = array(
     '#type' => 'checkboxes',
     '#options' => $logos_options,
     '#title' => t('Logos to be used in the footer'),
-    '#default_value' => variable_get('oc_site_logos', drupal_map_assoc(array('europe', 'fp7'))),
+    '#default_value' => variable_get('oc_base_logos', drupal_map_assoc(array('europe', 'fp7'))),
     '#description' => t("Check the logos that need to appear in the footer. If you need more logos, please let us know."),
   );
 

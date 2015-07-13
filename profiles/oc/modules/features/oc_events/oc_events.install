@@ -4,7 +4,7 @@
  * Implements hook_install().
  */
 function oc_events_install() {
-  module_load_include('module', 'oc_site');
+  module_load_include('module', 'oc_base');
   $default_image = array(
     'scheme' => 'public://',
     'dest_directory' => 'default-images',
@@ -12,7 +12,7 @@ function oc_events_install() {
     'file_name' => 'default-event.png',
     'variable' => 'oc_events_default_image_fid',
   );
-  $file = _oc_site_default_image_create($default_image);
+  $file = _oc_base_default_image_create($default_image);
 }
 
 /**

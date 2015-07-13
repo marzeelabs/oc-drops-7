@@ -4,7 +4,7 @@
  * Implements hook_install().
  */
 function oc_news_install() {
-  module_load_include('module', 'oc_site');
+  module_load_include('module', 'oc_base');
   $default_image = array(
     'scheme' => 'public://',
     'dest_directory' => 'default-images',
@@ -12,7 +12,7 @@ function oc_news_install() {
     'file_name' => 'default-news.png',
     'variable' => 'oc_news_default_image_fid',
   );
-  $file = _oc_site_default_image_create($default_image);
+  $file = _oc_base_default_image_create($default_image);
 }
 
 /**
