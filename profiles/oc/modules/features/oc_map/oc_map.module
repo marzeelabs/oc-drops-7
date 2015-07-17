@@ -6,9 +6,6 @@
 
 include_once('oc_map.features.inc');
 
-// define('OC_MAP_DEFAULT_LAYER', 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png');
-define('OC_MAP_DEFAULT_LAYER', 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/22677/256/{z}/{x}/{y}.png');
-
 /**
  * Implements hook_menu().
  */
@@ -60,8 +57,9 @@ function oc_map_leaflet_map_info() {
     // 'maxClusterRadius' => 30,
   );
 
-  // Fetch the mapbox layer
-  $map_layer = variable_get('oc_map_layer', OC_MAP_DEFAULT_LAYER);
+  // Fetch the layer
+  $map_layer = '//' . 'mt{s}.googleapis.com/vt?x={x}&y={y}&z={z}';
+  $attr_google = 'Map data &copy; <a target="attr" href="http://googlemaps.com">Google</a>';
 
   // We define two types of layers: the world/europe view and the city view
   $layers = array(
@@ -85,11 +83,14 @@ function oc_map_leaflet_map_info() {
       'description' => $data['name'],
       'settings' => $data['settings'] + $default_settings,
       'layers' => array(
-        'earth' => array(
+        'layer' => array(
+          'type' => 'google',
           'urlTemplate' => $map_layer,
-          // 'options' => array(
-          //   'attribution' => 'Map tiles by <a href="http://mapbox.com">Mapbox</a>',
-          // )
+          'options' => array(
+            'attribution' => $attr_google,
+            'subdomains' => array(0, 1, 2, 3),
+            'detectRetina' => TRUE,
+          ),
         ),
       ),
     );

@@ -1,0 +1,19 @@
+.profile-field-rprofile-partner-ref__text {
+  display: inline-block;
+  vertical-align: middle;
+  width: 80%;
+}
+
+.profile-field-rprofile-partner-ref__logo {
+  height: 40px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.profile-field-rprofile-partner-ref__logo hr {
+  margin: 5px 0;
+}
+
+.chosen-single .profile-field-rprofile-partner-ref__logo {
+  display: none;
+}

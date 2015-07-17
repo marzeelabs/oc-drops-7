@@ -202,6 +202,37 @@ function oc_profile_admin_paths() {
  * Implements hook_form_profile2_form_alter().
  */
 function oc_profile_form_profile2_form_alter(&$form, &$form_state) {
+  // Enable Chosen
+  $form['profile_researcher_profile']['field_rprofile_partner_ref'][LANGUAGE_NONE]['#attributes'] = array('class' => array('chosen-select'));
+  $form['profile_researcher_profile']['field_rprofile_partner_ref'][LANGUAGE_NONE]['#chosen'] = TRUE;
+
+  // Get institution logos and addresses
+  $logoPaths = array();
+  $locations = array();
+  foreach ($form['profile_researcher_profile']['field_rprofile_partner_ref'][LANGUAGE_NONE]['#options'] as $nid => $option) {
+    if ( is_int($nid) ) {
+      $image = field_get_items('node', node_load($nid), 'field_partner_logo')[0];
+      $locations[$nid] = field_get_items('node', node_load($nid), 'field_partner_address')[0];
+    } else {
+      continue;
+    }
+
+    if ( !empty($image) ) {
+      $imageUrl = file_create_url($image['uri']);
+      $logoPaths[$nid] = $imageUrl;
+    } else {
+      $defaultImage = file_load(field_info_field('field_partner_logo')['settings']['default_image'])->uri;
+      $defaultImageUrl = file_create_url($defaultImage);
+      $logoPaths[$nid] = $defaultImageUrl;
+    }
+  }
+
+  // Apend logos and addresses with JS
+  drupal_add_css(drupal_get_path('module', 'oc_profile') . '/css/oc_profile_form.css', 'file');
+  drupal_add_js(array('oc_profile' => array('partnerLogos' => $logoPaths, 'partnerAddresses' => $locations)),'setting');
+  drupal_add_js(drupal_get_path('module', 'oc_profile') . '/js/oc_profile_form.js', array('scope' => 'footer'));
+
+  // Add extra description
   $form['profile_researcher_profile']['field_rprofile_partner_ref'][LANGUAGE_NONE]['#description'] .= ' ' . t('If the institution is not yet there, you need to !create', array('!create' => l(t('create it first.'), 'node/add/partner', array('attributes' => array('target'=>'_blank')))));
 }
 

@@ -27,6 +27,8 @@ class OCUsersMigration extends OCMigration {
     $this->addSimpleMappings(array('name', 'mail', 'status'));
 
     $this->addFieldMapping('pass', 'name');
+
+    $this->addFieldMapping('role', 'system_role')->defaultValue('authenticated user');
   }
 }
 

@@ -1,7 +1,10 @@
+sudo: false
 notifications:
   email: false
   slack:
     secure: "LTnCgREJY7JDuUTBYljE5IG2CtTRawl5mZ6Lv/EVxWtQPE7P8kn5gnRJ1gQvETxCQt+F4/u5AKx51Mkh+ubAufWF6+OdLZvtWtnLVKmXuCQSrioRNUn7mzCweBZmBkbxCfND22ATsiUeeBqVPOX+m7e5G7kn0fGuZTHzuXBJ938="
+    on_success: change
+    on_failure: always
 
 # No need for git history here
 git:
@@ -28,7 +31,6 @@ cache:
 
 install:
 
- - sudo apt-get update > /dev/null
  - "mysql -e 'create database drupal;'"
 
  # Install latest Drush 6.
@@ -70,7 +72,7 @@ install:
  # Get Selenium
  - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.1.jar
  - java -jar selenium-server-standalone-2.42.1.jar > /dev/null 2>&1 &
- - until netstat -an 2>/dev/null | grep '4444.*LISTEN'; do true; done
+ - sleep 5
 
  # Disable sendmail
  - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -84,10 +86,12 @@ before_script:
  # Migrate processes
  #- drush mreg
  - drush mi --all
+ # The institutions aren't geocoded when created, we have to save them again to trigger geocoding
+ - drush mi OCPartners --update
 
  # Start server
  - drush runserver --server=builtin 8888 > /dev/null 2>&1 &
- - until netstat -an 2>/dev/null | grep '8888.*LISTEN'; do true; done
+ - sleep 5
 
 script:
  - pwd

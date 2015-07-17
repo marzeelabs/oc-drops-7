@@ -31,9 +31,10 @@ class OCPages extends OCMigration {
     $this->addFieldMapping('field_page_blocks', 'blocks')
        ->separator('|');
 
+    $this->addFieldMapping('status')->defaultValue(1);
+
     $this->addFieldMapping('uid')->defaultValue(1);
     $this->addFieldMapping('is_new')->defaultValue(TRUE);
-    $this->addFieldMapping('workbench_moderation_state_new')->defaultValue('published');
   }
 
   public function prepareRow($row) {

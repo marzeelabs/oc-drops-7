@@ -34,11 +34,6 @@ function mz_editorial_filter_default_formats() {
           'filter_html_nofollow' => 0,
         ),
       ),
-      'media_filter' => array(
-        'weight' => -46,
-        'status' => 1,
-        'settings' => array(),
-      ),
       'filter_autop' => array(
         'weight' => -45,
         'status' => 1,
@@ -95,11 +90,6 @@ function mz_editorial_filter_default_formats() {
       ),
       'filter_autop' => array(
         'weight' => 0,
-        'status' => 1,
-        'settings' => array(),
-      ),
-      'media_filter' => array(
-        'weight' => 2,
         'status' => 1,
         'settings' => array(),
       ),

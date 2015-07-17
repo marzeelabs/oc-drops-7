@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OC Theme feature.
+ */
+
+include_once 'oc_theme.features.inc';

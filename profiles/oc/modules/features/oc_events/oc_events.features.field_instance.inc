@@ -604,14 +604,18 @@ function oc_events_field_default_field_instances() {
         'settings' => array(
           'height' => 250,
           'icon' => array(
+            'html' => '',
+            'htmlClass' => 'leaflet_map_icon',
             'iconAnchor' => array(
               'x' => '',
               'y' => '',
             ),
+            'iconImageStyle' => '',
             'iconSize' => array(
               'x' => '',
               'y' => '',
             ),
+            'iconType' => 'marker',
             'iconUrl' => '',
             'popupAnchor' => array(
               'x' => '',
@@ -624,22 +628,25 @@ function oc_events_field_default_field_instances() {
             'shadowUrl' => '',
           ),
           'leaflet_map' => 'oc_map-single-marker',
-          'popup' => 0,
+          'popup' => array(
+            'show' => 0,
+            'text' => '',
+          ),
           'vector_display' => array(
-            'clickable' => 1,
+            'clickable' => 0,
             'color' => '',
             'dashArray' => '',
-            'fill' => 1,
+            'fill' => 0,
             'fillColor' => '',
             'fillOpacity' => '',
             'opacity' => '',
-            'stroke' => 1,
+            'stroke' => 0,
             'stroke_override' => 0,
             'weight' => '',
           ),
           'zoom' => array(
-            'initialZoom' => '',
-            'maxZoom' => 19,
+            'initialZoom' => -1,
+            'maxZoom' => -1,
             'minZoom' => 1,
           ),
         ),

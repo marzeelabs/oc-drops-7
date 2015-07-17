@@ -269,11 +269,7 @@ function oc_partner_ds_layout_settings_info() {
       'field_partner_address' => 'secondary',
       'field_partner_location' => 'secondary',
     ),
-    'classes' => array(
-      'layout_class' => array(
-        '' => '',
-      ),
-    ),
+    'classes' => array(),
     'wrappers' => array(
       'primary' => 'div',
       'secondary' => 'div',
@@ -281,6 +277,8 @@ function oc_partner_ds_layout_settings_info() {
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
     'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
     'hide_page_title' => '0',
     'page_option_title' => '',
   );

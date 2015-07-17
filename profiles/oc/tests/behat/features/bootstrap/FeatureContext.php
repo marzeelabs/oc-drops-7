@@ -172,7 +172,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iUploadAnImageToMedia() {
     $page = $this->getSession()->getPage();
-    $page->clickLink("Select");
+    $page->clickLink("Browse");
     $iframe = $page->find('css', '#mediaBrowser');
 
     if ( empty($iframe) ) {

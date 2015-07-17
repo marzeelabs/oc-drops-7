@@ -842,17 +842,16 @@ function oc_events_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['style_plugin'] = 'table';
-  /* Field: Content: Attached images */
-  $handler->display->display_options['fields']['field_event_images']['id'] = 'field_event_images';
-  $handler->display->display_options['fields']['field_event_images']['table'] = 'field_data_field_event_images';
-  $handler->display->display_options['fields']['field_event_images']['field'] = 'field_event_images';
-  $handler->display->display_options['fields']['field_event_images']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_event_images']['settings'] = array(
+  /* Field: Content: Teaser Image */
+  $handler->display->display_options['fields']['field_event_imageteaser']['id'] = 'field_event_imageteaser';
+  $handler->display->display_options['fields']['field_event_imageteaser']['table'] = 'field_data_field_event_imageteaser';
+  $handler->display->display_options['fields']['field_event_imageteaser']['field'] = 'field_event_imageteaser';
+  $handler->display->display_options['fields']['field_event_imageteaser']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_event_imageteaser']['settings'] = array(
     'image_style' => 'thumbnail',
     'image_link' => '',
   );
-  $handler->display->display_options['fields']['field_event_images']['delta_limit'] = '1';
-  $handler->display->display_options['fields']['field_event_images']['delta_offset'] = '0';
+  /* Field: Broken/missing handler */
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';

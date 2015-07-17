@@ -51,7 +51,7 @@ projects[context][subdir] = "contrib"
 projects[flag][version] = 3.5
 projects[flag][subdir] = "contrib"
 
-projects[menu_block][version] = 2.6
+projects[menu_block][version] = 2.7
 projects[menu_block][subdir] = "contrib"
 
 projects[token][version] = 1.6
@@ -80,7 +80,7 @@ projects[module_filter][subdir] = "contrib"
 projects[devel][version] = 1.5
 projects[devel][subdir] = "contrib"
 
-projects[features][version] = 2.5
+projects[features][version] = 2.6
 projects[features][subdir] = "contrib"
 
 ; Feature Extra: additional exporting capabilities
@@ -117,7 +117,7 @@ projects[role_export][subdir] = "contrib"
 projects[pathauto][version] = 1.2
 projects[pathauto][subdir] = "contrib"
 
-projects[redirect][version] = 1.0-rc1
+projects[redirect][version] = 1.0-rc3
 projects[redirect][subdir] = "contrib"
 
 projects[globalredirect][version] = 1.5
@@ -135,16 +135,12 @@ projects[transliteration][subdir] = "contrib"
 projects[page_title][version] = 2.7
 projects[page_title][subdir] = "contrib"
 
-projects[metatag][version] = 1.0-rc2
+projects[metatag][version] = 1.6
 projects[metatag][subdir] = "contrib"
 
 ; Media
+projects[media][version] = 2.0-beta1
 projects[media][subdir] = "contrib"
-projects[media][version] = 2.x-dev
-; Features export issues, see https://drupal.org/node/2071073
-;projects[media][patch][] = "https://drupal.org/files/media-warnings-creating-default-object-from-emtpy-value-2071073-1.patch"
-; Media is moving a lot, until this revision we tested. Needs a serious review and then can be upgraded
-projects[media][download][revision] = b097d48
 
 ; The search in media_youtube submodule
 ; has been disabled on 3.0 due to changes
@@ -155,9 +151,7 @@ projects[media_youtube][version] = 3.0
 
 
 projects[file_entity][subdir] = "contrib"
-; Use dev release until 2.0-alpha3 is bumped to a new version
-projects[file_entity][version] = 2.x-dev
-projects[file_entity][revision] = 1e037ad
+projects[file_entity][version] = 2.0-beta2
 
 ; Editor experience
 projects[workbench][version] = 1.2
@@ -199,7 +193,7 @@ projects[invisimail][subdir] = "contrib"
 ;projects[spamicide][subdir] = "contrib"
 
 ; UX
-projects[chosen][version] = 2.0-alpha4
+projects[chosen][version] = 2.0-beta4
 projects[chosen][subdir] = "contrib"
 
 ; Theming
@@ -218,9 +212,5 @@ libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEd
 ; Drush
 ; -----
 
-; Phing Drush support. Use dev until 1.1 released
-projects[phingdrushtask][download][type] = "git"
-projects[phingdrushtask][download][url] = "http://git.drupal.org/project/phingdrushtask.git"
-projects[phingdrushtask][download][branch] = "7.x-1.x"
-projects[phingdrushtask][download][revision] = 10b9919
+projects[phingdrushtask][version] = 1.1
 projects[phingdrushtask][subdir] = drush

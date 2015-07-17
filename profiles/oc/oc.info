@@ -71,7 +71,6 @@ dependencies[] = file_entity
 dependencies[] = wysiwyg
 dependencies[] = workbench
 dependencies[] = workbench_media
-dependencies[] = workbench_moderation
 dependencies[] = ckeditor_link
 dependencies[] = menu_admin_per_menu
 ;Solve dependency on main make file from within the .install first and contribute patch - if not chosen is useless in a profile info file
@@ -98,7 +97,7 @@ dependencies[] = globalredirect
 dependencies[] = page_title
 
 ; MZ - features
-dependencies[] = mz_site
+; dependencies[] = mz_site
 dependencies[] = mz_editorial
 
 ; MZ - Geo
@@ -160,6 +159,9 @@ dependencies[] = migrate_extras
 dependencies[] = migrate_ui
 dependencies[] = date_migrate
 
+; OC - theme
+dependencies[] = chosen
+
 ; OC - features
 ; Be careful with the order though, since that influences
 ; the creation of taxonomies.
@@ -173,5 +175,6 @@ dependencies[] = oc_map
 dependencies[] = oc_partner
 dependencies[] = oc_wp
 dependencies[] = oc_promote
+dependencies[] = oc_theme
 ; @todo re-enable after the feature is fixed
 ;dependencies[] = oc_search

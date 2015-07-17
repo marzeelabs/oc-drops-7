@@ -358,12 +358,12 @@ You can organize the list of researchers by grabbing the handle on the left side
   $handler->display->display_options['fields']['url']['display_as_link'] = FALSE;
   $handler->display->display_options['fields']['url']['link_to_entity'] = 0;
   /* Field: Global: Base URL */
-  $handler->display->display_options['fields']['mz_site_base_url']['id'] = 'mz_site_base_url';
-  $handler->display->display_options['fields']['mz_site_base_url']['table'] = 'views';
-  $handler->display->display_options['fields']['mz_site_base_url']['field'] = 'mz_site_base_url';
-  $handler->display->display_options['fields']['mz_site_base_url']['label'] = '';
-  $handler->display->display_options['fields']['mz_site_base_url']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['mz_site_base_url']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['oc_base_base_url']['id'] = 'oc_base_base_url';
+  $handler->display->display_options['fields']['oc_base_base_url']['table'] = 'views';
+  $handler->display->display_options['fields']['oc_base_base_url']['field'] = 'oc_base_base_url';
+  $handler->display->display_options['fields']['oc_base_base_url']['label'] = '';
+  $handler->display->display_options['fields']['oc_base_base_url']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['oc_base_base_url']['element_label_colon'] = FALSE;
   /* Field: Profile: User uid */
   $handler->display->display_options['fields']['user_1']['id'] = 'user_1';
   $handler->display->display_options['fields']['user_1']['table'] = 'profile';
@@ -422,7 +422,7 @@ You can organize the list of researchers by grabbing the handle on the left side
   $handler->display->display_options['fields']['user']['field'] = 'user';
   $handler->display->display_options['fields']['user']['label'] = 'Actions';
   $handler->display->display_options['fields']['user']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['user']['alter']['text'] = '<a href="[mz_site_base_url]/user/[user]/edit?destination=admin/workbench/content/researcher-profiles" title="Click to edit user login preferences and account.">edit user settings</a> | <a href="[mz_site_base_url]/profile-researcher_profile/[user]/edit?destination=admin/workbench/content/researcher-profiles" title="Click to edit the public researcher profile of this user.">edit researcher profile</a>';
+  $handler->display->display_options['fields']['user']['alter']['text'] = '<a href="[oc_base_base_url]/user/[user]/edit?destination=admin/workbench/content/researcher-profiles" title="Click to edit user login preferences and account.">edit user settings</a> | <a href="[oc_base_base_url]/profile-researcher_profile/[user]/edit?destination=admin/workbench/content/researcher-profiles" title="Click to edit the public researcher profile of this user.">edit researcher profile</a>';
   $handler->display->display_options['fields']['user']['alter']['absolute'] = TRUE;
   /* Sort criterion: Draggableviews: Weight */
   $handler->display->display_options['sorts']['weight']['id'] = 'weight';

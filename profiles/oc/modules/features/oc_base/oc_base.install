@@ -38,9 +38,9 @@ function oc_base_enable() {
   variable_set('oc_base_address', "[Your Consortium]<br/>Escullera del Poblenou 15<br/>08005 Barcelona");
 }
 
-// /**
-//  * Enable module abc.
-//  */
-// function oc_base_update_7001() {
-//   module_enable(array('abc'));
-// }
+/**
+ * Enable module abc.
+ */
+function oc_base_update_7100() {
+  module_enable(array('oc_theme', 'chosen', 'ctools', 'features', 'strongarm', 'system'));
+}

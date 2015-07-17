@@ -298,6 +298,18 @@ function _oc_base_default_image_create($default_image) {
 }
 
 /**
+ * Implements hook_page_alter().
+ *
+ * Fix occurrence of both toolbar and admin_menu. Remove toolbar if the user can access admin_menu.
+ */
+function oc_base_page_alter(&$page) {
+  // Hide Toolbar for those who can access the Admin Menu.
+  if (user_access('access administration menu') && !empty($page['page_top']['toolbar'])) {
+    $page['page_top']['toolbar']['#access'] = FALSE;
+  }
+}
+
+/**
  * Implements hook_form_alter().
  */
 function oc_base_form_user_register_form_alter(&$form, &$form_state) {

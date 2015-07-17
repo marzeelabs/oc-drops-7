@@ -33,15 +33,14 @@ projects[draggableviews][version] = 2.1
 projects[draggableviews][subdir] = "contrib"
 
 ; Search
-; We need to use the dev release until 1.5 is released. See issue at http://drupal.org/node/1414078#comment-7187770
 projects[search_api][version] = 1.8
 projects[search_api][subdir] = "contrib"
-;projects[search_api][patch][] = "https://drupal.org/files/1414078-28--exportable_reverts.patch"
 
 ; A bug in search_api_db prevents search_api_db fields to be created from exported search servers. Solution is to disable/enable any search features. See also http://drupal.org/node/1347438#comment-7038576
 projects[search_api_db][version] = 1.x-dev
 projects[search_api_db][subdir] = "contrib"
-projects[search_api_page][version] = 1.x-dev
+projects[search_api_db][download][revision] = "80d4070"
+projects[search_api_page][version] = 1.2
 projects[search_api_page][subdir] = "contrib"
 projects[facetapi][version] = 1.3
 projects[facetapi][subdir] = "contrib"
@@ -63,13 +62,13 @@ projects[webform][subdir] = "contrib"
 projects[logintoboggan][version] = 1.5
 projects[logintoboggan][subdir] = "contrib"
 
-projects[maxlength][version] = 3.x-dev
+projects[maxlength][version] = 3.2
 projects[maxlength][subdir] = "contrib"
 
 ;projects[votingapi][version] = 2.10
 ;projects[votingapi][subdir] = "contrib"
 
-;projects[fivestar][version] = 2.0-alpha2
+;projects[fivestar][version] = 2.1
 ;projects[fivestar][subdir] = "contrib"
 
 projects[fitvids][version] = 1.17
@@ -77,6 +76,7 @@ projects[fitvids][subdir] = "contrib"
 
 projects[flexslider][version] = 2.x-dev
 projects[flexslider][subdir] = "contrib"
+projects[flexslider][download][revision] = "19a7e49"
 
 projects[menu_attributes][version] = 1.0-rc3
 projects[menu_attributes][subdir] = "contrib"
@@ -89,11 +89,12 @@ projects[better_exposed_filters][subdir] = "contrib"
 
 projects[fonticon][version] = 1.x-dev
 projects[fonticon][subdir] = "contrib"
+projects[fonticon][download][revision] = "ddbbee5"
 
 projects[smart_trim][version] = 1.5
 projects[smart_trim][subdir] = "contrib"
 
-projects[colorbox][version] = 2.8
+projects[colorbox][version] = 2.9
 projects[colorbox][subdir] = "contrib"
 
 projects[imagecache_actions][version] = 1.5
@@ -107,6 +108,9 @@ projects[taxonomy_access_fix][subdir] = "contrib"
 
 projects[pathauto_entity][version] = 1.0
 projects[pathauto_entity][subdir] = "contrib"
+
+projects[chosen][version] = 2.0-beta4
+projects[chosen][subdir] = "contrib"
 
 ; Reporting
 ; ---------
@@ -131,10 +135,6 @@ projects[oauth][subdir] = "contrib"
 ; ----------------------------------------
 
 ; @todo remove
-projects[workbench_moderation][version] = 1.4
-projects[workbench_moderation][subdir] = "contrib"
-
-; @todo remove
 projects[spamicide][version] = 1.2
 projects[spamicide][subdir] = "contrib"
 
@@ -142,10 +142,8 @@ projects[spamicide][subdir] = "contrib"
 ; Optional projects
 ; -----------------
 
-projects[field_collection][version] = 1.0-beta5
+projects[field_collection][version] = 1.0-beta8
 projects[field_collection][subdir] = "contrib"
-; Patch to make field_collection work together with workbench. See http://drupal.org/node/1807460#comment-6577270
-projects[field_collection][patch][] = "http://drupal.org/files/field_collection_with_workbench_moderation-1807460-1.patch"
 
 ; Themes
 ; ------
@@ -166,3 +164,8 @@ libraries[fitvids][directory_name] = "fitvids"
 libraries[colorbox][download][type] = "git"
 libraries[colorbox][download][url] = "git://github.com/jackmoore/colorbox.git"
 libraries[colorbox][directory_name] = "colorbox"
+
+libraries[chosen][download][type] = "get"
+libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip"
+libraries[chosen][directory_name] = "chosen"
+libraries[chosen][destination] = "libraries"

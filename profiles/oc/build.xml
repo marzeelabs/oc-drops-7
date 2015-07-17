@@ -196,7 +196,7 @@ Configuration of which installation profile and database to use in done in
       <option name="db-url">${drupal.db.url}</option>
       <option name="account-name">admin</option>
       <option name="account-pass">admin</option>
-      <option name="site-name">"Open Consortium - ${TODAY}"</option>
+      <option name="site-name">Open Consortium - ${TODAY}</option>
       <param>${drupal.profile}</param>
     </drush>
     <!-- Revert features again after installation -->

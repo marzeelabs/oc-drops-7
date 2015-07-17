@@ -35,3 +35,19 @@ function oc_wp_preprocess_node(&$vars) {
       break;
   }
 }
+
+/**
+ * Implements hook_migrate_api().
+ */
+function oc_wp_migrate_api() {
+  $api = array(
+    'api' => 2,
+    'migrations' => array(
+      'OCWorkPackages' => array(
+        'class_name' => 'OCWorkPackagesMigration',
+        'group_name' => 'OCMigrations'
+      ),
+    ),
+  );
+  return $api;
+}

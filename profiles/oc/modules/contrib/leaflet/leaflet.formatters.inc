@@ -380,7 +380,7 @@ function leaflet_apply_map_settings(&$map, &$features, $map_settings, $entity_ty
     $entity = !empty($feat['entity']) ? $feat['entity'] : NULL;
     $token_args = array('data' => array($entity_type => $entity), 'options' => array('clear' => TRUE));
     foreach ($token_by_entity as $key) {
-      if (isset($settings[$key]) && is_array($settings[$key])) {
+      if (isset($settings[$key])) {
         array_walk_recursive($settings[$key], 'leaflet_token_replace', $token_args);
       }
     }
@@ -893,7 +893,7 @@ function leaflet_initial_zoom_validate($element, &$form_state, $form) {
         form_error($element, t('The initial zoom level should be greater than the minimum zoom settings'));
       }
     }
-    if (isset($max_zoom) && $max_zoom != -1) {
+    elseif (isset($max_zoom) && $max_zoom != -1) {
       if ($max_zoom < $initial_zoom) {
         form_error($element, t('The initial zoom level should be less than the maximum zoom settings'));
       }
