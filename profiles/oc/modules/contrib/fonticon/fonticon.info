@@ -3,9 +3,9 @@ description = "Use font icons to decorate menu links, taxonomy terms, or via cod
 core = "7.x"
 
 
-; Information added by drush on 2015-07-17
+; Information added by drush on 2015-09-21
 version = "7.x-1.x-dev"
 core = "7.x"
 project = "fonticon"
-datestamp = "1437173083"
+datestamp = "1442832382"
 

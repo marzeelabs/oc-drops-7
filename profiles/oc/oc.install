@@ -380,6 +380,10 @@ function _oc_create_taxonomy() {
       'PhD (ESR)',
       'Post-doc (ER)',
     )),
+    'partner_type' => drupal_map_assoc(array(
+      'Academia',
+      'Company',
+    )),
   );
 
   foreach ($data as $name => $terms) {

@@ -106,7 +106,14 @@ function oc_partner_strongarm() {
       ),
     ),
     'extra_fields' => array(
-      'form' => array(),
+      'form' => array(
+        'title' => array(
+          'weight' => '0',
+        ),
+        'path' => array(
+          'weight' => '7',
+        ),
+      ),
       'display' => array(),
     ),
   );

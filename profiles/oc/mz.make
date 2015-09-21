@@ -38,6 +38,8 @@ projects[addressfield][subdir] = "contrib"
 ; Site building modules
 projects[views][version] = 3.11
 projects[views][subdir] = "contrib"
+; See https://www.drupal.org/node/2481401 (problem was occuring in /jobs view)
+projects[views][patch][] = "https://www.drupal.org/files/issues/check_if_exposed_input_exists-2481401-14.patch"
 
 projects[views_bulk_operations][version] = 3.3
 projects[views_bulk_operations][subdir] = "contrib"
@@ -166,14 +168,9 @@ projects[workbench_media][subdir] = "contrib"
 projects[ckeditor_link][version] = 2.3
 projects[ckeditor_link][subdir] = "contrib"
 
-projects[wysiwyg][version] = 2.2
+projects[wysiwyg][version] = 2.x-dev
 projects[wysiwyg][subdir] = "contrib"
-; Allow individual width/height per field
-; @see https://drupal.org/node/507696
-projects[wysiwyg][patch][] = "https://drupal.org/files/wysiwyg_field_size_507696_96_0.patch"
-; Add support for CKEditor 4
-; @see http://drupal.org/node/1853550#comment-6919236
-projects[wysiwyg][patch][] = "http://drupal.org/files/wysiwyg-support_v4_ckeditor-1853550-46.patch"
+projects[caption_filter][revision] = 727a208
 
 ; Using dev version to support responsive images; @todo which issue is that?
 projects[caption_filter][version] = 1.x-dev

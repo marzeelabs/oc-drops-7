@@ -122,8 +122,20 @@ function oc_project_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
-  $handler->display->display_options['css_class'] = 'view-grid-less';
+  $handler->display->display_options['css_class'] = 'view-list';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Snippet: Snippet */
+  $handler->display->display_options['header']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['table'] = 'views';
+  $handler->display->display_options['header']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['snippet'] = 'jobs_page_header';
+  $handler->display->display_options['defaults']['footer'] = FALSE;
+  /* Footer: Snippet: Snippet */
+  $handler->display->display_options['footer']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['table'] = 'views';
+  $handler->display->display_options['footer']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['snippet'] = 'jobs_page_footer';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';

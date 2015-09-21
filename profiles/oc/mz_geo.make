@@ -28,7 +28,7 @@ projects[leaflet_markercluster][subdir] = "contrib"
 ;libraries[leaflet][download][tag] = "v0.7.3"
 
 libraries[leaflet][download][type] = "file"
-libraries[leaflet][download][url] = "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.1.zip"
+libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
 
 libraries[leaflet_markercluster][type] = "libraries"
 libraries[leaflet_markercluster][download][type] = "git"

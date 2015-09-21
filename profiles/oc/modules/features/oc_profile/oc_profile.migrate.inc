@@ -28,7 +28,7 @@ class OCUsersMigration extends OCMigration {
 
     $this->addFieldMapping('pass', 'name');
 
-    $this->addFieldMapping('role', 'system_role')->defaultValue('authenticated user');
+    $this->addFieldMapping('role_names', 'system_role')->defaultValue('authenticated user');
   }
 }
 
@@ -98,7 +98,8 @@ class OCProfilesMigration extends OCMigration {
     $this->addFieldMapping('field_rprofile_partner_ref', 'institution')
       ->sourceMigration('OCPartners');
 
-    $this->addFieldMapping('field_rprofile_keywords', 'type');
+    $this->addFieldMapping('field_rprofile_keywords', 'type')
+      ->separator('|');
     $this->addFieldMapping('field_rprofile_keywords:ignore_case')
       ->defaultValue(TRUE);
 

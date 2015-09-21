@@ -13,6 +13,51 @@ function oc_base_context_default_contexts() {
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
+  $context->name = 'oc_base_front_page';
+  $context->description = 'Sets the front page blocks.';
+  $context->tag = 'site';
+  $context->conditions = array(
+    'path' => array(
+      'values' => array(
+        '<front>' => '<front>',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'views-news-block' => array(
+          'module' => 'views',
+          'delta' => 'news-block',
+          'region' => 'postscript_first',
+          'weight' => '-10',
+        ),
+        'views-events-block_2' => array(
+          'module' => 'views',
+          'delta' => 'events-block_2',
+          'region' => 'postscript_second',
+          'weight' => '-9',
+        ),
+        'bean-oc-about' => array(
+          'module' => 'bean',
+          'delta' => 'oc-about',
+          'region' => 'sidebar_first',
+          'weight' => '-10',
+        ),
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Sets the front page blocks.');
+  t('site');
+  $export['oc_base_front_page'] = $context;
+
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
   $context->name = 'oc_menu_blocks';
   $context->description = 'Sitewide menus';
   $context->tag = 'site';
@@ -130,51 +175,6 @@ function oc_base_context_default_contexts() {
   t('Sitewide menus for the authenticated user.');
   t('site');
   $export['oc_menu_blocks_auth'] = $context;
-
-  $context = new stdClass();
-  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
-  $context->api_version = 3;
-  $context->name = 'oc_base_front_page';
-  $context->description = 'Sets the front page blocks.';
-  $context->tag = 'site';
-  $context->conditions = array(
-    'path' => array(
-      'values' => array(
-        '<front>' => '<front>',
-      ),
-    ),
-  );
-  $context->reactions = array(
-    'block' => array(
-      'blocks' => array(
-        'views-news-block' => array(
-          'module' => 'views',
-          'delta' => 'news-block',
-          'region' => 'postscript_first',
-          'weight' => '-10',
-        ),
-        'views-events-block_2' => array(
-          'module' => 'views',
-          'delta' => 'events-block_2',
-          'region' => 'postscript_second',
-          'weight' => '-9',
-        ),
-        'bean-oc-about' => array(
-          'module' => 'bean',
-          'delta' => 'oc-about',
-          'region' => 'sidebar_first',
-          'weight' => '-10',
-        ),
-      ),
-    ),
-  );
-  $context->condition_mode = 0;
-
-  // Translatables
-  // Included for use with string extractors like potx.
-  t('Sets the front page blocks.');
-  t('site');
-  $export['oc_base_front_page'] = $context;
 
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */

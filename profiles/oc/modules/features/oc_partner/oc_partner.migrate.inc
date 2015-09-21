@@ -44,6 +44,9 @@ class OCPartners extends OCMigration {
     $this->addFieldMapping('field_partner_logo:source_dir')
       ->defaultValue(drupal_get_path('module', 'oc_partner') . '/import/images');
 
+    // Type
+    $this->addFieldMapping('field_partner_type', 'type');
+
     $this->addFieldMapping('status')->defaultValue(1);
 
     $this->addFieldMapping('uid', 'uid')->defaultValue(1);
@@ -59,6 +62,7 @@ class OCPartners extends OCMigration {
       array('address', 'Address'),
       array('postal_code', 'Postal Code'),
       array('image', 'Image'),
+      array('type', 'Type'),
       array('body', 'Body'),
     );
   }

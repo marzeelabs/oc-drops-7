@@ -86,8 +86,8 @@ before_script:
  # Migrate processes
  #- drush mreg
  - drush mi --all
- # The institutions aren't geocoded when created, we have to save them again to trigger geocoding
- - drush mi OCPartners --update
+ # The content isn't geocoded when created, we have to save them again to trigger geocoding
+ - drush mi --all --update
 
  # Start server
  - drush runserver --server=builtin 8888 > /dev/null 2>&1 &

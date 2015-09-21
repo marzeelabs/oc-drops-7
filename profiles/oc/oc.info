@@ -75,6 +75,8 @@ dependencies[] = ckeditor_link
 dependencies[] = menu_admin_per_menu
 ;Solve dependency on main make file from within the .install first and contribute patch - if not chosen is useless in a profile info file
 ;dependencies[] = chosen
+dependencies[] = panels
+dependencies[] = snippet
 
 ; MZ - Developer
 dependencies[] = features

@@ -76,6 +76,15 @@ function mz_editorial_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'administer snippet'.
+  $permissions['administer snippet'] = array(
+    'name' => 'administer snippet',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'snippet',
+  );
+
   // Exported permission: 'administer workbench'.
   $permissions['administer workbench'] = array(
     'name' => 'administer workbench',
@@ -110,6 +119,16 @@ function mz_editorial_user_default_permissions() {
       'editor' => 'editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: 'manage snippet'.
+  $permissions['manage snippet'] = array(
+    'name' => 'manage snippet',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'editor' => 'editor',
+    ),
+    'module' => 'snippet',
   );
 
   // Exported permission: 'revert revisions'.

@@ -31,6 +31,11 @@ projects[views_field_view][version] = 1.1
 projects[views_field_view][subdir] = "contrib"
 projects[draggableviews][version] = 2.1
 projects[draggableviews][subdir] = "contrib"
+; - this is for edition of views headers + dependency with panels
+projects[snippet][version] = 1.9
+projects[snippet][subdir] = "contrib"
+projects[panels][version] = 3.5
+projects[panels][subdir] = "contrib"
 
 ; Search
 projects[search_api][version] = 1.8
@@ -90,6 +95,7 @@ projects[better_exposed_filters][subdir] = "contrib"
 projects[fonticon][version] = 1.x-dev
 projects[fonticon][subdir] = "contrib"
 projects[fonticon][download][revision] = "ddbbee5"
+projects[fonticon][patch][] = "http://www.drupal.org/files/issues/php_warning-2561625-1.patch"
 
 projects[smart_trim][version] = 1.5
 projects[smart_trim][subdir] = "contrib"

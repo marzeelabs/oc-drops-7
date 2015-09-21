@@ -529,6 +529,18 @@ function oc_events_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'ticker';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Snippet: Snippet */
+  $handler->display->display_options['header']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['table'] = 'views';
+  $handler->display->display_options['header']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['snippet'] = 'events_block_header';
+  $handler->display->display_options['defaults']['footer'] = FALSE;
+  /* Footer: Snippet: Snippet */
+  $handler->display->display_options['footer']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['table'] = 'views';
+  $handler->display->display_options['footer']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['snippet'] = 'events_block_footer';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Date -  start date (field_event_date) */
   $handler->display->display_options['sorts']['field_event_date_value']['id'] = 'field_event_date_value';
@@ -602,6 +614,18 @@ function oc_events_views_default_views() {
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Snippet: Snippet */
+  $handler->display->display_options['header']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['table'] = 'views';
+  $handler->display->display_options['header']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['snippet'] = 'events_page_header';
+  $handler->display->display_options['defaults']['footer'] = FALSE;
+  /* Footer: Snippet: Snippet */
+  $handler->display->display_options['footer']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['table'] = 'views';
+  $handler->display->display_options['footer']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['snippet'] = 'events_page_footer';
   $handler->display->display_options['defaults']['empty'] = FALSE;
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
@@ -731,6 +755,18 @@ function oc_events_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Snippet: Snippet */
+  $handler->display->display_options['header']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['table'] = 'views';
+  $handler->display->display_options['header']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['snippet'] = 'past_events_block_header';
+  $handler->display->display_options['defaults']['footer'] = FALSE;
+  /* Footer: Snippet: Snippet */
+  $handler->display->display_options['footer']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['table'] = 'views';
+  $handler->display->display_options['footer']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['snippet'] = 'past_events_block_footer';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -851,7 +887,6 @@ function oc_events_views_default_views() {
     'image_style' => 'thumbnail',
     'image_link' => '',
   );
-  /* Field: Broken/missing handler */
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';

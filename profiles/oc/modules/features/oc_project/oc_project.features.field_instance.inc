@@ -593,9 +593,8 @@ function oc_project_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'fonticon_taxonomy',
         'settings' => array(),
-        'type' => 'fonticon_taxonomy_term_reference_plain',
+        'type' => 'hidden',
         'weight' => 4,
       ),
     ),

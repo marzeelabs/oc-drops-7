@@ -83,6 +83,7 @@ function fonticon_menu_attribute_info_alter(&$attributes) {
       '#options' => $options,
       '#default_value' => 0, // per default we don't add an icon
     ),
+    'enabled' => TRUE,
   );
 }
 

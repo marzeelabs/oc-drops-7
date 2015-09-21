@@ -153,7 +153,6 @@ function oc_project_field_group_info() {
     'children' => array(
       0 => 'field_project_period',
       1 => 'field_project_status',
-      2 => 'field_project_type',
     ),
     'format_type' => 'div',
     'format_settings' => array(

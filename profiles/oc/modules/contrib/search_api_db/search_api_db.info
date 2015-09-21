@@ -7,9 +7,9 @@ package = Search
 files[] = search_api_db.test
 files[] = service.inc
 
-; Information added by drush on 2015-07-17
+; Information added by drush on 2015-09-21
 version = "7.x-1.4+11-dev"
 core = "7.x"
 project = "search_api_db"
-datestamp = "1437173066"
+datestamp = "1442832368"
 

@@ -193,6 +193,17 @@ function oc_news_views_default_views() {
   $handler->display->display_options['row_options']['links'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Snippet: Snippet */
+  $handler->display->display_options['header']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['table'] = 'views';
+  $handler->display->display_options['header']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['snippet'] = 'news_page_header';
+  $handler->display->display_options['defaults']['footer'] = FALSE;
+  /* Footer: Snippet: Snippet */
+  $handler->display->display_options['footer']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['table'] = 'views';
+  $handler->display->display_options['footer']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['snippet'] = 'news_page_footer';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -310,6 +321,17 @@ function oc_news_views_default_views() {
   $handler->display->display_options['row_options']['alternating_fieldset']['item_2'] = 'promoted_big';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Snippet: Snippet */
+  $handler->display->display_options['header']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['table'] = 'views';
+  $handler->display->display_options['header']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['snippet'] = 'latest_news_block_header';
+  $handler->display->display_options['defaults']['footer'] = FALSE;
+  /* Footer: Snippet: Snippet */
+  $handler->display->display_options['footer']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['table'] = 'views';
+  $handler->display->display_options['footer']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['snippet'] = 'latest_news_block_footer';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';

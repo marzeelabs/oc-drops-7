@@ -26,3 +26,31 @@ function oc_partner_uninstall() {
     variable_del('oc_partner_default_image_fid');
   }
 }
+
+/**
+ * Create terms for partner_type vocabulary.
+ */
+function oc_partner_update_7001() {
+
+  $vocabulary = taxonomy_vocabulary_machine_name_load('partner_type');
+  $terms = drupal_map_assoc(array(
+    'Academia',
+    'Company',
+  ));
+
+  // create terms above
+  foreach ($terms as $term_name => $term_title) {
+    $term_array = array(
+      'name' => $term_name,
+      'vid' => $vocabulary->vid,
+    );
+
+    if ($term_name != $term_title) {
+      $term_array['taxonomy_title'] = $term_title;
+    }
+
+    $term = (object) $term_array;
+    taxonomy_term_save($term);
+  }
+
+}

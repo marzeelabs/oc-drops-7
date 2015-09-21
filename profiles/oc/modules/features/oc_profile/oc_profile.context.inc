@@ -29,7 +29,7 @@ function oc_profile_context_default_contexts() {
         'views-oc_profile_partners-block_1' => array(
           'module' => 'views',
           'delta' => 'oc_profile_partners-block_1',
-          'region' => 'sidebar_first',
+          'region' => 'content_top',
           'weight' => '-10',
         ),
       ),

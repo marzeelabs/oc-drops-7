@@ -321,9 +321,8 @@ function oc_project_ds_layout_settings_info() {
         1 => 'title',
         2 => 'field_project_goal',
         3 => 'group_project_metadata',
-        4 => 'field_project_type',
-        5 => 'field_project_status',
-        6 => 'field_project_period',
+        4 => 'field_project_status',
+        5 => 'field_project_period',
       ),
     ),
     'fields' => array(
@@ -331,24 +330,21 @@ function oc_project_ds_layout_settings_info() {
       'title' => 'ds_content',
       'field_project_goal' => 'ds_content',
       'group_project_metadata' => 'ds_content',
-      'field_project_type' => 'ds_content',
       'field_project_status' => 'ds_content',
       'field_project_period' => 'ds_content',
     ),
     'limit' => array(
       'field_project_host' => '1',
     ),
-    'classes' => array(
-      'layout_class' => array(
-        '' => '',
-      ),
-    ),
+    'classes' => array(),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
     'layout_attributes_merge' => 0,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
   );
   $export['node|project|teaser'] = $ds_layout;
 

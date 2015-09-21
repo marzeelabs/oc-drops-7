@@ -39,8 +39,22 @@ function oc_base_enable() {
 }
 
 /**
- * Enable module abc.
+ * Enable feature oc_theme.
  */
 function oc_base_update_7100() {
   module_enable(array('oc_theme', 'chosen', 'ctools', 'features', 'strongarm', 'system'));
+}
+
+/**
+ * Enable module media_wysiwyg.
+ */
+function oc_base_update_7101() {
+  module_enable(array('media_wysiwyg'));
+}
+
+/**
+ * Enable module snippet, panels.
+ */
+function oc_base_update_7102() {
+  module_enable(array('snippet', 'panels'));
 }

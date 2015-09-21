@@ -82,7 +82,25 @@ function oc_partner_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['grouping'] = array(
+    0 => array(
+      'field' => 'field_partner_type',
+      'rendered' => 1,
+      'rendered_strip' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['uses_fields'] = TRUE;
   $handler->display->display_options['row_plugin'] = 'node';
+  /* Header: Snippet: Snippet */
+  $handler->display->display_options['header']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['table'] = 'views';
+  $handler->display->display_options['header']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['snippet'] = 'institutions_page_header';
+  /* Footer: Snippet: Snippet */
+  $handler->display->display_options['footer']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['table'] = 'views';
+  $handler->display->display_options['footer']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['snippet'] = 'institutions_page_footer';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -90,6 +108,13 @@ function oc_partner_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Partner type */
+  $handler->display->display_options['fields']['field_partner_type']['id'] = 'field_partner_type';
+  $handler->display->display_options['fields']['field_partner_type']['table'] = 'field_data_field_partner_type';
+  $handler->display->display_options['fields']['field_partner_type']['field'] = 'field_partner_type';
+  $handler->display->display_options['fields']['field_partner_type']['label'] = '';
+  $handler->display->display_options['fields']['field_partner_type']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_partner_type']['type'] = 'taxonomy_term_reference_plain';
   /* Sort criterion: Draggableviews: Weight */
   $handler->display->display_options['sorts']['weight']['id'] = 'weight';
   $handler->display->display_options['sorts']['weight']['table'] = 'draggableviews_structure';

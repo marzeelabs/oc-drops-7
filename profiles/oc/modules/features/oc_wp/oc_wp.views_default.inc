@@ -64,6 +64,18 @@ function oc_wp_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Snippet: Snippet */
+  $handler->display->display_options['header']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['table'] = 'views';
+  $handler->display->display_options['header']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['snippet'] = 'work_packages_page_header';
+  $handler->display->display_options['defaults']['footer'] = FALSE;
+  /* Footer: Snippet: Snippet */
+  $handler->display->display_options['footer']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['table'] = 'views';
+  $handler->display->display_options['footer']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['snippet'] = 'work_packages_page_footer';
   $handler->display->display_options['path'] = 'work-packages';
 
   /* Display: Block */

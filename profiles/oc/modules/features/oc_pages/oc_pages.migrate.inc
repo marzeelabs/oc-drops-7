@@ -103,7 +103,7 @@ class OCPagesMenus extends OCMigration {
     $this->addFieldMapping('router_path')->defaultValue('node/%');
     $this->addFieldMapping('link_title', 'title');        // Title of the menu item
     $this->addFieldMapping('external')->defaultValue('0'); // Internal
-    $this->addFieldMapping('expanded')->defaultValue('0');
+    $this->addFieldMapping('expanded', 'expanded')->defaultValue('0');
     $this->addFieldMapping('weight','weight');            // weight
     $this->addFieldMapping('customized')->defaultValue('1'); // not customized
     $this->addFieldMapping('has_children')->defaultValue('0');  // Will be overridden automatically

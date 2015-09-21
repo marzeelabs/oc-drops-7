@@ -33,6 +33,16 @@ function oc_profile_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
+  /* Header: Snippet: Snippet */
+  $handler->display->display_options['header']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['table'] = 'views';
+  $handler->display->display_options['header']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['header']['snippet']['snippet'] = 'profiles_pages_header';
+  /* Footer: Snippet: Snippet */
+  $handler->display->display_options['footer']['snippet']['id'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['table'] = 'views';
+  $handler->display->display_options['footer']['snippet']['field'] = 'snippet';
+  $handler->display->display_options['footer']['snippet']['snippet'] = 'profiles_pages_footer';
   /* Relationship: Profile: Profile Keywords (field_rprofile_keywords) */
   $handler->display->display_options['relationships']['field_rprofile_keywords_tid']['id'] = 'field_rprofile_keywords_tid';
   $handler->display->display_options['relationships']['field_rprofile_keywords_tid']['table'] = 'field_data_field_rprofile_keywords';

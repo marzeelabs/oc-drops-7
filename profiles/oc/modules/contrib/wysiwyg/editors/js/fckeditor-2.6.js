@@ -4,11 +4,13 @@
  * Attach this editor to a target element.
  */
 Drupal.wysiwyg.editor.attach.fckeditor = function(context, params, settings) {
+  if (!settings.Height) {
+    settings.Height = $('#' + params.field).height();
+  }
   var FCKinstance = new FCKeditor(params.field, settings.Width, settings.Height, settings.ToolbarSet);
   // Apply editor instance settings.
   FCKinstance.BasePath = settings.EditorPath;
   FCKinstance.Config.wysiwygFormat = params.format;
-  FCKinstance.Config.wysiwygField = params.field;
   FCKinstance.Config.CustomConfigurationsPath = settings.CustomConfigurationsPath;
 
   // Load Drupal plugins and apply format specific settings.
